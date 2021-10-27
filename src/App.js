@@ -1,24 +1,20 @@
 import logo from './logo.svg';
-import './App.css';
-
+import { Flex, Box } from '@chakra-ui/react';
+import SideBar from './components/SideBar.jsx';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Box w="100vw" h="35px" sx={{ '-webkit-app-region': 'drag' }}>
+        <Box h="100%" bg="#203d85" w="75px" />
+      </Box>
+      {/*there's probably a better way to the above. i hope when i come back to this i'll have found it out*/}
+      <Flex>
+        <SideBar />
+        <Box w="100%" h="100%">
+          CONTENT
+        </Box>
+      </Flex>
+    </>
   );
 }
 
