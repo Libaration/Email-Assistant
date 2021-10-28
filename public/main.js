@@ -7,7 +7,7 @@ const createWindow = () => {
     backgroundColor: '#171923',
     show: false,
     titleBarStyle: 'hiddenInset',
-    minWidth: 900,
+    minWidth: 1200,
     title: 'Email Assistant - Ashland Auction',
   });
 
