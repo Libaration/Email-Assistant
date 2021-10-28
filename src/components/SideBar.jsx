@@ -31,6 +31,7 @@ export default function SideBar(props) {
       borderRight="1px solid"
       borderColor="gray.800"
       flexDirection="column"
+      zIndex={1}
     >
       <Image src={logo} p={3} pr={1} />
       <List pl={5} pr={5} h="100%">

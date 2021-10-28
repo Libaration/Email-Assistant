@@ -1,11 +1,13 @@
 import { Flex, Box } from '@chakra-ui/react';
 import SideBar from './components/SideBar.jsx';
 import { useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Email from './pages/Email.jsx';
 import Settings from './pages/Settings.jsx';
+import { AnimatePresence } from 'framer-motion';
 function App() {
+  const location = useLocation();
   const [page, setPage] = useState();
   return (
     <>
@@ -22,17 +24,19 @@ function App() {
       <Flex w="100%" h="100%">
         <SideBar setPage={setPage} />
         <Flex ml={3} mr={5}>
-          <Switch>
-            <Route path="/email">
-              <Email />
-            </Route>
-            <Route path="/settings">
-              <Settings />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
+          <AnimatePresence exitBeforeEnter initial={false}>
+            <Switch location={location} key={location.pathname}>
+              <Route path="/email">
+                <Email />
+              </Route>
+              <Route path="/settings">
+                <Settings />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </AnimatePresence>
         </Flex>
       </Flex>
     </>
