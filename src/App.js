@@ -21,6 +21,8 @@ function App() {
           maxWidth="76px"
           borderRight="1px solid"
           borderColor="gray.800"
+          position="fixed"
+          paddingBottom="35px"
         />
         <Search setSearch={setSearch} />
       </Flex>
