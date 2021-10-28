@@ -26,7 +26,7 @@ export default function SideBar(props) {
       minWidth="76px"
       maxWidth="76px"
       bg="#203d85"
-      mr={2}
+      mr="2px"
       h="100vh"
       borderRight="1px solid"
       borderColor="gray.800"
