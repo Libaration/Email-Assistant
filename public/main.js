@@ -7,6 +7,8 @@ const createWindow = () => {
     backgroundColor: '#171923',
     show: false,
     titleBarStyle: 'hiddenInset',
+    minWidth: 900,
+    title: 'Email Assistant - Ashland Auction',
   });
 
   win.loadURL('http://localhost:3000');

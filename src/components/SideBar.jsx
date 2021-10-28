@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Flex, List, ListItem, Box } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import home from '../assets/icons/home.png';
 import email from '../assets/icons/email.png';
 import settings from '../assets/icons/settings.png';
@@ -11,7 +12,8 @@ export default function SideBar(props) {
     return (
       <MotionBox
         mt={5}
-        mb={5}
+        mb={8}
+        ml={1}
         whileHover={{ scale: 1.2, filter: 'invert(1)', cursor: 'pointer' }}
         sx={{ filter: 'invert(80%)' }}
       >
@@ -32,9 +34,15 @@ export default function SideBar(props) {
     >
       <Image src={logo} p={3} pr={1} />
       <List pl={5} pr={5} h="100%">
-        <ListItem>{menuItem(home)}</ListItem>
-        <ListItem>{menuItem(email)}</ListItem>
-        <ListItem>{menuItem(settings)}</ListItem>
+        <ListItem>
+          <Link to="/">{menuItem(home)}</Link>
+        </ListItem>
+        <ListItem>
+          <Link to="/email">{menuItem(email)}</Link>
+        </ListItem>
+        <ListItem>
+          <Link to="settings">{menuItem(settings)}</Link>
+        </ListItem>
       </List>
     </Flex>
   );
