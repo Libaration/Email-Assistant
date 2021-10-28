@@ -28,7 +28,7 @@ function Search(props) {
     }
   };
   return (
-    <Flex alignItems="center" mt={8} ml={24} mr={5} zIndex={1}>
+    <Flex alignItems="center" mt={8} ml={28} mr={5} zIndex={1}>
       <InputGroup>
         <InputLeftElement pointerEvents="false" children={<BsSearch />} />
         <Input

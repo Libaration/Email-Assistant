@@ -13,7 +13,6 @@ export default function Search(props) {
   };
   const renderResults = () => {
     return results.map((home) => {
-      console.log(home.preview);
       return (
         <Auction
           key={uuidv4()}
