@@ -7,7 +7,7 @@ import {
   beginningHTML,
   endingHTML,
 } from '../components/HTMLConvert';
-
+import { store } from 'react-notifications-component';
 export default function Email() {
   const textareaRef = useRef();
   const [auctions, setAuctions] = useState();
@@ -42,6 +42,19 @@ export default function Email() {
     setHTML(`${beginningHTML}${homeHTML}${endingHTML}`);
     textareaRef.current.select();
     document.execCommand('copy');
+    store.addNotification({
+      title: 'Success',
+      message: 'HTML has been successfully copied to your clipboard',
+      type: 'success',
+      insert: 'top',
+      container: 'top-right',
+      animationIn: ['animate__animated', 'animate__fadeIn'],
+      animationOut: ['animate__animated', 'animate__fadeOut'],
+      dismiss: {
+        duration: 5000,
+        onScreen: true,
+      },
+    });
   };
   return (
     <MotionBox
@@ -55,6 +68,7 @@ export default function Email() {
         <Button size="lg" colorScheme="yellow" onClick={renderRecent}>
           Generate HTML
         </Button>
+
         <Flex
           flexDirection="column"
           dangerouslySetInnerHTML={{ __html: `${html}` }}
@@ -67,6 +81,17 @@ export default function Email() {
         w="1px"
         h="1px"
         resize={'none'}
+        sx={{
+          border: 'none;',
+          overflow: 'auto;',
+          outline: 'none;',
+
+          '-webkit-box-shadow': 'none;',
+          '-moz-box-shadow': 'none;',
+          'box-shadow': 'none;',
+
+          resize: 'none;',
+        }}
       />
     </MotionBox>
   );

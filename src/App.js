@@ -8,6 +8,8 @@ import Settings from './pages/Settings.jsx';
 import Search from './components/Search.jsx';
 import SearchShow from './pages/SearchShow';
 import { AnimatePresence } from 'framer-motion';
+import ReactNotification from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 function App() {
   const location = useLocation();
   const [page, setPage] = useState();
@@ -15,6 +17,7 @@ function App() {
   const [isSearching, setSearching] = useState(false);
   return (
     <>
+      <ReactNotification />
       <Flex h="35px" sx={{ '-webkit-app-region': 'drag' }}>
         <Box
           bg="#203d85"
