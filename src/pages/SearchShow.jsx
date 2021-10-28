@@ -11,7 +11,7 @@ export default function Search(props) {
       exit={{ opacity: 0, y: -100 }}
       transition={{ duration: 0.3 }}
     >
-      <div>this is search page{props.query}</div>
+      <div>this is search page {props.query}</div>
     </MotionBox>
   );
 }

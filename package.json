@@ -5,7 +5,6 @@
   "main": "public/main.js",
   "dependencies": {
     "@chakra-ui/react": "^1.6.10",
-    "@electron/remote": "^2.0.1",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@testing-library/jest-dom": "^5.11.4",

@@ -11,7 +11,7 @@ import { AnimatePresence } from 'framer-motion';
 function App() {
   const location = useLocation();
   const [page, setPage] = useState();
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState('');
   return (
     <>
       <Flex h="35px" sx={{ '-webkit-app-region': 'drag' }}>

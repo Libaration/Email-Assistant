@@ -1,9 +1,16 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const path = require('path');
+
+let win;
 const createWindow = () => {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1350,
     height: 800,
-    webPreferences: {},
+    webPreferences: {
+      nodeIntegrationtion: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
     backgroundColor: '#171923',
     show: false,
     titleBarStyle: 'hiddenInset',
@@ -21,3 +28,7 @@ const createWindow = () => {
   await app.whenReady();
   createWindow();
 })();
+
+ipcMain.on('show-dialog', (event, message) => {
+  dialog.showErrorBox('Error', message.msg);
+});

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Flex,
   InputGroup,
@@ -6,11 +6,26 @@ import {
   InputLeftElement,
   Button,
 } from '@chakra-ui/react';
+import { withRouter } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
-export default function Search(props) {
-  const [query, setQuery] = useState();
+function Search(props) {
+  const [query, setQuery] = useState('');
   const handleChange = (e) => {
     setQuery(e.target.value);
+  };
+  const submitSearch = () => {
+    if (query === '' || !query.trim()) {
+      setQuery('');
+      window.ipcRenderer.send('show-dialog', {
+        msg: 'Address can not be blank',
+      });
+    } else {
+      props.setSearch(query);
+      setQuery('');
+      if (props.history.location.pathname !== '/search') {
+        props.history.push('/search');
+      }
+    }
   };
   return (
     <Flex alignItems="center" mt={8} ml={5} mr={5} zIndex={1}>
@@ -23,15 +38,11 @@ export default function Search(props) {
           variant="filled"
           value={query}
           onChange={handleChange}
+          sx={{ '-webkit-app-region': 'no-drag' }}
         />
       </InputGroup>
-      <Button
-        onClick={() => {
-          props.setSearch(query);
-        }}
-      >
-        Search
-      </Button>
+      <Button onClick={submitSearch}>Search</Button>
     </Flex>
   );
 }
+export default withRouter(Search);
