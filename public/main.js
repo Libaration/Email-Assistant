@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
-
+const url = require('url');
 let win;
 const createWindow = () => {
   win = new BrowserWindow({
@@ -18,7 +18,13 @@ const createWindow = () => {
     title: 'Email Assistant - Ashland Auction',
   });
 
-  win.loadURL('http://localhost:3000');
+  win.loadURL(
+    url.format({
+      pathname: path.join(__dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true,
+    })
+  );
   win.once('ready-to-show', () => {
     win.show();
   });

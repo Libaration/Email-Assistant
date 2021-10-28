@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "main": "public/main.js",
+  "homepage": "./",
+  "files": [
+    "build",
+    "*.js",
+    "public"
+  ],
   "dependencies": {
     "@chakra-ui/react": "^1.6.10",
     "@emotion/react": "^11.5.0",
@@ -12,7 +18,7 @@
     "@testing-library/user-event": "^12.1.10",
     "concurrently": "^6.3.0",
     "cross-env": "^7.0.3",
-    "electron": "^15.3.0",
+    "electron-squirrel-startup": "^1.0.0",
     "framer-motion": "^4.1.17",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -25,12 +31,33 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "electron-forge start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
-    "electron:start": "wait-on tcp:3000 && electron ."
+    "electron:start": "wait-on tcp:3000 && electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "make-mac": "electron-forge make --platform darwin",
+    "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/main.js"
+  },
+  "build": {
+    "productName": "Ashland Assistant",
+    "extends": null,
+    "appId": "com.ashland.ashlandassistant",
+    "files": [
+      "dist/**/*",
+      "build/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "icon": "build/logoicns.icns"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +76,56 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
+    "electron": "^15.3.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "./src/assets/icons/logoicns",
+        "name": "Ashland Assistant"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Ashland Assistant",
+            "icon": "./src/assets/icons/logoicns"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {
+            "name": "Ashland Assistant"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {
+            "name": "Ashland Assistant"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "format": "ULFO",
+            "name": "Ashland Assistant",
+            "icon": "./src/assets/icons/logoicns"
+          }
+        }
+      ]
+    }
   }
 }
