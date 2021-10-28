@@ -12,7 +12,7 @@ function App() {
   const [page, setPage] = useState();
   return (
     <>
-      <Flex w="100%" h="35px" sx={{ '-webkit-app-region': 'drag' }}>
+      <Flex h="35px" sx={{ '-webkit-app-region': 'drag' }}>
         <Box
           bg="#203d85"
           minWidth="76px"
@@ -23,9 +23,9 @@ function App() {
         <Search />
       </Flex>
       {/*there's probably a better way to the above. i hope when i come back to this i'll have found it out*/}
-      <Flex w="100%">
+      <Flex>
         <SideBar setPage={setPage} />
-        <Flex ml={6} mr={5} mt={8} w="100%">
+        <Flex flex={1} ml="76px" mt={10}>
           <AnimatePresence exitBeforeEnter initial={false}>
             <Switch location={location} key={location.pathname}>
               <Route path="/email">

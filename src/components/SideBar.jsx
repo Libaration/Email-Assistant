@@ -26,11 +26,11 @@ export default function SideBar(props) {
       minWidth="76px"
       maxWidth="76px"
       bg="#203d85"
-      mr="2px"
       borderRight="1px solid"
       borderColor="gray.800"
       flexDirection="column"
       zIndex={1}
+      position="fixed"
       sx={{ height: 'calc(100vh - (35px))' }}
     >
       <Image src={logo} p={3} pr={1} />

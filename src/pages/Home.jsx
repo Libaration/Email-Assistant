@@ -6,18 +6,25 @@ export default function Home() {
   const MotionBox = motion(Box);
 
   return (
-    <MotionBox
-      initial={{ opacity: 0, y: -100 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -100 }}
-      transition={{ duration: 0.3 }}
-      w="100%"
-    >
-      <Flex justify="center">
-        <Image src="https://auctioneersoftware.s3.amazonaws.com/ash/2020/4/TFh9VK50QCogGjSh4m7RCVCJ.png" />
-      </Flex>
-
-      <Flex>
+    <>
+      <MotionBox
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -100 }}
+        transition={{ duration: 0.3 }}
+        w="100%"
+        display="flex"
+        flexWrap="wrap"
+        p={5}
+      >
+        <Flex grow={1} justifyContent="center">
+          <Image
+            src="https://auctioneersoftware.s3.amazonaws.com/ash/2020/4/TFh9VK50QCogGjSh4m7RCVCJ.png"
+            w="150px"
+            objectFit="contain"
+          />
+        </Flex>
+        <Flex sx={{ 'flex-basis': '100%', height: '0px' }} />
         <Box flex={1}>123</Box>
         <Flex flex={1} justifyContent="center" alignItems="center">
           <Image
@@ -28,7 +35,7 @@ export default function Home() {
             height="300px"
           />
         </Flex>
-      </Flex>
-    </MotionBox>
+      </MotionBox>
+    </>
   );
 }
