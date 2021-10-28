@@ -15,7 +15,7 @@ export default function Auction(props) {
       <Heading size="s" p={2}>
         {props.title}
       </Heading>
-      <Image src={props.image} w="380px" height="380px" objectFit="cover" />
+      <Image src={props.image} w="370px" height="380px" objectFit="cover" />
       {/* </Link> */}
     </Flex>
   );

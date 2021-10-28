@@ -5,10 +5,12 @@ import {
   Input,
   InputLeftElement,
   Button,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { withRouter } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 function Search(props) {
+  const colorValue = useColorModeValue('gray.300', 'gray.800');
   const [query, setQuery] = useState('');
   const handleChange = (e) => {
     setQuery(e.target.value);
@@ -20,6 +22,7 @@ function Search(props) {
         msg: 'Address can not be blank',
       });
     } else {
+      props.setSearching(true);
       props.setSearch(query);
       setQuery('');
       if (props.history.location.pathname !== '/search') {
@@ -33,7 +36,7 @@ function Search(props) {
         <InputLeftElement pointerEvents="false" children={<BsSearch />} />
         <Input
           placeholder="Search by address"
-          bg="gray.800"
+          bg={colorValue}
           w="md"
           variant="filled"
           value={query}

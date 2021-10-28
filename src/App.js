@@ -12,6 +12,7 @@ function App() {
   const location = useLocation();
   const [page, setPage] = useState();
   const [search, setSearch] = useState('');
+  const [isSearching, setSearching] = useState(false);
   return (
     <>
       <Flex h="35px" sx={{ '-webkit-app-region': 'drag' }}>
@@ -24,7 +25,7 @@ function App() {
           position="fixed"
           paddingBottom="35px"
         />
-        <Search setSearch={setSearch} />
+        <Search setSearch={setSearch} setSearching={setSearching} />
       </Flex>
       {/*there's probably a better way to the above. i hope when i come back to this i'll have found it out*/}
       <Flex>
@@ -36,7 +37,11 @@ function App() {
                 <Email />
               </Route>
               <Route path="/search">
-                <SearchShow query={search} />
+                <SearchShow
+                  query={search}
+                  isSearching={isSearching}
+                  setSearching={setSearching}
+                />
               </Route>
               <Route path="/settings">
                 <Settings />

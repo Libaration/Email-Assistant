@@ -10,6 +10,7 @@ export default function Search(props) {
     setResults([]);
     const response = await searchAddress(props.query);
     setResults(await response);
+    props.setSearching(false);
   };
   const renderResults = () => {
     return results.map((home) => {
@@ -41,10 +42,20 @@ export default function Search(props) {
       w="100%"
     >
       <Flex textAlign="center" justifyContent="center">
-        <Heading>{props.query}</Heading>
+        <Heading>
+          {props.query}
+          {props.isSearching}
+        </Heading>
       </Flex>
-      <Flex wrap="wrap">
-        {results.length > 0 ? renderResults() : <Spinner />}
+
+      <Flex wrap="wrap" justify="center">
+        {props.isSearching ? (
+          <Flex justifyContent="center" alignItems="center" w="100%">
+            <Spinner color="yellow.500" size="xl" />
+          </Flex>
+        ) : (
+          renderResults()
+        )}
       </Flex>
     </MotionBox>
   );
