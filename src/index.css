@@ -1,4 +1,4 @@
-/* body,
+body,
 html {
   overflow-y: hidden;
   width: 100vw;
@@ -13,4 +13,7 @@ input:focus {
 }
 *:focus {
   outline: none;
-} */
+}
+button:focus {
+  outline: 0;
+}

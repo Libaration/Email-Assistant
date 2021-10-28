@@ -1,10 +1,19 @@
-import React from 'react';
-import { Flex, InputGroup, Input, InputLeftElement } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import {
+  Flex,
+  InputGroup,
+  Input,
+  InputLeftElement,
+  Button,
+} from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
-
-export default function Search() {
+export default function Search(props) {
+  const [query, setQuery] = useState();
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  };
   return (
-    <Flex w="100%" alignItems="center" mt={8} ml={5} mr={5} zIndex={1}>
+    <Flex alignItems="center" mt={8} ml={5} mr={5} zIndex={1}>
       <InputGroup>
         <InputLeftElement pointerEvents="false" children={<BsSearch />} />
         <Input
@@ -12,8 +21,17 @@ export default function Search() {
           bg="gray.800"
           w="md"
           variant="filled"
+          value={query}
+          onChange={handleChange}
         />
       </InputGroup>
+      <Button
+        onClick={() => {
+          props.setSearch(query);
+        }}
+      >
+        Search
+      </Button>
     </Flex>
   );
 }

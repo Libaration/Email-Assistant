@@ -5,6 +5,7 @@ import home from '../assets/icons/home.png';
 import email from '../assets/icons/email.png';
 import settings from '../assets/icons/settings.png';
 import logo from '../assets/icons/logo.png';
+import search from '../assets/icons/search.png';
 import { motion } from 'framer-motion';
 export default function SideBar(props) {
   const MotionBox = motion(Box);
@@ -40,6 +41,9 @@ export default function SideBar(props) {
         </ListItem>
         <ListItem>
           <Link to="/email">{menuItem(email)}</Link>
+        </ListItem>
+        <ListItem>
+          <Link to="/search">{menuItem(search)}</Link>
         </ListItem>
         <ListItem>
           <Link to="settings">{menuItem(settings)}</Link>

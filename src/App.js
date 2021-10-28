@@ -6,10 +6,12 @@ import Home from './pages/Home.jsx';
 import Email from './pages/Email.jsx';
 import Settings from './pages/Settings.jsx';
 import Search from './components/Search.jsx';
+import SearchShow from './pages/SearchShow';
 import { AnimatePresence } from 'framer-motion';
 function App() {
   const location = useLocation();
   const [page, setPage] = useState();
+  const [search, setSearch] = useState();
   return (
     <>
       <Flex h="35px" sx={{ '-webkit-app-region': 'drag' }}>
@@ -20,7 +22,7 @@ function App() {
           borderRight="1px solid"
           borderColor="gray.800"
         />
-        <Search />
+        <Search setSearch={setSearch} />
       </Flex>
       {/*there's probably a better way to the above. i hope when i come back to this i'll have found it out*/}
       <Flex>
@@ -31,10 +33,13 @@ function App() {
               <Route path="/email">
                 <Email />
               </Route>
+              <Route path="/search">
+                <SearchShow query={search} />
+              </Route>
               <Route path="/settings">
                 <Settings />
               </Route>
-              <Route path="/">
+              <Route exact path="/">
                 <Home />
               </Route>
             </Switch>
