@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Box, Image, Flex } from '@chakra-ui/react';
+import { Box, Image, Flex, Heading, Text } from '@chakra-ui/react';
 import sidebanner from '../assets/sidebanner.png';
 import { Link } from 'react-router-dom';
 export default function Home() {
@@ -28,7 +28,12 @@ export default function Home() {
         />
       </Flex>
       <Flex sx={{ 'flex-basis': '100%', height: '0px' }} />
-      <Box flex={1}>123</Box>
+      <Box flex={1}>
+        <Heading>Welcome.</Heading>
+        <Text pt={5} fontSize="sm">
+          this makes your life a whole lot easier 🙃
+        </Text>
+      </Box>
       <MotionBox
         height="100%"
         whileHover={{
