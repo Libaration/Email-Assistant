@@ -39,7 +39,10 @@ export const fetchRecent = async () => {
           auction_status: [100, 200],
           is_visible_on_front: true,
         },
-        pagination: { page: 1, pageSize: 10 },
+        pagination: {
+          page: 1,
+          pageSize: parseInt(localStorage.getItem('maxAuctions')) || 10,
+        },
         order: {
           column: 'end_time',
           direction: 'asc',
