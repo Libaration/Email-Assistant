@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 import {
   Box,
   Flex,
@@ -10,24 +10,26 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Text,
-} from '@chakra-ui/react';
-import { motion } from 'framer-motion';
-import { store } from 'react-notifications-component';
+} from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import { store } from "react-notifications-component";
 
 export default function Settings() {
   const { toggleColorMode } = useColorMode();
   const MotionBox = motion(Box);
   const numberRef = useRef();
+  const maxDaysRef = useRef();
   const handleSave = () => {
-    localStorage.setItem('maxAuctions', numberRef.current.value);
+    localStorage.setItem("maxAuctions", numberRef.current.value);
+    localStorage.setItem("maxDays", maxDaysRef.current.value);
     store.addNotification({
-      title: 'Success',
-      message: 'Settings succesfully saved to localStorage',
-      type: 'success',
-      insert: 'top',
-      container: 'top-right',
-      animationIn: ['animate__animated', 'animate__fadeIn'],
-      animationOut: ['animate__animated', 'animate__fadeOut'],
+      title: "Success",
+      message: "Settings succesfully saved to localStorage",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
       dismiss: {
         duration: 5000,
         onScreen: true,
@@ -49,7 +51,7 @@ export default function Settings() {
       </Flex>
       <Flex ml={8} mr={8} mt={8}>
         <NumberInput
-          defaultValue={parseInt(localStorage.getItem('maxAuctions')) || 10}
+          defaultValue={parseInt(localStorage.getItem("maxAuctions")) || 10}
           min={1}
           max={50}
           size="sm"
@@ -64,13 +66,26 @@ export default function Settings() {
           Loops per HTML generation
         </Text>
       </Flex>
-      <Flex
-        flex={1}
-        justifyContent="right"
-        position="relative"
-        pt="34em"
-        mr={5}
-      >
+      <Flex ml={8} mr={8} mt={8}>
+        <NumberInput
+          defaultValue={parseInt(localStorage.getItem("maxDays")) || 3}
+          min={1}
+          max={50}
+          size="sm"
+        >
+          <NumberInputField ref={maxDaysRef} />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+        <Text mt={2} ml={5} fontSize="sm">
+          Newsletter range (days) excluding today (Today will always be
+          included)
+        </Text>
+      </Flex>
+
+      <Flex flex={1} justifyContent="right" position="relative" mr={5}>
         <Button colorScheme="blue" size="lg" onClick={handleSave}>
           Save
         </Button>
