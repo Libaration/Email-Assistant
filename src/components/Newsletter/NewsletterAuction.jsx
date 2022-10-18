@@ -335,8 +335,6 @@ const NewsletterAuction = (auction) => {
                       ]><!--><img src="https://ui.icontact.com/assets/1px.png" class="css-fisw11" width="1" border="0" style="display: block"><!--<![endif]-->
                     </th>
 
-                    {{AUCTION2}}
-
                    `;
   const auction2HTML = `<th valign="top" class="fusionResponsiveColumn" data-fusion-class="" style="
 width: 255px;

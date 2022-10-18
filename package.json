@@ -1,6 +1,6 @@
 {
   "name": "email-assistant",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "main": "public/main.js",
   "homepage": "./",
@@ -86,7 +86,8 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "electron": "^15.3.0"
+    "electron": "^15.3.0",
+    "electron-builder": "^23.6.0"
   },
   "config": {
     "forge": {

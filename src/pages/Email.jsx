@@ -86,8 +86,23 @@ export default function Email() {
         <div dangerouslySetInnerHTML={{ __html: Footer }} />
       </Newsletter>
     );
-    setHTML("");
+
     setHTML(renderToStaticMarkup(newsLetterLayout()));
+    textareaRef.current.select();
+    document.execCommand("copy");
+    store.addNotification({
+      title: "Success",
+      message: "HTML has been successfully copied to your clipboard",
+      type: "success",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss: {
+        duration: 5000,
+        onScreen: true,
+      },
+    });
   };
 
   return (
