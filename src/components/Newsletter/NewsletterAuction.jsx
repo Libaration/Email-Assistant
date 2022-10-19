@@ -100,9 +100,10 @@ const NewsletterAuction = (auction) => {
                                         ">
                                         <a href="https://www.ashlandauction.com/auctions/${
                                           auction.auction_id
-                                        }" style=""><img src="${
-    auction.highlights[0].cached_assets[0].url
-  }" class="fusionResponsiveImage" alt="${
+                                        }" style=""><img src="${auction.highlights[0].cached_assets[0].url.replace(
+    "thumb",
+    "medium"
+  )}" class="fusionResponsiveImage" alt="${
     auction.title
   }" width="255" height="auto" style="
                                               display: block;
@@ -403,9 +404,10 @@ transition: all 0.2s ease 0s;
                   border-style: none;
                   border-width: 0px;
                 ">
-                <img src="${
-                  auction.highlights[0].cached_assets[0].url
-                }" class="fusionResponsiveImage" alt="" width="255" height="auto" style="
+                <img src="${auction.highlights[0].cached_assets[0].url.replace(
+                  "thumb",
+                  "medium"
+                )}" class="fusionResponsiveImage" alt="" width="255" height="auto" style="
                     display: block;
                     width: 255px;
                     height: auto;
