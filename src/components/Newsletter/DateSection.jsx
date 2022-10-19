@@ -127,7 +127,10 @@ const DateSection = (date) => {
       </tr>
     </tbody>
   </table>`;
-  return html.replace("{{DATE}}", dayjs(date).format("ddd, MMMM DD"));
+  return html.replace(
+    "{{DATE}}",
+    dayjs(date).year(dayjs().year()).format("ddd, MMMM DD")
+  );
 };
 
 export default DateSection;

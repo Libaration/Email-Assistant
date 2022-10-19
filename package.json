@@ -20,6 +20,7 @@
     "cross-env": "^7.0.3",
     "date-and-time": "^2.0.1",
     "dayjs": "^1.11.5",
+    "dayjs-business-days": "^1.0.4",
     "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "framer-motion": "^4.1.17",

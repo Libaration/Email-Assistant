@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+import dayjsBusinessDays from "dayjs-business-days";
+dayjs.extend(dayjsBusinessDays);
+
 export const searchAddress = async (address) => {
   const response = await fetch("https://www.ashlandauction.com/api", {
     method: "POST",
@@ -69,19 +72,19 @@ export const fetchNewsletter = async () => {
   const auctions = await responseJSON.data.auctions.auctions;
   const daysNeeded = Array.from(
     { length: parseInt(localStorage.getItem("maxDays")) + 1 || 4 },
-    (_, i) => dayjs().add(i, "day").format("ddd, MMMM DD")
+    (_, i) => dayjs().businessDaysAdd(i).format("ddd, MMMM DD")
   );
+
   const groupedAuctions = auctions.reduce((acc, auction) => {
-    if (!daysNeeded.includes(dayjs(auction.start_time).format("ddd, MMMM DD")))
+    if (!daysNeeded.includes(dayjs(auction.end_time).format("ddd, MMMM DD")))
       return acc;
 
-    const date = dayjs(auction.start_time).format("MMMM DD");
+    const date = dayjs(auction.end_time).format("MMMM DD");
     if (!acc[date]) {
       acc[date] = [];
     }
     acc[date].push(auction);
     return acc;
   }, {});
-
   return await groupedAuctions;
 };

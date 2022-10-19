@@ -69,6 +69,7 @@ export default function Email() {
     const response = await api.fetchNewsletter();
     let dateWithAuctions;
     for (const [key, value] of Object.entries(response)) {
+      console.log(key);
       dateWithAuctions = `${dateWithAuctions || ""} ${DateSection(key)}`;
       const homes = value.map((home, index) => {
         home.index = index;
