@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { store } from "react-notifications-component";
+import { Store } from "react-notifications-component";
 
 export default function Settings() {
   const { toggleColorMode } = useColorMode();
@@ -22,7 +22,7 @@ export default function Settings() {
   const handleSave = () => {
     localStorage.setItem("maxAuctions", numberRef.current.value);
     localStorage.setItem("maxDays", maxDaysRef.current.value);
-    store.addNotification({
+    Store.addNotification({
       title: "Success",
       message: "Settings succesfully saved to localStorage",
       type: "success",

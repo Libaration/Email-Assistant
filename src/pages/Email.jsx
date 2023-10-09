@@ -8,7 +8,7 @@ import {
   beginningHTML,
   endingHTML,
 } from "../components/HTMLConvert";
-import { store } from "react-notifications-component";
+import { Store } from "react-notifications-component";
 import Newsletter from "../components/Newsletter/Newsletter.jsx";
 import { HeaderLogo } from "../components/Newsletter/HeaderLogo.jsx";
 import { HeaderNav } from "../components/Newsletter/HeaderNav.jsx";
@@ -49,7 +49,7 @@ export default function Email() {
     setHTML(`${beginningHTML}${homeHTML}${endingHTML}`);
     textareaRef.current.select();
     document.execCommand("copy");
-    store.addNotification({
+    Store.addNotification({
       title: "Success",
       message: "HTML has been successfully copied to your clipboard",
       type: "success",
@@ -90,7 +90,7 @@ export default function Email() {
     setHTML(renderToStaticMarkup(newsLetterLayout()));
     textareaRef.current.select();
     document.execCommand("copy");
-    store.addNotification({
+    Store.addNotification({
       title: "Success",
       message: "HTML has been successfully copied to your clipboard",
       type: "success",
