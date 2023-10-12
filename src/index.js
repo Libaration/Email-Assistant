@@ -8,11 +8,15 @@ import { HashRouter } from "react-router-dom";
 import { checkForUpdates } from "./lib/checkForUpdates";
 checkForUpdates().then((data) => {
   const currentVersion = process.env.REACT_APP_VERSION;
-  if (data.tag_name !== `v${currentVersion}`) {
-    window.alert(
-      `There is a new version of Email Assistant available: ${data.tag_name}. You can download it from
-      ${data.html_url}`
+  if (data.tag_name !== `${currentVersion}`) {
+    const downloadLink = data.html_url;
+    const confirmUpdate = window.confirm(
+      `There is a new version of Email Assistant available: ${data.tag_name}. 
+      Do you want to download it?`
     );
+    if (confirmUpdate) {
+      window.open(downloadLink, "_blank");
+    }
   }
 });
 ReactDOM.render(
