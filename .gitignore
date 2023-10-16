@@ -220,7 +220,7 @@ Rust_API/!.yarn/releases
 Rust_API/!.yarn/sdks
 Rust_API/!.yarn/versions
 
-*.node
+
 
 Rust_API/node_modules
 Rust_API/.idea
