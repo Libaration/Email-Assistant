@@ -3,7 +3,7 @@ import { useUserStore } from '../store/userStore';
 
 export const useSalesforce = () => {
   const clientID = process.env.REACT_APP_SALESFORCE_CLIENT_ID;
-  const redirectUri = 'https://login.salesforce.com/services/oauth2/success';
+  const redirectUri = 'https://test.salesforce.com/services/oauth2/success';
   const setAccessToken = useUserStore((state) => state.setAccessToken);
   const logout = useUserStore((state) => state.logout);
   useEffect(() => {

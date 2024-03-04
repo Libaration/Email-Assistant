@@ -20,6 +20,9 @@ const createWindow = () => {
     show: false,
     titleBarStyle: 'hiddenInset',
     minWidth: 800,
+    minimizable: false,
+    maximizable: false,
+    resizable: false,
     title: 'Email Assistant - Ashland Auction',
   });
 
@@ -57,22 +60,38 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+
+
   ipcMain.on('showDialog', (event, message) => {
     dialog.showErrorBox('Error', message);
   });
+
+
   ipcMain.on('oauthRedirect', (event, url) => {
     auth.loadURL(url);
-    auth.show();
-    auth.webContents.on('will-navigate', (event, url) => {
-      const [_baseUrl, fragment] = url.split('#'); //token is apart of the url fragment
+    if (auth.webContents.isLoading()) {
+      auth.webContents.once('did-stop-loading', () => {
+        auth.show();
+      });
+    }
+    const handleCallback = (event, url) => {
+      if (!url.includes('success')) {
+        return;
+      }
+      const [_baseUrl, fragment] = url.split('#');
       const params = new URLSearchParams(fragment);
       const accessToken = params.get('access_token');
       if (accessToken) {
         auth.hide();
         win.webContents.send('accessToken', accessToken);
+        auth.webContents.removeAllListeners('did-start-navigation'); //
       }
-    });
+    };
+    auth.webContents.on('did-start-navigation', handleCallback);
   });
+
+
+
   createWindow()
 
   app.on('activate', function() {
