@@ -2,7 +2,7 @@
   "name": "email-assistant",
   "version": "0.2.2",
   "private": true,
-  "main": "public/main.js",
+  "main": "./src/electron/main.js",
   "homepage": "./",
   "files": [
     "build",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@chakra-ui/react": "^1.6.10",
+    "@electron/remote": "^2.1.2",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@testing-library/jest-dom": "^5.11.4",

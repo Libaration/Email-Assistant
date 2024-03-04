@@ -7,6 +7,7 @@ import Email from "./pages/Email.jsx";
 import Settings from "./pages/Settings.jsx";
 import Search from "./components/Search.jsx";
 import SearchShow from "./pages/SearchShow";
+import Reschedule from "./pages/Reschedule";
 import { AnimatePresence } from "framer-motion";
 import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
@@ -31,6 +32,7 @@ function App() {
         <Search setSearch={setSearch} setSearching={setSearching} />
       </Flex>
       {/*there's probably a better way to the above. i hope when i come back to this i'll have found it out*/}
+      {/* UPDATE: what was i even meaning by this? */}
       <Flex>
         <SideBar setPage={setPage} />
         <Flex flex={1} ml="76px" mt={10}>
@@ -38,6 +40,9 @@ function App() {
             <Switch location={location} key={location.pathname}>
               <Route path="/email">
                 <Email />
+              </Route>
+              <Route path="/reschedule">
+                <Reschedule /> 
               </Route>
               <Route path="/search">
                 <SearchShow

@@ -6,6 +6,7 @@ import theme from "./extendTheme";
 import "./index.css";
 import { HashRouter } from "react-router-dom";
 import { checkForUpdates } from "./lib/checkForUpdates";
+
 checkForUpdates().then((data) => {
   const currentVersion = process.env.REACT_APP_VERSION;
   if (data.tag_name !== `v${currentVersion}`) {

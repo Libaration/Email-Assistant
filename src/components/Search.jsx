@@ -18,9 +18,7 @@ function Search(props) {
   const submitSearch = () => {
     if (query === '' || !query.trim()) {
       setQuery('');
-      window.ipcRenderer.send('show-dialog', {
-        msg: 'Address can not be blank',
-      });
+      window.electronAPI.showDialog('Please enter a valid address');
     } else {
       props.setSearching(true);
       props.setSearch(query);

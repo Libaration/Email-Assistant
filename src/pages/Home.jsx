@@ -13,6 +13,7 @@ export default function Home() {
       exit={{ opacity: 0, y: -100 }}
       transition={{ duration: 0.3 }}
       w="100%"
+      overflow="hidden"
       display="flex"
       flexWrap="wrap"
       p={5}
@@ -31,7 +32,7 @@ export default function Home() {
       <Box flex={1}>
         <Heading>Welcome.</Heading>
         <Text pt={5} fontSize="sm">
-          this makes your life a whole lot easier 🙃
+          This is a collection of tools for Ashland Auction Group. It is a work in progress and will be updated as needed.
         </Text>
       </Box>
       <MotionBox
