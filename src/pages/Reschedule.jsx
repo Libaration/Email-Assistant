@@ -6,7 +6,6 @@ export default function Reschedule() {
 
   const MotionBox = motion(Box);
   const { url, isLoggedIn } = useSalesforce();
-  console.log(url);
   return (
     <MotionBox
       initial={{ opacity: 0, y: -100 }}
@@ -22,7 +21,7 @@ export default function Reschedule() {
       ) : (
         <Flex>
           <Button onClick={() => {
-            window.electronAPI.send('oauthRedirect', { url });
+            window.electronAPI.oauthRedirect(url);
           }}>Login to Salesforce to Continue</Button>
         </Flex>
       )}

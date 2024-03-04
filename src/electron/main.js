@@ -60,14 +60,18 @@ app.whenReady().then(() => {
   ipcMain.on('showDialog', (event, message) => {
     dialog.showErrorBox('Error', message);
   });
-  ipcMain.on('oauthRedirect', (event, message) => {
-    auth.loadURL(message.url);
+  ipcMain.on('oauthRedirect', (event, url) => {
+    auth.loadURL(url);
     auth.show();
-    auth.webContents.on('did-redirect-navigation', (event, url) => {
-      const token = url.split('access_token=')[1].split('&')[0];
-      win.webContents.send('oauth_redirect', token);
+    auth.webContents.on('will-navigate', (event, url) => {
+      const [_baseUrl, fragment] = url.split('#'); //token is apart of the url fragment
+      const params = new URLSearchParams(fragment);
+      const accessToken = params.get('access_token');
+      if (accessToken) {
+        auth.hide();
+        win.webContents.send('accessToken', accessToken);
+      }
     });
-    auth.hide();
   });
   createWindow()
 
