@@ -1,17 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useUserStore } from '../store/userStore';
 
 export const useSalesforce = () => {
   const clientID = process.env.REACT_APP_SALESFORCE_CLIENT_ID;
   const redirectUri = 'https://login.salesforce.com/services/oauth2/success';
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [accessToken, setAccessToken] = useState('');
-
+  const setAccessToken = useUserStore((state) => state.setAccessToken);
+  const logout = useUserStore((state) => state.logout);
   useEffect(() => {
     // Listener callback
     const handleAccessToken = (event, token) => {
       console.log('Access token received:', token);
-      setAccessToken(token);
-      setIsLoggedIn(true);
+      setAccessToken(token); 
     };
 
     // Attach the event listener for 'accessToken'
@@ -21,15 +20,14 @@ export const useSalesforce = () => {
     return () => {
       window.electronAPI.removeAccessTokenListener(handleAccessToken);
     };
-  }, []); // Empty dependency array ensures this runs once on mount
+  }, []);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    setAccessToken('');
-    // Implement additional logout logic as needed
+    logout(); 
   };
 
   const url = `https://test.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirectUri}`;
-
+  const accessToken = useUserStore((state) => state.accessToken);
+  const isLoggedIn = !!accessToken;
   return { url, accessToken, isLoggedIn, handleLogout };
 };
