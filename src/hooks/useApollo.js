@@ -1,8 +1,9 @@
 import {
-  useApolloClient,
-  ApolloProvider,
   ApolloClient,
+  ApolloProvider,
+  HttpLink,
   InMemoryCache,
+  useApolloClient,
 } from '@apollo/client';
 
 const uri =
@@ -10,9 +11,17 @@ const uri =
 
 const createApolloClient = () => {
   return new ApolloClient({
-    uri,
+    link: new HttpLink({
+      uri,
+      headers: {
+        Origin: 'null',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json',
+      },
+      
+    }),
     cache: new InMemoryCache(),
-  });
+  }); 
 };
 
 const useApollo = () => {

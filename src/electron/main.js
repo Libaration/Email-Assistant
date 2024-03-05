@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, session } = require('electron');
 const isDev = require('electron-is-dev');
 const url = require('url');
 const path = require('node:path');
@@ -64,6 +64,46 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+  //* This is because CORS is enabled on the Salesforce API and we need to bypass it in development.
+  //* Cors is mad annoying and I hate it. `Access-Control-Allow-Origin` is the bane of my existence.
+  //* It's just a pain and FOR WHAT?! FOR WHY?!
+  //* END CORS RANT
+  //* i'm not sorry for the rant because it's true
+
+  if (isDev) {
+    const filter = {
+      urls: ['https://ashlandauction.my.salesforce.com/*'],
+    };
+
+    session.defaultSession.webRequest.onBeforeSendHeaders(
+      filter,
+      (details, callback) => {
+        details.requestHeaders['Origin'] = 'http://localhost:3000';
+        details.requestHeaders['Authorization'] =
+          `Bearer ${process.env.REACT_APP_MOCK_TOKEN}`;
+        details.requestHeaders['Content-Type'] = 'application/json';
+        callback({ requestHeaders: details.requestHeaders });
+      }
+    );
+
+    session.defaultSession.webRequest.onHeadersReceived(
+      filter,
+      (details, callback) => {
+        details.responseHeaders['Access-Control-Allow-Origin'] = [
+          'http://localhost:3000',
+        ];
+        details.responseHeaders['Access-Control-Allow-Headers'] = [
+          'Authorization',
+        ];
+        details.responseHeaders['Access-Control-Allow-Headers'] = [
+          'Authorization',
+          'Content-Type',
+        ];
+        callback({ responseHeaders: details.responseHeaders });
+      }
+    );
+  }
+
   ipcMain.on('kioskMode', () => {
     win.kiosk = !win.kiosk;
     if (win.kiosk === false) {

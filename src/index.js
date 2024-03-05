@@ -6,6 +6,7 @@ import theme from './extendTheme';
 import './index.css';
 import { HashRouter } from 'react-router-dom';
 import { checkForUpdates } from './lib/checkForUpdates';
+import { ApolloProviderWithClient } from './hooks/useApollo.js';
 
 checkForUpdates().then((data) => {
   const currentVersion = process.env.REACT_APP_VERSION;
@@ -21,10 +22,12 @@ checkForUpdates().then((data) => {
   }
 });
 ReactDOM.render(
-  <ChakraProvider theme={theme} resetCSS={true}>
-    <HashRouter>
-      <App />
-    </HashRouter>
-  </ChakraProvider>,
+  <ApolloProviderWithClient>
+    <ChakraProvider theme={theme} resetCSS={true}>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </ChakraProvider>
+  </ApolloProviderWithClient>,
   document.getElementById('root')
 );

@@ -11,14 +11,16 @@ export const useSalesforce = () => {
     // Listener callback
     const handleAccessToken = (event, token) => {
       setAccessToken(token);
+      localStorage.setItem('accessToken', token);
     };
 
     // Attach the event listener for 'accessToken'
-    window.electronAPI.onAccessToken(handleAccessToken);
+    window.electronAPI && window.electronAPI.onAccessToken(handleAccessToken);
 
     // Cleanup function to remove the event listener
     return () => {
-      window.electronAPI.removeAccessTokenListener(handleAccessToken);
+      window.electronAPI &&
+        window.electronAPI.removeAccessTokenListener(handleAccessToken);
     };
   }, []);
 
@@ -28,6 +30,6 @@ export const useSalesforce = () => {
 
   const url = `https://ashlandauction.my.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirectUri}&scope=full`;
   const accessToken = useUserStore((state) => state.accessToken);
-  const isLoggedIn = !!accessToken;
+  const isLoggedIn = localStorage.getItem('accessToken') ? true : false;
   return { url, accessToken, isLoggedIn, handleLogout };
 };
