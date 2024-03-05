@@ -1,9 +1,10 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');
-const path = require('node:path');
 const url = require('url');
+const path = require('node:path');
 let win;
 let auth;
+
 const createWindow = () => {
   win = new BrowserWindow({
     kiosk: false,
@@ -143,12 +144,18 @@ app.whenReady().then(() => {
 
   ipcMain.on('oauthRedirect', (event, url) => {
     auth.loadURL(url);
-    if (auth.webContents.isLoading()) {
-      auth.webContents.once('did-stop-loading', () => {
+
+    auth.once('ready-to-show', () => {
+      if (!isDev) {
         auth.show();
-      });
-    }
+      }
+    });
+
     const handleCallback = (event, url) => {
+      if (isDev) {
+        const newURL = `about:blank/?success#access_token=${process.env.REACT_APP_MOCK_TOKEN}`;
+        url = newURL;
+      }
       if (!url.includes('success')) {
         return;
       }
@@ -156,15 +163,12 @@ app.whenReady().then(() => {
       const params = new URLSearchParams(fragment);
       const accessToken = params.get('access_token');
       if (accessToken) {
-        auth.close();
         win.webContents.send('accessToken', accessToken);
         auth.webContents.removeAllListeners('did-start-navigation');
+        auth.destroy();
       }
     };
     auth.webContents.on('did-start-navigation', handleCallback);
-    auth.on('closed', () => {
-      auth.webContents.removeAllListeners('did-start-navigation');
-    });
   });
 
   createWindow();
