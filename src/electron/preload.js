@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electronAPI', {
   oauthRedirect: (url) => ipcRenderer.send('oauthRedirect', url),
   showDialog: (message) => ipcRenderer.send('showDialog', message),
+  kioskMode: () => ipcRenderer.send('kioskMode'),
   onAccessToken: (callback) => {
     // Setup listener for the 'accessToken' event
     ipcRenderer.on('accessToken', callback);

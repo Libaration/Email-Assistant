@@ -7,7 +7,26 @@ let auth;
 
 
 const createWindow = () => {
+  win = new BrowserWindow({
+    kiosk: false,
+    width: 1350,
+    height: 800,
+    webPreferences: {
+      nodeIntegration: true,
+      contextBridge: true,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+    backgroundColor: '#171923',
+    show: false,
+    titleBarStyle: 'hiddenInset',
+    minWidth: 1200,
+    title: 'Email Assistant - Ashland Auction',
+  });
   auth = new BrowserWindow({
+    backgroundThrottling: true,
+    modal: true,
+    parent: win,
     width: 800,
     height: 600,
     webPreferences: {
@@ -23,22 +42,8 @@ const createWindow = () => {
     minimizable: false,
     maximizable: false,
     resizable: false,
-    title: 'Email Assistant - Ashland Auction',
-  });
+    closable: false,
 
-  win = new BrowserWindow({
-    width: 1350,
-    height: 800,
-    webPreferences: {
-      nodeIntegration: true,
-      contextBridge: true,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
-    },
-    backgroundColor: '#171923',
-    show: false,
-    titleBarStyle: 'hiddenInset',
-    minWidth: 1200,
     title: 'Email Assistant - Ashland Auction',
   });
 
@@ -60,12 +65,13 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
-
+  ipcMain.on('kioskMode', () => {
+    win.kiosk = !win.kiosk;
+  });
 
   ipcMain.on('showDialog', (event, message) => {
     dialog.showErrorBox('Error', message);
   });
-
 
   ipcMain.on('oauthRedirect', (event, url) => {
     auth.loadURL(url);
@@ -82,12 +88,15 @@ app.whenReady().then(() => {
       const params = new URLSearchParams(fragment);
       const accessToken = params.get('access_token');
       if (accessToken) {
-        auth.hide();
+        auth.close();
         win.webContents.send('accessToken', accessToken);
         auth.webContents.removeAllListeners('did-start-navigation'); //
       }
     };
     auth.webContents.on('did-start-navigation', handleCallback);
+    auth.on('closed', () => {
+      auth.webContents.removeAllListeners('did-start-navigation');
+    });
   });
 
 

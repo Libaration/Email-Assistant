@@ -3,14 +3,14 @@ import { useUserStore } from '../store/userStore';
 
 export const useSalesforce = () => {
   const clientID = process.env.REACT_APP_SALESFORCE_CLIENT_ID;
-  const redirectUri = 'https://test.salesforce.com/services/oauth2/success';
+  const redirectUri = 'https://login.salesforce.com/services/oauth2/success';
+  const scope = 'refresh_token full offline_access web api';
   const setAccessToken = useUserStore((state) => state.setAccessToken);
   const logout = useUserStore((state) => state.logout);
   useEffect(() => {
     // Listener callback
     const handleAccessToken = (event, token) => {
-      console.log('Access token received:', token);
-      setAccessToken(token); 
+      setAccessToken(token);
     };
 
     // Attach the event listener for 'accessToken'
@@ -23,10 +23,10 @@ export const useSalesforce = () => {
   }, []);
 
   const handleLogout = () => {
-    logout(); 
+    logout();
   };
 
-  const url = `https://test.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirectUri}`;
+  const url = `https://ashlandauction.my.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirectUri}&scope=full`;
   const accessToken = useUserStore((state) => state.accessToken);
   const isLoggedIn = !!accessToken;
   return { url, accessToken, isLoggedIn, handleLogout };
