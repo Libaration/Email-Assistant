@@ -9,23 +9,23 @@ const styles = {
     body: {
       bg: mode('#fff', 'gray.900')(props),
       WebkitAppRegion: 'drag',
-      fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont",
+      fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont',
     },
     '*': {
-      cursor: "default",
-      userSelect: "none",
+      cursor: 'default',
+      userSelect: 'none',
     },
-    'button': {
-      cursor: "default",
-      userSelect: "none",
+    button: {
+      cursor: 'default',
+      userSelect: 'none',
     },
     html: {
-      fontSize: "14px",
-      fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont",
+      fontSize: '14px',
+      fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont',
     },
     a: {
-      cursor: "default",
-      userSelect: "none",
+      cursor: 'default',
+      userSelect: 'none',
       WebkitAppRegion: 'no-drag',
     },
     h1: {

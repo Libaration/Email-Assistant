@@ -1,27 +1,27 @@
-import { Flex, Box } from "@chakra-ui/react";
-import SideBar from "./components/SideBar.jsx";
-import { useEffect, useState } from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import Email from "./pages/Email.jsx";
-import Settings from "./pages/Settings.jsx";
-import Search from "./components/Search.jsx";
-import SearchShow from "./pages/SearchShow";
-import Reschedule from "./pages/Reschedule";
-import { AnimatePresence } from "framer-motion";
-import { ReactNotifications } from "react-notifications-component";
-import useKeySequence from "./hooks/useKeySequence";
-import "react-notifications-component/dist/theme.css";
+import { Flex, Box } from '@chakra-ui/react';
+import SideBar from './components/SideBar.jsx';
+import { useEffect, useState } from 'react';
+import { Switch, Route, useLocation } from 'react-router-dom';
+import Home from './pages/Home.jsx';
+import Email from './pages/Email.jsx';
+import Settings from './pages/Settings.jsx';
+import Search from './components/Search.jsx';
+import SearchShow from './pages/SearchShow';
+import Reschedule from './pages/Reschedule';
+import { AnimatePresence } from 'framer-motion';
+import { ReactNotifications } from 'react-notifications-component';
+import useKeySequence from './hooks/useKeySequence';
+import 'react-notifications-component/dist/theme.css';
 function App() {
   useKeySequence();
   const location = useLocation();
   const [page, setPage] = useState();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [isSearching, setSearching] = useState(false);
   return (
     <>
       <ReactNotifications />
-      <Flex h="35px" sx={{ "-webkit-app-region": "drag" }}>
+      <Flex h="35px" sx={{ '-webkit-app-region': 'drag' }}>
         <Box
           bg="#203d85"
           minWidth="76px"

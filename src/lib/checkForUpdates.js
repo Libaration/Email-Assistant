@@ -1,10 +1,10 @@
 export const checkForUpdates = async () => {
   const response = await fetch(
-    "https://api.github.com/repos/Libaration/Email-Assistant/releases/latest",
+    'https://api.github.com/repos/Libaration/Email-Assistant/releases/latest',
     {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     }
   );

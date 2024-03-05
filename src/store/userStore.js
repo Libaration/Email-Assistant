@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 export const useUserStore = create((set) => ({
   user: null,
@@ -6,4 +6,4 @@ export const useUserStore = create((set) => ({
   setUser: (user) => set({ user }),
   setAccessToken: (accessToken) => set({ accessToken }),
   logout: () => set({ user: null }),
-}))
+}));

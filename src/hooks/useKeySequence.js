@@ -7,8 +7,16 @@ const useKeySequence = () => {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key !== 'r' && event.key !== 'l' && event.key !== '1' && event.key !== '2' && event.key !== 'ArrowLeft'
-      && event.key !== 'ArrowDown' && event.key !== 'ArrowRight' && event.key !== 'ArrowUp') {
+    if (
+      event.key !== 'r' &&
+      event.key !== 'l' &&
+      event.key !== '1' &&
+      event.key !== '2' &&
+      event.key !== 'ArrowLeft' &&
+      event.key !== 'ArrowDown' &&
+      event.key !== 'ArrowRight' &&
+      event.key !== 'ArrowUp'
+    ) {
       keySequenceRef.current = [];
       return;
     }

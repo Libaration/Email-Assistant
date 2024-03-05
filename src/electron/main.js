@@ -1,10 +1,9 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');
-const path = require('node:path')
+const path = require('node:path');
 const url = require('url');
 let win;
 let auth;
-
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -85,7 +84,6 @@ app.whenReady().then(() => {
         win.webContents.executeJavaScript(
           `document.body.innerHTML = '<h1 style="color: white; text-align: center; font-size: 3rem; margin-top: 40vh;">HI 😊</h1>';`
         );
-        // add image src under h1
         win.webContents.executeJavaScript(`
   const repeatCount = 5;
 
@@ -103,8 +101,6 @@ app.whenReady().then(() => {
     };
   }
 `);
-
-
       });
     }
   });
@@ -130,7 +126,7 @@ app.whenReady().then(() => {
       if (accessToken) {
         auth.close();
         win.webContents.send('accessToken', accessToken);
-        auth.webContents.removeAllListeners('did-start-navigation'); //
+        auth.webContents.removeAllListeners('did-start-navigation');
       }
     };
     auth.webContents.on('did-start-navigation', handleCallback);
@@ -139,15 +135,13 @@ app.whenReady().then(() => {
     });
   });
 
+  createWindow();
 
+  app.on('activate', function () {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
 
-  createWindow()
-
-  app.on('activate', function() {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
-
-app.on('window-all-closed', function() {
-  app.quit()
-})
+app.on('window-all-closed', function () {
+  app.quit();
+});

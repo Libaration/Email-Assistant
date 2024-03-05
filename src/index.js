@@ -1,11 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import { ChakraProvider } from "@chakra-ui/react";
-import theme from "./extendTheme";
-import "./index.css";
-import { HashRouter } from "react-router-dom";
-import { checkForUpdates } from "./lib/checkForUpdates";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from './extendTheme';
+import './index.css';
+import { HashRouter } from 'react-router-dom';
+import { checkForUpdates } from './lib/checkForUpdates';
 
 checkForUpdates().then((data) => {
   const currentVersion = process.env.REACT_APP_VERSION;
@@ -16,7 +16,7 @@ checkForUpdates().then((data) => {
       Do you want to download it?`
     );
     if (confirmUpdate) {
-      window.open(downloadLink, "_blank");
+      window.open(downloadLink, '_blank');
     }
   }
 });
@@ -26,5 +26,5 @@ ReactDOM.render(
       <App />
     </HashRouter>
   </ChakraProvider>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
