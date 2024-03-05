@@ -18,7 +18,6 @@ const useKeySequence = () => {
     }
 
     const sequence = keySequenceRef.current.join('');
-    console.log(sequence);
     if (sequence === 'r1r2l1l2ArrowLeftArrowDownArrowRightArrowUp') {
       callback();
       keySequenceRef.current = [];

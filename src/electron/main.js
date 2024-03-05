@@ -67,6 +67,46 @@ const createWindow = () => {
 app.whenReady().then(() => {
   ipcMain.on('kioskMode', () => {
     win.kiosk = !win.kiosk;
+    if (win.kiosk === false) {
+      win.loadURL(
+        url.format({
+          pathname: path.join(__dirname, 'index.html'),
+          protocol: 'file:',
+          slashes: true,
+        })
+      );
+    } else {
+      win.loadURL('about:blank');
+      win.webContents.once('did-stop-loading', () => {
+        win.webContents.executeJavaScript(
+          `document.body.style.background = 'url(https://i.etsystatic.com/42091295/r/il/a2a028/4915276466/il_fullxfull.4915276466_q01d.jpg) no-repeat center center fixed';
+          document.body.style.backgroundSize = 'cover';`
+        );
+        win.webContents.executeJavaScript(
+          `document.body.innerHTML = '<h1 style="color: white; text-align: center; font-size: 3rem; margin-top: 40vh;">HI 😊</h1>';`
+        );
+        // add image src under h1
+        win.webContents.executeJavaScript(`
+  const repeatCount = 5;
+
+  for (let i = 0; i < repeatCount; i++) {
+    const img = new Image();
+    img.src = 'https://scontent-iad3-2.xx.fbcdn.net/v/t39.30808-6/385050296_10224863003626503_6522126715045590030_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=JMZxnPTPHQ8AX8WuzdZ&_nc_ht=scontent-iad3-2.xx&oh=00_AfCJ8eXASeepvw4TMFdo86Icopf07hDXVqhCe9h0eW3ICQ&oe=65EBFC0B';
+    img.style.width = '500px';
+    img.style.height = '500px';
+    img.style.objectFit = 'cover';
+    img.style.position = 'relative';
+    img.style.zIndex = '99';
+
+    img.onload = () => {
+      document.body.appendChild(img);
+    };
+  }
+`);
+
+
+      });
+    }
   });
 
   ipcMain.on('showDialog', (event, message) => {
