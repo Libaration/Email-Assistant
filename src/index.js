@@ -8,8 +8,7 @@ import { checkForUpdates } from './lib/checkForUpdates';
 import { ApolloProviderWithClient } from './hooks/useApollo.js';
 import { Route, Switch } from 'react-router-dom';
 import { ProgressBar } from './components/ProgressBar';
-import { useUpdateStore } from './store/updateStore';
-
+import { useUpdateStore } from './components/store/updateStore';
 const performCheckForUpdates = () => {
   const checked = useUpdateStore.getState().checkedForUpdate;
   if (!checked) {

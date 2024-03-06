@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useUserStore } from '../store/userStore';
+import { useUserStore } from '../components/store/userStore'; 
 
 export const useSalesforce = () => {
   const clientID = process.env.REACT_APP_SALESFORCE_CLIENT_ID;

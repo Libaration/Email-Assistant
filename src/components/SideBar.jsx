@@ -7,8 +7,7 @@ import email from '../assets/icons/email.png';
 import home from '../assets/icons/home.png';
 import search from '../assets/icons/search.png';
 import settings from '../assets/icons/settings.png';
-const { useUpdateStore } = require('../store/updateStore');
-
+import { useUpdateStore } from '../components/store/updateStore';
 export default function SideBar() {
   const { downloadProgress, isDownloading } = useUpdateStore((state) => ({
     downloadProgress: state.downloadProgress,
@@ -25,7 +24,11 @@ export default function SideBar() {
         ml={1}
         whileHover={{ scale: 1.2, cursor: 'pointer' }}
       >
-        <img src={src} alt="menu-item" className="invert-[.80] hover:invert size-16 object-scale-down" />
+        <img
+          src={src}
+          alt="menu-item"
+          className="invert-[.80] hover:invert size-16 object-scale-down"
+        />
       </MotionBox>
     );
   };
