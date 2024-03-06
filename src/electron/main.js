@@ -1,12 +1,15 @@
-import { app, BrowserWindow, ipcMain, dialog, session, shell } from 'electron';
-import { download } from 'electron-dl';
-import isDev from 'electron-is-dev';
-import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { useUpdateStore } from '../store/updateStore.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  dialog,
+  session,
+  shell,
+} = require('electron');
+const { download } = require('electron-dl');
+const isDev = require('electron-is-dev');
+const path = require('node:path');
+const url = require('url');
 
 let win;
 let auth;
@@ -20,7 +23,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextBridge: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.mjs'),
+      preload: path.join(__dirname, 'preload.js'),
     },
     backgroundColor: '#171923',
     show: false,
@@ -38,7 +41,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextBridge: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.mjs'),
+      preload: path.join(__dirname, 'preload.js'),
     },
     backgroundColor: '#171923',
     show: false,
@@ -273,7 +276,7 @@ function downloadUpdate(downloadLink) {
       nodeIntegration: true,
       contextBridge: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.mjs'),
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 

@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "email-assistant",
   "version": "0.3.0",
   "private": true,
@@ -20,11 +19,12 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "concurrently": "^6.3.0",
+    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "date-and-time": "^2.0.1",
     "dayjs-business-days": "^1.0.4",
     "electron-dl": "^3.5.2",
+    "electron-forge": "^5.2.4",
     "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "framer-motion": "^4.1.17",
@@ -37,7 +37,7 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.1",
     "uuid": "^8.3.2",
-    "wait-on": "^6.0.0",
+    "wait-on": "^7.2.0",
     "web-vitals": "^1.0.1",
     "webpack": "^5.90.3",
     "zustand": "^4.5.2"
@@ -97,7 +97,7 @@
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "autoprefixer": "^10.4.18",
     "electron": "^29.1.0",
-    "electron-builder": "^23.6.0",
+    "electron-builder": "^24.13.3",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1"
   },
