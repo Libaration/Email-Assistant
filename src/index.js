@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { ChakraProvider } from '@chakra-ui/react';
-import theme from './extendTheme';
 import './index.css';
 import { HashRouter } from 'react-router-dom';
 import { checkForUpdates } from './lib/checkForUpdates';
@@ -26,14 +25,12 @@ const performCheckForUpdates = () => {
 performCheckForUpdates();
 ReactDOM.render(
   <ApolloProviderWithClient>
-    <ChakraProvider theme={theme} resetCSS={true}>
-      <HashRouter basename="/">
-        <Switch>
-          <Route exact path="/progressBar" component={ProgressBar} />
-          <Route path="/" component={App} />
-        </Switch>
-      </HashRouter>
-    </ChakraProvider>
+    <HashRouter basename="/">
+      <Switch>
+        <Route exact path="/progressBar" component={ProgressBar} />
+        <Route path="/" component={App} />
+      </Switch>
+    </HashRouter>
   </ApolloProviderWithClient>,
   document.getElementById('root')
 );

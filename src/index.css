@@ -1,7 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --background: 240 10% 3.9%;  
+  --foreground: 0 0% 98%
+}
 body,
 html {
+  background-color: #171923;
+  background: linear-gradient(to bottom, #040720, #050a14);
+  color: hsl(var(--foreground));
   width: 100vw;
   height: 100vh;
+  line-height: 1.4705882353;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.05em;
 }
 a {
   outline: none;

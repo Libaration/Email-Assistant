@@ -1,7 +1,26 @@
-import dayjs from 'dayjs';
-import dayjsBusinessDays from 'dayjs-business-days';
-dayjs.extend(dayjsBusinessDays);
+import moment from 'moment';
 
+const WEEKEND = [
+  moment().day('Saturday').weekday(),
+  moment().day('Sunday').weekday(),
+];
+
+const businessAdd = (momentDate, businessDays) => {
+  let daysAdded = 0;
+  let result = moment(momentDate);
+
+  while (daysAdded < businessDays) {
+    result = result.add(1, 'days');
+
+    if (!WEEKEND.includes(result.day())) {
+      daysAdded++;
+    }
+  }
+
+  return result;
+};
+
+const today = moment();
 export const searchAddress = async (address) => {
   const response = await fetch('https://www.ashlandauction.com/api', {
     method: 'POST',
@@ -70,21 +89,28 @@ export const fetchNewsletter = async () => {
   });
   const responseJSON = await response.json();
   const auctions = await responseJSON.data.auctions.auctions;
-  const daysNeeded = Array.from(
-    { length: parseInt(localStorage.getItem('maxDays')) + 1 || 4 },
-    (_, i) => dayjs().businessDaysAdd(i).format('ddd, MMMM DD')
+
+  const maxDays = parseInt(localStorage.getItem('maxDays')) + 1 || 4;
+  const daysNeeded = Array.from({ length: maxDays }, (_, i) =>
+    businessAdd(moment(), i).format('ddd, MMMM DD')
   );
 
   const groupedAuctions = auctions.reduce((acc, auction) => {
-    if (!daysNeeded.includes(dayjs(auction.end_time).format('ddd, MMMM DD')))
-      return acc;
+    const auctionDateFormatted = moment(auction.end_time).format(
+      'ddd, MMMM DD'
+    );
 
-    const date = dayjs(auction.end_time).format('MMMM DD');
+    if (!daysNeeded.includes(auctionDateFormatted)) {
+      return acc;
+    }
+
+    const date = moment(auction.end_time).format('MMMM DD');
     if (!acc[date]) {
       acc[date] = [];
     }
     acc[date].push(auction);
     return acc;
   }, {});
+
   return await groupedAuctions;
 };

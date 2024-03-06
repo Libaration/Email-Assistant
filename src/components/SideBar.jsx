@@ -1,11 +1,10 @@
-import { Box, Flex, Image, List, ListItem, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/icons/logo.png';
 import calendar from '../assets/icons/calendar.png';
 import email from '../assets/icons/email.png';
 import home from '../assets/icons/home.png';
-import logo from '../assets/icons/logo.png';
 import search from '../assets/icons/search.png';
 import settings from '../assets/icons/settings.png';
 const { useUpdateStore } = require('../store/updateStore');
@@ -16,56 +15,46 @@ export default function SideBar() {
     isDownloading: state.isDownloading,
   }));
 
-  const MotionBox = motion(Box);
+  const MotionBox = motion.div;
+
   const menuItem = (src) => {
     return (
       <MotionBox
         mt={5}
         mb={8}
         ml={1}
-        whileHover={{ scale: 1.2, filter: 'invert(1)', cursor: 'pointer' }}
-        sx={{ filter: 'invert(80%)' }}
+        whileHover={{ scale: 1.2, cursor: 'pointer' }}
       >
-        <Image src={src} />
+        <img src={src} alt="menu-item" className="invert-[.80] hover:invert size-16 object-scale-down" />
       </MotionBox>
     );
   };
+
   return (
-    <Flex
-      minWidth="76px"
-      maxWidth="76px"
-      bg="#203d85"
-      borderRight="1px solid"
-      borderColor="gray.800"
-      flexDirection="column"
-      zIndex={1}
-      position="fixed"
-      sx={{
-        height: 'calc(100vh - (35px))',
-        ...(isDownloading ? { filter: 'grayscale(100%)' } : {}),
-        ...(isDownloading ? { disabled: true } : {}),
-      }}
+    <div
+      className={`min-w-16 max-w-16 bg-brand border-r-1 border-gray-800 flex flex-col fixed z-10 h-screen ${
+        isDownloading ? 'grayscale' : ''
+      }`}
     >
-      <h1>PROGRESS TEST</h1>
-      <Text>{downloadProgress}</Text>
-      <Image src={logo} p={3} pr={1} />
-      <List pl={5} pr={5} h="100%">
-        <ListItem>
+      <span className="text-sm text-center">{downloadProgress}</span>
+      <img src={logo} alt="logo" className="p-3 pr-1" />
+      <ul className="pl-5 pr-5 h-full">
+        <li>
           <Link to="/">{menuItem(home)}</Link>
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           <Link to="/email">{menuItem(email)}</Link>
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           <Link to="/reschedule">{menuItem(calendar)}</Link>
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           <Link to="/search">{menuItem(search)}</Link>
-        </ListItem>
-        <ListItem>
-          <Link to="settings">{menuItem(settings)}</Link>
-        </ListItem>
-      </List>
-    </Flex>
+        </li>
+        <li>
+          <Link to="/settings">{menuItem(settings)}</Link>
+        </li>
+      </ul>
+    </div>
   );
 }

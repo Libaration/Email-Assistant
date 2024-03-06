@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import moment from "moment";
 const NewsletterAuction = (auction) => {
   const html = `<table cellpadding="0" cellspacing="0" border="0" data-fusion-class="" style="width: 100%; margin: 0px auto">
 <tbody>
@@ -213,7 +213,7 @@ const NewsletterAuction = (auction) => {
                                   <strong style="
                                       background-color: transparent;
                                     ">Online- Ends</strong>
-                                  @ ${dayjs(auction.end_time).format("hh:mm A")}
+                                 @ ${moment(auction.end_time).format("hh:mm A")}
                                 </h2>
                               </div>
                             </td>
@@ -515,7 +515,7 @@ transition: all 0.2s ease 0s;
           <strong style="
               background-color: transparent;
             ">Online- Ends</strong>
-          @ ${dayjs(auction.end_time).format("hh:mm A")}
+           @ ${moment(auction.end_time).format("hh:mm A")}
         </h2>
       </div>
     </td>

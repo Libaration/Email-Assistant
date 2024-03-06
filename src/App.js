@@ -9,9 +9,8 @@ import Search from './components/Search.jsx';
 import SearchShow from './pages/SearchShow';
 import Reschedule from './pages/Reschedule';
 import { AnimatePresence } from 'framer-motion';
-import { ReactNotifications } from 'react-notifications-component';
 import useKeySequence from './hooks/useKeySequence';
-import 'react-notifications-component/dist/theme.css';
+import './index.css';
 
 function App() {
   useKeySequence();
@@ -22,7 +21,6 @@ function App() {
 
   return (
     <>
-      <ReactNotifications />
       <Flex h="35px" sx={{ '-webkit-app-region': 'drag' }}>
         <Box
           bg="#203d85"

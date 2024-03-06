@@ -3,7 +3,6 @@ import { download } from 'electron-dl';
 import isDev from 'electron-is-dev';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
-
 import { useUpdateStore } from '../store/updateStore.js';
 
 const __filename = fileURLToPath(import.meta.url);

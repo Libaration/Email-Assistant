@@ -1,11 +1,13 @@
-import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import React from 'react';
 import sidebanner from '../assets/sidebanner.png';
+
+import './Home.style.css';
+
 export default function Home() {
-  const MotionBox = motion(Box);
+  const MotionBox = motion.div;
   const draggable = {
-    WebkitAppRegion: 'drag',
+    WebkitAppRegion: 'no-drag',
   };
   const unDraggable = {
     WebkitAppRegion: 'no-drag',
@@ -17,52 +19,43 @@ export default function Home() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -100 }}
       transition={{ duration: 0.3 }}
-      w="100%"
-      overflow="hidden"
-      display="flex"
-      flexWrap="wrap"
-      p={5}
+      className="w-full overflow-hidden flex flex-wrap p-5"
     >
-      <Flex grow={1} justifyContent="center" mb={5} style={draggable}>
-        <Image
+      <div className="flex grow justify-center mb-5" style={draggable}>
+        <img
           src="https://auctioneersoftware.s3.amazonaws.com/ash/2020/4/TFh9VK50QCogGjSh4m7RCVCJ.png"
-          w="150px"
-          objectFit="contain"
-          sx={{
-            filter: 'drop-shadow(1px 1px 50px rgba(240, 232, 0, 1));',
-          }}
+          className="w-[150px] object-contain drop-shadow-[1px_1px_50px_rgba(240,232,0,1)] z-50"
         />
-      </Flex>
-      <Flex sx={{ 'flex-basis': '100%', height: '0px' }} style={draggable} />
-      <Box flex={1}>
-        <Heading>Welcome.</Heading>
-        <Text pt={5} fontSize="sm" style={unDraggable}>
+      </div>
+      <div className="flex basis-full h-0" style={draggable} />
+      <div className="flex-1">
+        <h1 className="font-extrabold text-[38px] bg-gradient-to-r from-[#6a90b8] to-[#ffffff] bg-clip-text text-transparent">
+          Welcome.
+        </h1>
+        <p className="pt-5" style={unDraggable}>
           This is a collection of tools for Ashland Auction Group. It is a work
           in progress and will be updated as needed.
-        </Text>
-      </Box>
+        </p>
+      </div>
       <MotionBox
-        height="100%"
+        className="h-full pb-5"
         whileHover={{
           x: -300,
           transition: { duration: 1 },
         }}
-        d="flex"
-        flex={1}
-        justifyContent="center"
-        alignItems="center"
-        position="relative"
-        left="500px"
-        style={draggable}
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'relative',
+          left: '450px',
+          ...draggable,
+        }}
       >
-        <Image
+        <img
           src={sidebanner}
-          objectFit="cover"
-          height="800px"
-          m={-180}
-          sx={{
-            filter: 'drop-shadow(1px 1px 50px rgba(32, 61, 133, 0.1));',
-          }}
+          className="object-cover h-[800px] m-[-180px] drop-shadow-[1px_1px_50px_rgba(32,61,133,0.1)]"
         />
       </MotionBox>
     </MotionBox>

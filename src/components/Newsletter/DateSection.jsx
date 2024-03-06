@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import moment from 'moment'; 
 const DateSection = (date) => {
   const html = `<table cellpadding="0" cellspacing="0" border="0" data-fusion-class="" style="width: 100%; margin: 0px auto">
     <tbody>
@@ -128,8 +128,9 @@ const DateSection = (date) => {
     </tbody>
   </table>`;
   return html.replace(
-    "{{DATE}}",
-    dayjs(date).year(dayjs().year()).format("ddd, MMMM DD")
+    '{{DATE}}',
+
+    moment(date).year(moment().year()).format('ddd, MMMM DD')
   );
 };
 
