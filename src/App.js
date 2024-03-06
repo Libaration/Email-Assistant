@@ -12,12 +12,14 @@ import { AnimatePresence } from 'framer-motion';
 import { ReactNotifications } from 'react-notifications-component';
 import useKeySequence from './hooks/useKeySequence';
 import 'react-notifications-component/dist/theme.css';
+
 function App() {
   useKeySequence();
   const location = useLocation();
   const [page, setPage] = useState();
   const [search, setSearch] = useState('');
   const [isSearching, setSearching] = useState(false);
+
   return (
     <>
       <ReactNotifications />

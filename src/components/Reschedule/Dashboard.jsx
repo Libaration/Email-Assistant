@@ -1,7 +1,6 @@
-import React from 'react';
-import { Flex } from '@chakra-ui/react';
-import { useApollo } from '../../hooks/useApollo';
 import { useQuery } from '@apollo/client';
+import { Flex } from '@chakra-ui/react';
+import React from 'react';
 import { queries } from '../../queries';
 
 export const Dashboard = () => {

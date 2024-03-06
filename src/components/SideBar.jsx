@@ -1,14 +1,21 @@
-import React from 'react';
-import { Image, Flex, List, ListItem, Box } from '@chakra-ui/react';
+import { Box, Flex, Image, List, ListItem, Text } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import home from '../assets/icons/home.png';
+import calendar from '../assets/icons/calendar.png';
 import email from '../assets/icons/email.png';
-import settings from '../assets/icons/settings.png';
+import home from '../assets/icons/home.png';
 import logo from '../assets/icons/logo.png';
 import search from '../assets/icons/search.png';
-import calendar from '../assets/icons/calendar.png';
-import { motion } from 'framer-motion';
-export default function SideBar(props) {
+import settings from '../assets/icons/settings.png';
+const { useUpdateStore } = require('../store/updateStore');
+
+export default function SideBar() {
+  const { downloadProgress, isDownloading } = useUpdateStore((state) => ({
+    downloadProgress: state.downloadProgress,
+    isDownloading: state.isDownloading,
+  }));
+
   const MotionBox = motion(Box);
   const menuItem = (src) => {
     return (
@@ -33,8 +40,14 @@ export default function SideBar(props) {
       flexDirection="column"
       zIndex={1}
       position="fixed"
-      sx={{ height: 'calc(100vh - (35px))' }}
+      sx={{
+        height: 'calc(100vh - (35px))',
+        ...(isDownloading ? { filter: 'grayscale(100%)' } : {}),
+        ...(isDownloading ? { disabled: true } : {}),
+      }}
     >
+      <h1>PROGRESS TEST</h1>
+      <Text>{downloadProgress}</Text>
       <Image src={logo} p={3} pr={1} />
       <List pl={5} pr={5} h="100%">
         <ListItem>

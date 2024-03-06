@@ -12,4 +12,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     // Remove a specific listener for the 'accessToken' event
     ipcRenderer.removeListener('accessToken', callback);
   },
+  updateApp: (downloadInfo) =>
+    ipcRenderer.send('updateApp', downloadInfo),
+  downloadProgress: (callback) => {
+    ipcRenderer.on('downloadProgress', callback);
+    return () => {
+      ipcRenderer.removeListener('downloadProgress', callback);
+    };
+  },
 });

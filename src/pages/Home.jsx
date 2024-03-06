@@ -1,8 +1,7 @@
-import React from 'react';
+import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { Box, Image, Flex, Heading, Text } from '@chakra-ui/react';
+import React from 'react';
 import sidebanner from '../assets/sidebanner.png';
-import { Link } from 'react-router-dom';
 export default function Home() {
   const MotionBox = motion(Box);
   const draggable = {
@@ -11,6 +10,7 @@ export default function Home() {
   const unDraggable = {
     WebkitAppRegion: 'no-drag',
   };
+
   return (
     <MotionBox
       initial={{ opacity: 0, y: -100 }}
@@ -33,11 +33,12 @@ export default function Home() {
           }}
         />
       </Flex>
-      <Flex sx={{ 'flex-basis': '100%', height: '0px' }} style={draggable}/>
+      <Flex sx={{ 'flex-basis': '100%', height: '0px' }} style={draggable} />
       <Box flex={1}>
         <Heading>Welcome.</Heading>
         <Text pt={5} fontSize="sm" style={unDraggable}>
-          This is a collection of tools for Ashland Auction Group. It is a work in progress and will be updated as needed.
+          This is a collection of tools for Ashland Auction Group. It is a work
+          in progress and will be updated as needed.
         </Text>
       </Box>
       <MotionBox

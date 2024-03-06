@@ -17,8 +17,8 @@ export default function Reschedule() {
   const { url, isLoggedIn } = useSalesforce();
   const handleClick = useCallback(() => {
     if (process.env.NODE_ENV === 'development') {
-      console.log(process.env);
       localStorage.setItem('accessToken', process.env.REACT_APP_MOCK_TOKEN);
+      return;
     }
 
     window.electronAPI.oauthRedirect(url);
