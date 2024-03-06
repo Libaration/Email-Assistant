@@ -8,8 +8,13 @@ const styles = {
   global: (props) => ({
     body: {
       bg: mode('#fff', 'gray.900')(props),
-      WebkitAppRegion: 'drag',
       fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont',
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale',
+      WebkitAppRegion: 'drag',
+    },
+    '.chakra-button' : {
+    WebkitAppRegion: 'no-drag',
     },
     '*': {
       cursor: 'default',
@@ -22,6 +27,7 @@ const styles = {
     html: {
       fontSize: '14px',
       fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont',
+      WebkitAppRegion: 'no-drag',
     },
     a: {
       cursor: 'default',

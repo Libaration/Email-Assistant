@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
   oauthRedirect: (url) => ipcRenderer.send('oauthRedirect', url),
@@ -12,8 +12,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     // Remove a specific listener for the 'accessToken' event
     ipcRenderer.removeListener('accessToken', callback);
   },
-  updateApp: (downloadInfo) =>
-    ipcRenderer.send('updateApp', downloadInfo),
+  updateApp: (downloadInfo) => ipcRenderer.send('updateApp', downloadInfo),
   downloadProgress: (callback) => {
     ipcRenderer.on('downloadProgress', callback);
     return () => {
