@@ -10,11 +10,11 @@ const { download } = require('electron-dl');
 const isDev = require('electron-is-dev');
 const path = require('node:path');
 const url = require('url');
-
 let win;
 let auth;
+let progressWindow;
 
-const createWindow = () => {
+const createWindow = async () => {
   win = new BrowserWindow({
     kiosk: false,
     width: 1350,
@@ -53,6 +53,30 @@ const createWindow = () => {
     closable: false,
 
     title: 'Email Assistant - Ashland Auction',
+  });
+
+  progressWindow = new BrowserWindow({
+    frame: false,
+    width: 300,
+    height: 300,
+    alwaysOnTop: true,
+    visualEffectState: 'followWindow',
+    titlebarStyle: 'hidden',
+    show: false,
+    fullscreenable: false,
+    isMovable: false,
+    closable: false,
+    resizable: false,
+    customButtonsOnHover: true,
+    vibrancy: 'hud',
+    transparent: true,
+    opacity: 0.5,
+    webPreferences: {
+      nodeIntegration: true,
+      contextBridge: true,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
 
   if (isDev) {
@@ -188,8 +212,9 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on('updateApp', (event, downloadInfo) => {
-    const checkedForUpdate = useUpdateStore.getState().checkedForUpdate;
-    if (checkedForUpdate) return;
+    if (progressWindow.isVisible()) {
+      return;
+    }
     const downloadLink = downloadInfo.assets[0].browser_download_url;
     const releaseNotes = downloadInfo.html_url;
     dialog
@@ -204,12 +229,23 @@ app.whenReady().then(() => {
         if (response.response === 0) {
           console.log('Downloading update:', downloadLink);
           downloadUpdate(downloadLink);
+          let url = new URL(
+            'file://' + path.join(__dirname, 'index.html/#/progressBar')
+          ).toString();
+          if (isDev) {
+            url = 'http://localhost:3000/#/progressBar';
+          }
+
+          progressWindow.loadURL(url);
+
+          progressWindow.once('ready-to-show', () => {
+            progressWindow.show();
+          });
         }
         if (response.response === 1) {
           shell.openExternal(releaseNotes);
         }
       });
-    useUpdateStore.getState().toggleCheckedForUpdate();
   });
 
   ipcMain.on('oauthRedirect', (event, url) => {
@@ -241,63 +277,23 @@ app.whenReady().then(() => {
     auth.webContents.on('did-start-navigation', handleCallback);
   });
 
-  createWindow();
+  app.on('window-all-closed', function () {
+    console.log(app.windows);
+    app.quit();
+  });
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
-});
 
-app.on('window-all-closed', function () {
-  app.quit();
-});
-app.on('will-quit', () => {
-  if (auth) auth.destroy();
+  createWindow();
 });
 
 function downloadUpdate(downloadLink) {
-  const progressWindow = new BrowserWindow({
-    frame: false,
-    width: 300,
-    height: 300,
-    alwaysOnTop: true,
-    visualEffectState: 'followWindow',
-    titlebarStyle: 'hidden',
-    show: false,
-    fullscreenable: false,
-    isMovable: false,
-    closable: false,
-    resizable: false,
-    customButtonsOnHover: true,
-    vibrancy: 'hud',
-    transparent: true,
-    opacity: 0.5,
-    webPreferences: {
-      nodeIntegration: true,
-      contextBridge: true,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
-
-  let url = new URL(
-    'file://' + path.join(__dirname, 'index.html/#/progressBar')
-  ).toString();
-  if (isDev) {
-    url = 'http://localhost:3000/#/progressBar';
-  }
-
-  progressWindow.loadURL(url);
-
-  progressWindow.once('ready-to-show', () => {
-    progressWindow.show();
-  });
-
   download(win, downloadLink, {
     directory: app.getPath('temp'),
     onProgress: (progress) => {
-      useUpdateStore.getState().setIsDownloading(true);
-      useUpdateStore.getState().setDownloadProgress(progress.percent * 100);
+      win.webContents.send('downloadProgress', progress);
     },
   })
     .then((dl) => {
@@ -305,8 +301,6 @@ function downloadUpdate(downloadLink) {
       shell.trashItem(dl.getSavePath()); // This is just a placeholder for now
       console.log('Downloaded file has been trashed:', dl.getSavePath());
       progressWindow.destroy();
-      useUpdateStore.getState().setDownloadProgress(0);
-      useUpdateStore.getState().setIsDownloading(false);
       let countdown = 5;
 
       // Start the countdown before showing the message box
@@ -349,8 +343,4 @@ function downloadUpdate(downloadLink) {
       console.error('Error downloading update:', error);
       progressWindow.destroy();
     });
-
-  app.on('will-quit', () => {
-    progressWindow.destroy();
-  });
 }

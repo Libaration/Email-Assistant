@@ -7,13 +7,10 @@ import email from '../assets/icons/email.png';
 import home from '../assets/icons/home.png';
 import search from '../assets/icons/search.png';
 import settings from '../assets/icons/settings.png';
-import { useUpdateStore } from '../components/store/updateStore';
-export default function SideBar() {
-  const { downloadProgress, isDownloading } = useUpdateStore((state) => ({
-    downloadProgress: state.downloadProgress,
-    isDownloading: state.isDownloading,
-  }));
+import { useDownloadProgress } from '../hooks/useDownloadProgress';
 
+export default function SideBar() {
+  const { progress, isDownloading } = useDownloadProgress();
   const MotionBox = motion.div;
 
   const menuItem = (src) => {
@@ -39,7 +36,7 @@ export default function SideBar() {
         isDownloading ? 'grayscale' : ''
       }`}
     >
-      <span className="text-sm text-center">{downloadProgress}</span>
+      <span className="text-sm text-center">{progress}</span>
       <img src={logo} alt="logo" className="p-3 pr-1" />
       <ul className="pl-5 pr-5 h-full">
         <li>
