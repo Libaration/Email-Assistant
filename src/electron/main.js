@@ -293,7 +293,8 @@ function downloadUpdate(downloadLink) {
   download(win, downloadLink, {
     directory: app.getPath('temp'),
     onProgress: (progress) => {
-      win.webContents.send('downloadProgress', progress);
+      win.webContents.send('downloadProgress', progress.percent);
+      progressWindow.webContents.send('downloadProgress', progress.percent);
     },
   })
     .then((dl) => {
