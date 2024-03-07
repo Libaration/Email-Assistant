@@ -6,7 +6,7 @@ export const useDownloadProgress = () => {
 
   useEffect(() => {
     const handleDownloadProgress = (event, progress) => {
-      updateStore.setDownloadProgress(progress * 100);
+      updateStore.setDownloadProgress(Math.round(progress * 100));
     };
 
     if (window.electronAPI) {

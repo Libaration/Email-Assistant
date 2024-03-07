@@ -1,20 +1,16 @@
 import React from 'react';
 import { useDownloadProgress } from '../hooks/useDownloadProgress';
-import { useUpdateStore } from '../components/store/updateStore';
 export const ProgressBar = () => {
   const { progress, isDownloading } = useDownloadProgress();
 
   return (
-    <div className="fixed top-0 w-full z-50">
-      <span className="text-sm text-center">{progress}</span>
-      <div
-        className={`h-1 bg-brand w-full ${isDownloading ? 'block' : 'hidden'}`}
-        id="progress-bar"
-      ></div>
-      <div className="h-1 bg-gray-300 w-full" id="progress-bar"></div>
-
-      <h1 className="text-3xl">DOWNLOAD</h1>
-      <div className="h-1 bg-brand w-0" id="progress-bar"></div>
-    </div>
+    <>
+      <div className="relative top-0 w-full h-1 z-50 bg-yellow-300 mb-18"></div>
+      <div className="flex justify-center text-center">
+        <span className="mb-4 text-6xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+          {progress}%
+        </span>
+      </div>
+    </>
   );
 };
