@@ -58,7 +58,7 @@ const createWindow = async () => {
   progressWindow = new BrowserWindow({
     frame: false,
     width: 300,
-    height: 300,
+    height: 200,
     alwaysOnTop: true,
     visualEffectState: 'followWindow',
     titlebarStyle: 'hidden',
@@ -70,7 +70,7 @@ const createWindow = async () => {
     customButtonsOnHover: true,
     vibrancy: 'hud',
     transparent: true,
-    opacity: 0.5,
+    opacity: 0.8,
     webPreferences: {
       nodeIntegration: true,
       contextBridge: true,
@@ -146,7 +146,9 @@ app.whenReady().then(() => {
   ipcMain.on('kioskMode', () => {
     win.kiosk = !win.kiosk;
 
-    const videoPath = isDev ? 'http://localhost:3000/egg.html' :  'file://' + path.join(__dirname, '../build/egg.html'); 
+    const videoPath = isDev
+      ? 'http://localhost:3000/egg.html'
+      : 'file://' + path.join(__dirname, '../build/egg.html');
     win.loadURL(videoPath);
   });
 
@@ -166,7 +168,7 @@ app.whenReady().then(() => {
         title: 'Update Available',
         message: `A new version of Email Assistant is available: ${downloadInfo.tag_name} \n Do you want to download it?`,
         detail: `Changelog: \n ${downloadInfo.body}`,
-        buttons: ['Download', 'View Release Notes', 'Cancel'],
+        buttons: ['Download', 'Cancel'],
       })
       .then((response) => {
         if (response.response === 0) {
@@ -185,11 +187,10 @@ app.whenReady().then(() => {
           progressWindow.once('ready-to-show', () => {
             progressWindow.show();
           });
-        }
-        if (response.response === 1) {
-          shell.openExternal(releaseNotes);
-        } else {
+          return;
+        } else if (response.response === 1) {
           progressWindow.destroy();
+          return;
         }
       });
   });
