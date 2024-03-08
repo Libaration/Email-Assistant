@@ -228,6 +228,7 @@ app.whenReady().then(() => {
 });
 
 function downloadUpdate(downloadLink) {
+  let downloadPath;
   download(win, downloadLink, {
     directory: app.getPath('temp'),
     onProgress: (progress) => {
@@ -237,45 +238,25 @@ function downloadUpdate(downloadLink) {
   })
     .then((dl) => {
       console.log('Download complete:', dl.getSavePath());
-      shell.trashItem(dl.getSavePath()); // This is just a placeholder for now
+      downloadPath = shell.openPath(dl.getSavePath());
+
+      if (downloadPath === false) {
+        console.error('Error opening path:', dl.getSavePath());
+      }
+      shell.trashItem(dl.getSavePath());
       console.log('Downloaded file has been trashed:', dl.getSavePath());
       progressWindow.destroy();
-      let countdown = 5;
 
-      // Start the countdown before showing the message box
-      // const interval = setInterval(() => {
-      //   console.log('Restarting in', countdown);
-      //   countdown--;
-      //   if (countdown === 0) {
-      //     clearInterval(interval);
-      //     app.relaunch();
-      //     app.quit();
-      //   }
-      // }, 1000);
-
-      const messageBox = new BrowserWindow({
-        parent: win, // Set parent window if needed
-        modal: true,
-        show: false,
-        width: 400,
-        height: 200,
-        resizable: false,
+      dialog.showMessageBox({
+        type: 'info',
         title: 'Download Complete',
-        webPreferences: {
-          nodeIntegration: true,
-        },
+        message: `The update has been downloaded and is ready to install. \n 
+                  Please close the application and drag the App to your Applications folder.
+                  This will finish the installation process and you will be able to reopen the app. \n
+`,
+        buttons: ['OK'],
       });
-
-      const componentPath = path.join(__dirname, 'path/to/your/component.html');
-      const componentURL = isDev
-        ? 'http://localhost:3000/#/updateComplete'
-        : new URL(`file://${componentPath}`).toString();
-
-      messageBox.loadURL(componentURL);
-
-      messageBox.once('ready-to-show', () => {
-        messageBox.show();
-      });
+      app.quit();
     })
     .catch((error) => {
       dialog.showErrorBox('Error', error);
