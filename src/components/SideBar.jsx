@@ -1,13 +1,13 @@
-import { motion } from 'framer-motion';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../assets/icons/logo.png';
-import calendar from '../assets/icons/calendar.png';
-import email from '../assets/icons/email.png';
-import home from '../assets/icons/home.png';
-import search from '../assets/icons/search.png';
-import settings from '../assets/icons/settings.png';
-import { useDownloadProgress } from '../hooks/useDownloadProgress';
+import { motion } from "framer-motion";
+import React from "react";
+import { Link } from "react-router-dom";
+import logo from "../assets/icons/logo.png";
+import calendar from "../assets/icons/calendar.png";
+import email from "../assets/icons/email.png";
+import home from "../assets/icons/home.png";
+import search from "../assets/icons/search.png";
+import settings from "../assets/icons/settings.png";
+import { useDownloadProgress } from "../hooks/useDownloadProgress";
 
 export default function SideBar() {
   const { progress, isDownloading } = useDownloadProgress();
@@ -19,7 +19,7 @@ export default function SideBar() {
         mt={5}
         mb={8}
         ml={1}
-        whileHover={{ scale: 1.2, cursor: 'pointer' }}
+        whileHover={{ scale: 1.2, cursor: "pointer" }}
       >
         <img
           src={src}
@@ -32,10 +32,9 @@ export default function SideBar() {
 
   return (
     <div
-      className={`max-w-[72px] min-w[72px] bg-brand border-r-1 border-gray-800 flex flex-col fixed z-10 h-screen ${
-        isDownloading ? 'grayscale' : ''
-      }`}
-      style={{ pointerEvents: isDownloading ? 'none' : 'auto' }}
+      className={`max-w-[72px] min-w[72px] bg-brand border-r-1 border-gray-800 flex flex-col fixed z-10 h-screen ${isDownloading ? "grayscale" : ""
+        }`}
+      style={{ pointerEvents: isDownloading ? "none" : "auto" }}
     >
       <img src={logo} alt="logo" className="p-3 pr-1" />
       <ul className="pl-5 pr-5 h-full">

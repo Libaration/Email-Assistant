@@ -1,16 +1,16 @@
-import { motion } from 'framer-motion';
-import React from 'react';
-import sidebanner from '../assets/sidebanner.png';
+import { motion } from "framer-motion";
+import React from "react";
+import sidebanner from "../assets/sidebanner.png";
 
-import './Home.style.css';
+import "./Home.style.css";
 
 export default function Home() {
   const MotionBox = motion.div;
   const draggable = {
-    WebkitAppRegion: 'no-drag',
+    WebkitAppRegion: "no-drag",
   };
   const unDraggable = {
-    WebkitAppRegion: 'no-drag',
+    WebkitAppRegion: "no-drag",
   };
 
   return (
@@ -21,10 +21,11 @@ export default function Home() {
       transition={{ duration: 0.3 }}
       className="w-full overflow-hidden flex flex-wrap p-5"
     >
-      <div className="flex grow justify-center mb-5" style={draggable}>
+      <div className="flex grow justify-center mb-5 mt-8" style={draggable}>
         <img
           src="https://auctioneersoftware.s3.amazonaws.com/ash/2020/4/TFh9VK50QCogGjSh4m7RCVCJ.png"
           className="w-[150px] object-contain drop-shadow-[1px_1px_50px_rgba(240,232,0,1)] z-50"
+          alt="logo"
         />
       </div>
       <div className="flex basis-full h-0" style={draggable} />
@@ -44,18 +45,19 @@ export default function Home() {
           transition: { duration: 1 },
         }}
         style={{
-          display: 'flex',
+          display: "flex",
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative',
-          left: '450px',
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+          left: "450px",
           ...draggable,
         }}
       >
         <img
           src={sidebanner}
           className="object-cover h-[800px] m-[-180px] drop-shadow-[1px_1px_50px_rgba(32,61,133,0.1)]"
+          alt="sidebanner"
         />
       </MotionBox>
     </MotionBox>
