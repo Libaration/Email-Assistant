@@ -83,7 +83,9 @@ const createWindow = async () => {
     win.loadURL('http://localhost:3000');
     win.webContents.openDevTools();
   } else {
-    const url = new URL('file://' + path.join(__dirname, 'index.html'));
+    const url = new URL(
+      'file://' + path.join(__dirname, '../build/index.html')
+    );
     win.loadURL(url.toString());
   }
 
@@ -230,7 +232,8 @@ app.whenReady().then(() => {
           console.log('Downloading update:', downloadLink);
           downloadUpdate(downloadLink);
           let url = new URL(
-            'file://' + path.join(__dirname, 'index.html/#/progressBar')
+            'file://' +
+              path.join(__dirname, '../build/index.html/#/progressBar')
           ).toString();
           if (isDev) {
             url = 'http://localhost:3000/#/progressBar';
