@@ -41,12 +41,12 @@ export default function Search(props) {
       transition={{ duration: 0.3 }}
       w="100%"
     >
-      <Flex textAlign="center" justifyContent="center">
+      <div className="flex text-center justify-center mt-6">
         <Heading>
           {props.query}
           {props.isSearching}
         </Heading>
-      </Flex>
+      </div>
 
       <Flex wrap="wrap" justify="center">
         {props.isSearching ? (

@@ -32,27 +32,37 @@ export default function SideBar() {
 
   return (
     <div
-      className={`min-w-16 max-w-16 bg-brand border-r-1 border-gray-800 flex flex-col fixed z-10 h-screen ${
+      className={`max-w-[72px] min-w[72px] bg-brand border-r-1 border-gray-800 flex flex-col fixed z-10 h-screen ${
         isDownloading ? 'grayscale' : ''
       }`}
+      style={{ pointerEvents: isDownloading ? 'none' : 'auto' }}
     >
-      <span className="text-sm text-center">{progress}</span>
       <img src={logo} alt="logo" className="p-3 pr-1" />
       <ul className="pl-5 pr-5 h-full">
         <li>
-          <Link to="/">{menuItem(home)}</Link>
+          <Link to="/" disabled={isDownloading}>
+            {menuItem(home)}
+          </Link>
         </li>
         <li>
-          <Link to="/email">{menuItem(email)}</Link>
+          <Link to="/email" disabled={isDownloading}>
+            {menuItem(email)}
+          </Link>
         </li>
         <li>
-          <Link to="/reschedule">{menuItem(calendar)}</Link>
+          <Link to="/reschedule" disabled={isDownloading}>
+            {menuItem(calendar)}
+          </Link>
         </li>
         <li>
-          <Link to="/search">{menuItem(search)}</Link>
+          <Link to="/search" disabled={isDownloading}>
+            {menuItem(search)}
+          </Link>
         </li>
         <li>
-          <Link to="/settings">{menuItem(settings)}</Link>
+          <Link to="/settings" disabled={isDownloading}>
+            {menuItem(settings)}
+          </Link>
         </li>
       </ul>
     </div>

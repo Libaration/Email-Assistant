@@ -22,22 +22,17 @@ function App() {
   return (
     <>
       <Flex h="35px" sx={{ '-webkit-app-region': 'drag' }}>
-        <Box
-          bg="#203d85"
-          minWidth="76px"
-          maxWidth="76px"
-          borderRight="1px solid"
-          borderColor="gray.800"
-          position="fixed"
-          paddingBottom="35px"
-        />
+        <div className="bg-brand fixed pb-36 min-w-[72px]" />
+       
+       
+
         <Search setSearch={setSearch} setSearching={setSearching} />
       </Flex>
       {/*there's probably a better way to the above. i hope when i come back to this i'll have found it out*/}
       {/* UPDATE: what was i even meaning by this? */}
       <Flex>
         <SideBar setPage={setPage} />
-        <Flex flex={1} ml="76px" mt={10}>
+        <Flex flex={1} ml="72px" mt={10}>
           <AnimatePresence exitBeforeEnter initial={false}>
             <Switch location={location} key={location.pathname}>
               <Route path="/email">

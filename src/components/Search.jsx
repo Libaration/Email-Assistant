@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import {
-  Flex,
-  InputGroup,
-  Input,
-  InputLeftElement,
-  Button,
-  useColorModeValue,
-} from '@chakra-ui/react';
 import { withRouter } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
+
 function Search(props) {
-  const colorValue = useColorModeValue('gray.300', 'gray.800');
   const [query, setQuery] = useState('');
+
   const handleChange = (e) => {
     setQuery(e.target.value);
   };
+
   const submitSearch = () => {
     if (query === '' || !query.trim()) {
       setQuery('');
@@ -28,22 +22,27 @@ function Search(props) {
       }
     }
   };
+
   return (
-    <Flex alignItems="center" mt={8} ml={28} mr={5} zIndex={1}>
-      <InputGroup>
-        <InputLeftElement pointerEvents="false" children={<BsSearch />} />
-        <Input
+    <div className="flex items-center mt-6 ml-28 mr-5 z-10">
+      <div className="relative">
+        <BsSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        <input
+          type="text"
           placeholder="Search by address"
-          bg={colorValue}
-          w="md"
-          variant="filled"
+          className="bg-gray-300 w-md px-3 py-2 rounded-md focus:outline-none focus:ring focus:border-blue-300"
           value={query}
           onChange={handleChange}
-          sx={{ '-webkit-app-region': 'no-drag' }}
         />
-      </InputGroup>
-      <Button onClick={submitSearch}>Search</Button>
-    </Flex>
+      </div>
+      <button
+        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+        onClick={submitSearch}
+      >
+        Search
+      </button>
+    </div>
   );
 }
+
 export default withRouter(Search);
