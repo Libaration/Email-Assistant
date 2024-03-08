@@ -43,7 +43,7 @@ export const ProgressBar = () => {
       </div>
       <div className="flex flex-col items-center justify-center">
         <p className="text-lg font-bold text-gray-900 dark:text-white">
-          {!isDownloading && 'Downloading...'}
+          {isDownloading && 'Downloading...'}
         </p>
       </div>
     </>
