@@ -94,6 +94,14 @@ const createWindow = async () => {
   });
 };
 
+app.on('window-all-closed', function () {
+  app.quit();
+});
+
+app.on('activate', function () {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow();
+});
+
 app.whenReady().then(() => {
   //* This is because CORS is enabled on the Salesforce API and we need to bypass it in development.
   //* Cors is mad annoying and I hate it. `Access-Control-Allow-Origin` is the bane of my existence.
@@ -247,6 +255,8 @@ app.whenReady().then(() => {
         }
         if (response.response === 1) {
           shell.openExternal(releaseNotes);
+        } else {
+          progressWindow.destroy();
         }
       });
   });
@@ -278,15 +288,6 @@ app.whenReady().then(() => {
       }
     };
     auth.webContents.on('did-start-navigation', handleCallback);
-  });
-
-  app.on('window-all-closed', function () {
-    console.log(app.windows);
-    app.quit();
-  });
-
-  app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
   createWindow();
