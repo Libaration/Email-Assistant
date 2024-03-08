@@ -6,9 +6,9 @@ const {
   session,
   shell,
 } = require('electron');
+const path = require('path');
 const { download } = require('electron-dl');
 const isDev = require('electron-is-dev');
-const path = require('node:path');
 const url = require('url');
 let win;
 let auth;
