@@ -98,11 +98,16 @@ export default function Email() {
       transition={{ duration: 0.3 }}
       className="w-full"
     >
-      <div className="flex">
-        <Button onClick={renderRecent}>Generate HTML</Button>
-        <Button onClick={renderNewsletter}>Generate Newsletter</Button>
+      <div className="flex flex-wrap text-center justify-center">
+        <div className="w-full mt-4">
+          <Button onClick={renderRecent}>Generate HTML</Button>
+        </div>
+        <div className="w-full mt-4">
+          <Button onClick={renderNewsletter}>Generate Newsletter</Button>
+        </div>
         <div
-          className="flex flex-col"
+          className="flex flex-col w-auto"
+          style={{ WebkitAppRegion: "no-drag" }}
           dangerouslySetInnerHTML={{ __html: `${html}` }}
         />
       </div>

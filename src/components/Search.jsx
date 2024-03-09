@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import { BsSearch } from "react-icons/bs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 function Search(props) {
   const [query, setQuery] = useState("");
@@ -26,24 +27,20 @@ function Search(props) {
   return (
     <div className="flex items-center mt-6 ml-20 mr-5">
       <div className="relative">
-        <BsSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-        <input
+        <Input
           type="text"
           placeholder="Search by address"
-          className="bg-gray-300 w-md px-3 py-2 rounded-md focus:outline-none focus:ring focus:border-blue-300"
           value={query}
           onChange={handleChange}
         />
       </div>
-      <button
-        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-        onClick={submitSearch}
-        type="button"
-      >
+      <Button className="ml-4" onClick={submitSearch}>
         Search
-      </button>
+      </Button>
+
+
     </div>
   );
 }
 
-export default withRouter(Search);
+export default withRouter(Search); 
