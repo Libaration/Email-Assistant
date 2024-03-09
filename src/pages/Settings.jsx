@@ -1,95 +1,62 @@
 import React, { useRef } from "react";
-import {
-  Box,
-  Flex,
-  Button,
-  useColorMode,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Text,
-} from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { Store } from "react-notifications-component";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Settings() {
-  const { toggleColorMode } = useColorMode();
-  const MotionBox = motion(Box);
+  const MotionBox = motion.div;
   const numberRef = useRef();
   const maxDaysRef = useRef();
+
   const handleSave = () => {
     localStorage.setItem("maxAuctions", numberRef.current.value);
     localStorage.setItem("maxDays", maxDaysRef.current.value);
-    Store.addNotification({
-      title: "Success",
-      message: "Settings succesfully saved to localStorage",
-      type: "success",
-      insert: "top",
-      container: "top-right",
-      animationIn: ["animate__animated", "animate__fadeIn"],
-      animationOut: ["animate__animated", "animate__fadeOut"],
-      dismiss: {
-        duration: 5000,
-        onScreen: true,
-      },
-    });
   };
+
   return (
     <MotionBox
       initial={{ opacity: 0, y: -100 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -100 }}
       transition={{ duration: 0.3 }}
-      w="100%"
+      className="w-full"
     >
-      <Flex mr={8} ml={8}>
-        <Button size="lg" colorScheme="yellow" onClick={toggleColorMode}>
-          Toggle Dark Mode
-        </Button>
-      </Flex>
-      <Flex ml={8} mr={8} mt={8}>
-        <NumberInput
-          defaultValue={parseInt(localStorage.getItem("maxAuctions")) || 10}
+      <div className="flex ml-8 mr-8 mt-8">
+        <Input
+          type="number"
+          defaultValue={
+            Number.parseInt(localStorage.getItem("maxAuctions")) || 10
+          }
           min={1}
           max={50}
-          size="sm"
-        >
-          <NumberInputField ref={numberRef} />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        <Text mt={2} ml={5} fontSize="sm">
-          Loops per HTML generation
-        </Text>
-      </Flex>
-      <Flex ml={8} mr={8} mt={8}>
-        <NumberInput
-          defaultValue={parseInt(localStorage.getItem("maxDays")) || 3}
+          className="w-16 h-10 border rounded-md p-2 mr-2"
+          ref={numberRef}
+        />
+        <p className="mt-2 ml-5 text-sm">Auctions per Email template generation</p>
+      </div>
+      <div className="flex ml-8 mr-8 mt-8">
+        <Input
+          type="number"
+          defaultValue={Number.parseInt(localStorage.getItem("maxDays")) || 3}
           min={1}
           max={50}
-          size="sm"
-        >
-          <NumberInputField ref={maxDaysRef} />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        <Text mt={2} ml={5} fontSize="sm">
+          className="w-16 h-10 border rounded-md p-2 mr-2"
+          ref={maxDaysRef}
+        />
+        <p className="mt-2 ml-5 text-sm">
           Newsletter range (days) excluding today (Today will always be
           included)
-        </Text>
-      </Flex>
+        </p>
+      </div>
 
-      <Flex flex={1} justifyContent="right" position="relative" mr={5}>
-        <Button colorScheme="blue" size="lg" onClick={handleSave}>
+      <div className="flex flex-1 justify-end relative mr-5">
+        <Button
+          onClick={handleSave}
+        >
           Save
         </Button>
-      </Flex>
+      </div>
     </MotionBox>
   );
 }
