@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Box, Flex, Button, Textarea } from "@chakra-ui/react";
+import { Button } from "@/components/ui/button";
 import * as api from "../apiCalls.js";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
@@ -8,7 +8,6 @@ import {
   beginningHTML,
   endingHTML,
 } from "../components/HTMLConvert";
-import { Store } from "react-notifications-component";
 import Newsletter from "../components/Newsletter/Newsletter.jsx";
 import { HeaderLogo } from "../components/Newsletter/HeaderLogo.jsx";
 import { HeaderNav } from "../components/Newsletter/HeaderNav.jsx";
@@ -16,10 +15,24 @@ import { UpcomingRow } from "../components/Newsletter/UpcomingRow.jsx";
 import DateSection from "../components/Newsletter/DateSection.jsx";
 import NewsletterAuction from "../components/Newsletter/NewsletterAuction.jsx";
 import { Footer } from "../components/Newsletter/Footer.jsx";
+
 export default function Email() {
   const textareaRef = useRef();
   const [html, setHTML] = useState("");
-  const MotionBox = motion(Box);
+  const MotionBox = motion.div;
+
+  const copyToClipboard = () => {
+    textareaRef.current.select();
+    navigator.clipboard
+      .writeText(html)
+      .then(() => {
+        console.log("Text copied to clipboard");
+      })
+      .catch((error) => {
+        console.error("Error copying text to clipboard", error);
+      });
+  };
+
   const renderRecent = async () => {
     setHTML("");
     const response = await api.fetchRecent();
@@ -29,7 +42,7 @@ export default function Email() {
       const winning_bid = home.lots.lots[0].winning_bid_amount;
       const starting_bid = home.lots.lots[0].starting_bid;
       const deposit = home.lots.lots[0].dynamic_fields.find(
-        (field) => field.dynamic_field_id === "661"
+        (field) => field.dynamic_field_id === "661",
       ).data.value;
       const image = home.highlights[0].cached_assets[0].url;
       const { auction_lot_id } = home.lots.lots[0];
@@ -47,21 +60,7 @@ export default function Email() {
       })}`;
     });
     setHTML(`${beginningHTML}${homeHTML}${endingHTML}`);
-    textareaRef.current.select();
-    document.execCommand("copy");
-    Store.addNotification({
-      title: "Success",
-      message: "HTML has been successfully copied to your clipboard",
-      type: "success",
-      insert: "top",
-      container: "top-right",
-      animationIn: ["animate__animated", "animate__fadeIn"],
-      animationOut: ["animate__animated", "animate__fadeOut"],
-      dismiss: {
-        duration: 5000,
-        onScreen: true,
-      },
-    });
+    copyToClipboard();
   };
 
   const renderNewsletter = async () => {
@@ -88,21 +87,7 @@ export default function Email() {
     );
 
     setHTML(renderToStaticMarkup(newsLetterLayout()));
-    textareaRef.current.select();
-    document.execCommand("copy");
-    Store.addNotification({
-      title: "Success",
-      message: "HTML has been successfully copied to your clipboard",
-      type: "success",
-      insert: "top",
-      container: "top-right",
-      animationIn: ["animate__animated", "animate__fadeIn"],
-      animationOut: ["animate__animated", "animate__fadeOut"],
-      dismiss: {
-        duration: 5000,
-        onScreen: true,
-      },
-    });
+    copyToClipboard();
   };
 
   return (
@@ -111,44 +96,32 @@ export default function Email() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -100 }}
       transition={{ duration: 0.3 }}
-      w="100%"
+      className="w-full"
     >
-      <Flex mr={8} ml={8} justifyContent="center" flexDirection="column">
-        <Button size="lg" colorScheme="yellow" onClick={renderRecent}>
-          Generate HTML
-        </Button>
-
-        <Button
-          size="lg"
-          colorScheme="yellow"
-          onClick={renderNewsletter}
-          mt={5}
-        >
-          Generate Newsletter
-        </Button>
-
-        <Flex
-          flexDirection="column"
+      <div className="flex">
+        <Button onClick={renderRecent}>Generate HTML</Button>
+        <Button onClick={renderNewsletter}>Generate Newsletter</Button>
+        <div
+          className="flex flex-col"
           dangerouslySetInnerHTML={{ __html: `${html}` }}
         />
-      </Flex>
-      <Textarea
+      </div>
+
+      <input
+        type="text"
         ref={textareaRef}
         value={html}
-        display="hidden"
-        w="1px"
-        h="1px"
-        resize={"none"}
-        sx={{
-          border: "none;",
-          overflow: "auto;",
-          outline: "none;",
-
-          "-webkit-box-shadow": "none;",
-          "-moz-box-shadow": "none;",
-          "box-shadow": "none;",
-
-          resize: "none;",
+        style={{
+          display: "none",
+          width: "1px",
+          height: "1px",
+          border: "none",
+          overflow: "auto",
+          outline: "none",
+          WebkitBoxShadow: "none",
+          MozBoxShadow: "none",
+          boxShadow: "none",
+          resize: "none",
         }}
       />
     </MotionBox>
