@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useCallback } from "react";
 import { queries, keymaps } from "../../queries";
 import { DataTable } from "../Reschedule/DataTable";
 import { columns } from "./columns";
@@ -10,18 +10,15 @@ import { normalizeGraphqlResponse } from "@/lib/utils";
 export const Dashboard = () => {
   const { refreshToken } = useSalesforce();
   const { data, loading, error } = useQuery(queries.GET_SCHEDULED_AUCTIONS);
-  const normalizedData = normalizeGraphqlResponse({
-    data,
-    keymap: keymaps.GET_SCHEDULED_AUCTIONS,
-  });
-
-  useEffect(() => {
+  const normalizedData = useCallback(() => {
     if (data) {
-      console.log('normalizedData');
-      console.log(normalizedData);
+      return normalizeGraphqlResponse({
+        data,
+        keymap: keymaps.GET_SCHEDULED_AUCTIONS,
+      });
     }
-  }, [data, normalizedData]);
-
+    return null;
+  }, [data]);
   // const data = [
   //   {
   //     id: "728ed52f",
@@ -48,7 +45,7 @@ export const Dashboard = () => {
         {loading && <div>Loading...</div>}
         {error && <div>Error: {error.message}</div>}
         {!loading && !error && data && (
-          <DataTable columns={columns} data={data} />
+          <DataTable columns={columns} data={normalizedData()} />
         )}
       </div>
       {error && (

@@ -53,16 +53,11 @@ export const normalizeGraphqlResponse = ({ data, keymap }) => {
 
   const normalizedData = pipe(
     extractListingData,
-    logAndPass("Listing Data:"),
     (data) => data.map((edge) => edge.node),
-    logAndPass("Raw Item:"),
     (items) => items.map(flattenItem),
-    logAndPass("Flattened Item:"),
     (flattenedItems) => flattenedItems.map(normalizeKeys(keymap)),
-    logAndPass("Normalized Item:"),
+    (normalizedItems) => Object.values(normalizedItems), // Ensure result is an array
   )(data);
-
-  console.log("Normalized Data:", normalizedData);
 
   return normalizedData;
 };
