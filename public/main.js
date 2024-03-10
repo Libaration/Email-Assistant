@@ -13,7 +13,7 @@ const url = require("url");
 let win;
 let auth;
 let progressWindow;
-const useTest = true;
+const useTest = false;
 const apiBase = useTest
   ? "https://ashlandauction--test.sandbox.my.salesforce.com"
   : "https://ashlandauction.my.salesforce.com";
