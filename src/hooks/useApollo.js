@@ -52,6 +52,7 @@ export const ApolloProviderWithClient = ({ children }) => {
   // Watch for changes in the access token
   useEffect(() => {
     const unsubscribe = useUserStore.subscribe((state) => {
+      console.log("Access Token Changed", state.accessToken);
       setAccessToken(state.accessToken);
     });
 

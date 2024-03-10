@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const LISTING_FIELDS = gql`
   fragment ListingFields on pba__Listing__c {
@@ -84,3 +84,22 @@ export const GET_SCHEDULED_AUCTIONS = gql`
     }
   }
 `;
+
+export const GET_SCHEDULED_AUCTIONS_KEYMAP = {
+  Auction_TIme__c: "auctionTime",
+  Assigned_To__c: "assignedTo",
+  Disclosure_Seller_is_RE_Agent__c: "disclosureSellerIsReAgent",
+  Expired__c: "expired",
+  Contract_Purchaser__c: "contractPurchaser",
+  LastModifiedDate: "lastModifiedDate",
+  Expiration_Date__c: "expirationDate",
+  pba__Status__c: "status",
+  Showing_Instructions__c: "showingInstructions",
+  Full_Address__c: "fullAddress",
+  Name: "name",
+  Seller_1_Phone__c: "phoneNumber",
+  Listing_Status__c: "listingStatus",
+  Reserve_Price__c: "reservePrice",
+  Inputting_Statis__c: "inputtingStatus",
+  Auctions__r: "previousAuctions",
+};

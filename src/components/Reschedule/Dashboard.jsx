@@ -1,15 +1,26 @@
 import { useQuery } from "@apollo/client";
-import React, { Suspense } from "react";
-import { queries } from "../../queries";
+import React, { Suspense, useEffect } from "react";
+import { queries, keymaps } from "../../queries";
 import { DataTable } from "../Reschedule/DataTable";
 import { columns } from "./columns";
 import { useSalesforce } from "../../hooks/useSalesforce";
 import { Button } from "@/components/ui/button";
+import { normalizeGraphqlResponse } from "@/lib/utils";
 
 export const Dashboard = () => {
   const { refreshToken } = useSalesforce();
   const { data, loading, error } = useQuery(queries.GET_SCHEDULED_AUCTIONS);
-  console.log(data, loading, error);
+  const normalizedData = normalizeGraphqlResponse({
+    data,
+    keymap: keymaps.GET_SCHEDULED_AUCTIONS,
+  });
+
+  useEffect(() => {
+    if (data) {
+      console.log('normalizedData');
+      console.log(normalizedData);
+    }
+  }, [data, normalizedData]);
 
   // const data = [
   //   {
