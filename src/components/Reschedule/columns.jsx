@@ -1,6 +1,6 @@
 export const columns = [
   {
-    accessorKey: "fullAddress.value",
+    accessorKey: "fullAddress",
     header: "Address",
   },
   {

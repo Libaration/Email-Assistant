@@ -33,12 +33,20 @@ const normalizeKeys = (keymap) => (flattenedItem) => {
   return normalizedItem;
 };
 
-const flattenItem = (item) =>
-  removeTypename({
+const flattenItem = (item) => {
+  const addressComponents = item.Full_Address__c.value.split(/\s+/);
+
+  return removeTypename({
     ...item.Assigned_To__c,
     ...item.auctions_r,
     ..._.omit(item, ["Assigned_To__c", "auctions_r", "__typename"]),
+    fullAddress: item.Full_Address__c.value,
+    street: addressComponents.slice(0, -2).join(" "),
+    city: addressComponents.slice(-2, -1).join(" "),
+    state: addressComponents.slice(-1),
+    zipcode: addressComponents.slice(-1),
   });
+};
 
 const logAndPass = (message) => (data) => {
   console.log(message, data);
@@ -58,7 +66,7 @@ export const normalizeGraphqlResponse = ({ data, keymap }) => {
     (flattenedItems) => flattenedItems.map(normalizeKeys(keymap)),
     (normalizedItems) => Object.values(normalizedItems), // Ensure result is an array
   )(data);
-
+  console.log(normalizedData);
   return normalizedData;
 };
 
