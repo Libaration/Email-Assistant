@@ -1,7 +1,7 @@
 export const columns = [
   {
-    accessorKey: "fullAddress",
-    header: "Address",
+    accessorKey: "street",
+    header: "Street",
   },
   {
     accessorKey: "email",

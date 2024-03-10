@@ -34,17 +34,28 @@ const normalizeKeys = (keymap) => (flattenedItem) => {
 };
 
 const flattenItem = (item) => {
-  const addressComponents = item.Full_Address__c.value.split(/\s+/);
+  const addressRegex =
+    /([\w\s]+)\.\s+([\w\s]+),\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)/;
+  /**
+   * Obligatory comment because I found this regex online and I don't understand it
+   * Regex Explanation:
+   *   ([\w\s]+)\.         - Capture group for street, matches one or more word characters or spaces, followed by a period.
+   *   \s+([\w\s]+),       - Capture group for city, matches one or more word characters or spaces, followed by a comma.
+   *   \s+([A-Z]{2})\s+    - Capture group for state, matches two uppercase letters surrounded by spaces.
+   *   (\d{5}(?:-\d{4})?)  - Capture group for zip code, matches five digits, optionally followed by a hyphen and four more digits.
+   */
+  const fullAddress = item.Full_Address__c.value.trim();
+  const match = fullAddress.match(addressRegex);
 
   return removeTypename({
     ...item.Assigned_To__c,
     ...item.auctions_r,
     ..._.omit(item, ["Assigned_To__c", "auctions_r", "__typename"]),
-    fullAddress: item.Full_Address__c.value,
-    street: addressComponents.slice(0, -2).join(" "),
-    city: addressComponents.slice(-2, -1).join(" "),
-    state: addressComponents.slice(-1),
-    zipcode: addressComponents.slice(-1),
+    fullAddress: fullAddress,
+    street: match ? match[1].trim() : "",
+    city: match ? match[2].trim() : "",
+    state: match ? match[3].trim() : "",
+    zipcode: match ? match[4].trim() : "",
   });
 };
 
