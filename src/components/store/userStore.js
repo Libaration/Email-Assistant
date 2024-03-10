@@ -1,9 +1,9 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 export const useUserStore = create((set) => ({
-  user: null,
   accessToken: null,
-  setUser: (user) => set({ user }),
+  refreshToken: null,
   setAccessToken: (accessToken) => set({ accessToken }),
-  logout: () => set({ user: null }),
+  setRefreshToken: (refreshToken) => set({ refreshToken }),
+  logout: () => set({ user: null, accessToken: null }),
 }));

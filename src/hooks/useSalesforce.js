@@ -1,35 +1,47 @@
-import { useEffect } from 'react';
-import { useUserStore } from '../components/store/userStore'; 
+import { useEffect } from "react";
+import { useUserStore } from "../components/store/userStore";
+import { useQuery } from "@apollo/client";
+import { queries } from "../queries";
 
 export const useSalesforce = () => {
-  const clientID = process.env.REACT_APP_SALESFORCE_CLIENT_ID;
-  const redirectUri = 'https://login.salesforce.com/services/oauth2/success';
-  const scope = 'refresh_token full offline_access web api';
-  const setAccessToken = useUserStore((state) => state.setAccessToken);
-  const logout = useUserStore((state) => state.logout);
+  const clientId = process.env.REACT_APP_SALESFORCE_CLIENT_ID;
+  const handleLogout = useUserStore((state) => state.logout);
+  let accessToken = useUserStore((state) => state.accessToken);
+  let refreshToken = useUserStore((state) => state.refreshToken);
+  const storedAccessToken = localStorage.getItem("accessToken");
+  if (!accessToken && storedAccessToken) {
+    accessToken = storedAccessToken;
+    refreshToken = localStorage.getItem("refreshToken");
+    useUserStore.setState({ accessToken, refreshToken });
+  }
+  useUserStore.subscribe((state) => {
+    localStorage.setItem("accessToken", state.accessToken);
+    localStorage.setItem("refreshToken", state.refreshToken);
+  });
+  const refreshStoredToken = () => {
+    window.electronAPI &&
+      window.electronAPI.refreshToken({ clientId, refreshToken, accessToken });
+  };
+  // Not happy with checking token this way, but it works for now
+  const { error } = useQuery(queries.EMPTY_QUERY);
+  if (error?.message.includes("401") && accessToken && refreshToken) {
+    refreshStoredToken();
+  }
+
   useEffect(() => {
-    // Listener callback
-    const handleAccessToken = (event, token) => {
-      setAccessToken(token);
-      localStorage.setItem('accessToken', token);
+    const handleTokens = (event, { accessToken, refreshToken }) => {
+      useUserStore.setState({ accessToken, refreshToken });
     };
 
-    // Attach the event listener for 'accessToken'
-    window.electronAPI && window.electronAPI.onAccessToken(handleAccessToken);
+    // Listen for accessToken changes
+    window.electronAPI && window.electronAPI.onTokens(handleTokens);
 
-    // Cleanup function to remove the event listener
     return () => {
+      // Remove accessToken listener when component unmounts
       window.electronAPI &&
-        window.electronAPI.removeAccessTokenListener(handleAccessToken);
+        window.electronAPI.removeAccessTokenListener(handleTokens);
     };
   }, []);
 
-  const handleLogout = () => {
-    logout();
-  };
-
-  const url = `https://ashlandauction.my.salesforce.com/services/oauth2/authorize?response_type=token&client_id=${clientID}&redirect_uri=${redirectUri}&scope=full`;
-  const accessToken = useUserStore((state) => state.accessToken);
-  const isLoggedIn = localStorage.getItem('accessToken') ? true : false;
-  return { url, accessToken, isLoggedIn, handleLogout };
+  return { clientId, accessToken, handleLogout, refreshToken };
 };

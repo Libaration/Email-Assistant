@@ -1,71 +1,61 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { motion } from 'framer-motion';
-import { useCallback } from 'react';
-import salesforce from '../assets/icons/salesforce.svg';
-import { Dashboard } from '../components/Reschedule/Dashboard';
-import { useSalesforce } from '../hooks/useSalesforce';
-export default function Reschedule() {
-  const outlined = useColorModeValue('solid', 'outline');
-  const MotionBox = motion(Box);
-  const { url, isLoggedIn } = useSalesforce();
-  const handleClick = useCallback(() => {
-    if (process.env.NODE_ENV === 'development') {
-      localStorage.setItem('accessToken', process.env.REACT_APP_MOCK_TOKEN);
-      return;
-    }
+import { motion } from "framer-motion";
+import { useCallback } from "react";
+import salesforce from "../assets/icons/salesforce.svg";
+import { Dashboard } from "../components/Reschedule/Dashboard";
+import { useSalesforce } from "../hooks/useSalesforce";
+import { Button } from "@/components/ui/button";
 
-    window.electronAPI.oauthRedirect(url);
-  }, [url]);
+export default function Reschedule() {
+  const MotionBox = motion.div;
+  const { accessToken, clientId } = useSalesforce();
+
+  const handleClick = useCallback(() => {
+    // if (process.env.NODE_ENV === "development") {
+    //   localStorage.setItem("accessToken", process.env.REACT_APP_MOCK_TOKEN);
+    //   return;
+    // }
+
+    window.electronAPI.oauthRedirect(clientId);
+  }, [clientId]);
+
   const loginToSalesforce = () => {
     return (
-      <Flex m={8} justify={'center'} wrap={'wrap'} h={'100%'}>
-        <Flex w={'100%'} justify={'center'}>
+      <div className="m-8 flex justify-center flex-wrap h-full">
+        <div className="w-full flex justify-center">
           <MotionBox
-            height="100%"
-            whileHover={{
-              scale: 1.1,
-              transition: { duration: 1 },
-            }}
+            className="hover:scale-110 transition-transform"
             whileTap={{ scale: 0.9 }}
           >
-            <Image src={salesforce} w={300} h={300} onClick={handleClick} />
+            <img
+              src={salesforce}
+              alt="Salesforce Logo"
+              className="w-[300px] h-[300px]"
+              onClick={handleClick}
+            />
           </MotionBox>
-        </Flex>
-        <Flex w={'100%'} justify={'center'} mt="8">
-          <Text>
+        </div>
+        <div className="w-full flex justify-center mt-8">
+          <p className="text-center">
             This feature requires you to be logged into Salesforce. Your login
             will be used to authenticate and retrieve data from Salesforce.
-          </Text>
-        </Flex>
-        <Flex w={'100%'} justify={'center'}>
-          <Button
-            colorScheme="yellow"
-            size="lg"
-            variant={outlined}
-            onClick={handleClick}
-          >
-            Login to Salesforce to Continue
-          </Button>
-        </Flex>
-      </Flex>
+          </p>
+        </div>
+        <div className="w-full flex justify-center mt-4">
+          <Button onClick={handleClick}>Login to Salesforce to Continue</Button>
+        </div>
+      </div>
     );
   };
+
   return (
     <MotionBox
       initial={{ opacity: 0, y: -100 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -100 }}
       transition={{ duration: 0.3 }}
-      w="100%"
+      className="w-full"
     >
-      {isLoggedIn ? <Dashboard /> : loginToSalesforce()}
+      {accessToken ? <Dashboard /> : loginToSalesforce()}
     </MotionBox>
   );
 }

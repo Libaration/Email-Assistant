@@ -5,14 +5,18 @@ const {
   dialog,
   session,
   shell,
-} = require('electron');
-const path = require('path');
-const { download } = require('electron-dl');
-const isDev = require('electron-is-dev');
-const url = require('url');
+} = require("electron");
+const path = require("path");
+const { download } = require("electron-dl");
+const isDev = require("electron-is-dev");
+const url = require("url");
 let win;
 let auth;
 let progressWindow;
+const useTest = true;
+const apiBase = useTest
+  ? "https://ashlandauction--test.sandbox.my.salesforce.com"
+  : "https://ashlandauction.my.salesforce.com";
 
 const createWindow = async () => {
   win = new BrowserWindow({
@@ -23,13 +27,13 @@ const createWindow = async () => {
       nodeIntegration: true,
       contextBridge: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
     },
-    backgroundColor: '#171923',
+    backgroundColor: "#171923",
     show: false,
-    titleBarStyle: 'hiddenInset',
+    titleBarStyle: "hiddenInset",
     minWidth: 1200,
-    title: 'Email Assistant - Ashland Auction',
+    title: "Email Assistant - Ashland Auction",
   });
   auth = new BrowserWindow({
     backgroundThrottling: true,
@@ -41,18 +45,18 @@ const createWindow = async () => {
       nodeIntegration: true,
       contextBridge: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
     },
-    backgroundColor: '#171923',
+    backgroundColor: "#171923",
     show: false,
-    titleBarStyle: 'hiddenInset',
+    titleBarStyle: "hiddenInset",
     minWidth: 800,
     minimizable: false,
     maximizable: false,
     resizable: false,
     closable: false,
 
-    title: 'Email Assistant - Ashland Auction',
+    title: "Email Assistant - Ashland Auction",
   });
 
   progressWindow = new BrowserWindow({
@@ -60,45 +64,43 @@ const createWindow = async () => {
     width: 300,
     height: 200,
     alwaysOnTop: true,
-    visualEffectState: 'followWindow',
-    titlebarStyle: 'hidden',
+    visualEffectState: "followWindow",
+    titlebarStyle: "hidden",
     show: false,
     fullscreenable: false,
     isMovable: false,
     closable: false,
     resizable: false,
     customButtonsOnHover: true,
-    vibrancy: 'hud',
+    vibrancy: "hud",
     transparent: true,
     opacity: 0.8,
     webPreferences: {
       nodeIntegration: true,
       contextBridge: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
     },
   });
 
   if (isDev) {
-    win.loadURL('http://localhost:3000');
+    win.loadURL("http://localhost:3000");
     win.webContents.openDevTools();
   } else {
     const url = new URL(
-      'file://' + path.join(__dirname, '../build/index.html')
+      `file://${path.join(__dirname, "../build/index.html")}`,
     );
     win.loadURL(url.toString());
   }
 
-  win.once('ready-to-show', () => {
+  win.once("ready-to-show", () => {
     win.show();
   });
 };
 
-app.on('window-all-closed', function () {
-  app.quit();
-});
+app.on("window-all-closed", () => app.quit());
 
-app.on('activate', function () {
+app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
@@ -111,52 +113,54 @@ app.whenReady().then(() => {
 
   if (isDev) {
     const filter = {
-      urls: ['https://ashlandauction.my.salesforce.com/*'],
+      urls: [
+        "https://ashlandauction.my.salesforce.com/services/data/v57.0/graphql*",
+      ],
     };
 
     session.defaultSession.webRequest.onBeforeSendHeaders(
       filter,
       (details, callback) => {
-        details.requestHeaders['Origin'] = 'http://localhost:3000';
-        details.requestHeaders['Authorization'] =
+        details.requestHeaders["Origin"] = "http://localhost:3000";
+        details.requestHeaders["Authorization"] =
           `Bearer ${process.env.REACT_APP_MOCK_TOKEN}`;
-        details.requestHeaders['Content-Type'] = 'application/json';
+        details.requestHeaders["Content-Type"] = "application/json";
         callback({ requestHeaders: details.requestHeaders });
-      }
+      },
     );
 
     session.defaultSession.webRequest.onHeadersReceived(
       filter,
       (details, callback) => {
-        details.responseHeaders['Access-Control-Allow-Origin'] = [
-          'http://localhost:3000',
+        details.responseHeaders["Access-Control-Allow-Origin"] = [
+          "http://localhost:3000",
         ];
-        details.responseHeaders['Access-Control-Allow-Headers'] = [
-          'Authorization',
+        details.responseHeaders["Access-Control-Allow-Headers"] = [
+          "Authorization",
         ];
-        details.responseHeaders['Access-Control-Allow-Headers'] = [
-          'Authorization',
-          'Content-Type',
+        details.responseHeaders["Access-Control-Allow-Headers"] = [
+          "Authorization",
+          "Content-Type",
         ];
         callback({ responseHeaders: details.responseHeaders });
-      }
+      },
     );
   }
 
-  ipcMain.on('kioskMode', () => {
+  ipcMain.on("kioskMode", () => {
     win.kiosk = !win.kiosk;
 
     const videoPath = isDev
-      ? 'http://localhost:3000/egg.html'
-      : 'file://' + path.join(__dirname, '../build/egg.html');
+      ? "http://localhost:3000/egg.html"
+      : `file://${path.join(__dirname, "../build/egg.html")}`;
     win.loadURL(videoPath);
   });
 
-  ipcMain.on('showDialog', (event, message) => {
-    dialog.showErrorBox('Error', message);
+  ipcMain.on("showDialog", (event, message) => {
+    dialog.showErrorBox("Error", message);
   });
 
-  ipcMain.on('updateApp', (event, downloadInfo) => {
+  ipcMain.on("updateApp", (event, downloadInfo) => {
     if (progressWindow.isVisible()) {
       return;
     }
@@ -164,27 +168,27 @@ app.whenReady().then(() => {
     const releaseNotes = downloadInfo.html_url;
     dialog
       .showMessageBox({
-        type: 'info',
-        title: 'Update Available',
+        type: "info",
+        title: "Update Available",
         message: `A new version of Email Assistant is available: ${downloadInfo.tag_name} \n Do you want to download it?`,
         detail: `Changelog: \n ${downloadInfo.body}`,
-        buttons: ['Download', 'Cancel'],
+        buttons: ["Download", "Cancel"],
       })
       .then((response) => {
         if (response.response === 0) {
-          console.log('Downloading update:', downloadLink);
+          console.log("Downloading update:", downloadLink);
           downloadUpdate(downloadLink);
           let url = new URL(
-            'file://' +
-              path.join(__dirname, '../build/index.html/#/progressBar')
+            "file://" +
+            path.join(__dirname, "../build/index.html/#/progressBar"),
           ).toString();
           if (isDev) {
-            url = 'http://localhost:3000/#/progressBar';
+            url = "http://localhost:3000/#/progressBar";
           }
 
           progressWindow.loadURL(url);
 
-          progressWindow.once('ready-to-show', () => {
+          progressWindow.once("ready-to-show", () => {
             progressWindow.show();
           });
           return;
@@ -195,33 +199,69 @@ app.whenReady().then(() => {
       });
   });
 
-  ipcMain.on('oauthRedirect', (event, url) => {
-    auth.loadURL(url);
+  ipcMain.on("restartApp", () => {
+    app.relaunch();
+    app.quit();
+  });
 
-    auth.once('ready-to-show', () => {
-      if (!isDev) {
-        auth.show();
-      }
+  ipcMain.on(
+    "refreshToken",
+    (event, { clientId, refreshToken, accessToken }) => {
+      const requestBody = new URLSearchParams({
+        grant_type: "refresh_token",
+        client_id: clientId,
+        refresh_token: refreshToken,
+      });
+
+      fetch(`${apiBase}/services/oauth2/token`, {
+        method: "POST",
+        body: requestBody,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            win.webContents.send("accessToken", null);
+            throw new Error("Error refreshing token");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Refreshed token:", data);
+          if (data && !data.error && data.access_token !== accessToken) {
+            win.webContents.send("onTokens", {
+              accessToken: data.access_token,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Error refreshing token:", error);
+        });
+    },
+  );
+
+  ipcMain.on("oauthRedirect", (event, clientId) => {
+    const redirectUri = `${apiBase}/services/oauth2/success`;
+    const url = `${apiBase}/services/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=full%20refresh_token&grant_type=client_credentials`;
+    auth.loadURL(url);
+    auth.once("ready-to-show", () => {
+      auth.show();
     });
 
     const handleCallback = (event, url) => {
-      if (isDev) {
-        const newURL = `about:blank/?success#access_token=${process.env.REACT_APP_MOCK_TOKEN}`;
-        url = newURL;
-      }
-      if (!url.includes('success')) {
+      if (!url.includes("success")) {
         return;
       }
-      const [_baseUrl, fragment] = url.split('#');
+      console.log("url is: ", url);
+      const [_baseUrl, fragment] = url.split("#");
       const params = new URLSearchParams(fragment);
-      const accessToken = params.get('access_token');
+      const accessToken = params.get("access_token");
+      const refreshToken = params.get("refresh_token");
       if (accessToken) {
-        win.webContents.send('accessToken', accessToken);
-        auth.webContents.removeAllListeners('did-start-navigation');
+        win.webContents.send("onTokens", { accessToken, refreshToken });
+        auth.webContents.removeAllListeners("did-start-navigation");
         auth.destroy();
       }
     };
-    auth.webContents.on('did-start-navigation', handleCallback);
+    auth.webContents.on("did-start-navigation", handleCallback);
   });
 
   createWindow();
@@ -230,37 +270,37 @@ app.whenReady().then(() => {
 function downloadUpdate(downloadLink) {
   let downloadPath;
   download(win, downloadLink, {
-    directory: app.getPath('temp'),
+    directory: app.getPath("temp"),
     onProgress: (progress) => {
-      win.webContents.send('downloadProgress', progress.percent);
-      progressWindow.webContents.send('downloadProgress', progress.percent);
+      win.webContents.send("downloadProgress", progress.percent);
+      progressWindow.webContents.send("downloadProgress", progress.percent);
     },
   })
     .then((dl) => {
-      console.log('Download complete:', dl.getSavePath());
+      console.log("Download complete:", dl.getSavePath());
       downloadPath = shell.openPath(dl.getSavePath());
 
       if (downloadPath === false) {
-        console.error('Error opening path:', dl.getSavePath());
+        console.error("Error opening path:", dl.getSavePath());
       }
       shell.trashItem(dl.getSavePath());
-      console.log('Downloaded file has been trashed:', dl.getSavePath());
+      console.log("Downloaded file has been trashed:", dl.getSavePath());
       progressWindow.destroy();
 
       dialog.showMessageBox({
-        type: 'info',
-        title: 'Download Complete',
+        type: "info",
+        title: "Download Complete",
         message: `The update has been downloaded and is ready to install. \n 
                   Please close the application and drag the App to your Applications folder.
                   This will finish the installation process and you will be able to reopen the app. \n
 `,
-        buttons: ['OK'],
+        buttons: ["OK"],
       });
       app.quit();
     })
     .catch((error) => {
-      dialog.showErrorBox('Error', error);
-      console.error('Error downloading update:', error);
+      dialog.showErrorBox("Error", error);
+      console.error("Error downloading update:", error);
       progressWindow.destroy();
     });
 }
