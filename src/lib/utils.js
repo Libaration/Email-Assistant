@@ -35,16 +35,28 @@ const normalizeKeys = (keymap) => (flattenedItem) => {
 
 const flattenItem = (item) => {
   const addressRegex =
-    /([\w\s]+)\.\s+([\w\s]+),\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)/;
-  /**
-   * Obligatory comment because I found this regex online and I don't understand it
-   * Regex Explanation:
-   *   ([\w\s]+)\.         - Capture group for street, matches one or more word characters or spaces, followed by a period.
-   *   \s+([\w\s]+),       - Capture group for city, matches one or more word characters or spaces, followed by a comma.
-   *   \s+([A-Z]{2})\s+    - Capture group for state, matches two uppercase letters surrounded by spaces.
-   *   (\d{5}(?:-\d{4})?)  - Capture group for zip code, matches five digits, optionally followed by a hyphen and four more digits.
-   */
-  const fullAddress = item.Full_Address__c.value.trim();
+    /([\w\s]+(?:\.\s*)?)\s+([\w\s]+),\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)/;
+
+  /***************************************************************************************************************************************\
+   * Obligatory comment because I found this regex online                                                                                *
+   * Regex Explanation:                                                                                                                  *
+   *   ([\w\s]+(?:\.\s*)?)  - Capture group for street, matches one or more word characters or spaces,                                   *
+   *                           optionally followed by a period and spaces.                                                               *
+   *   \s+([\w\s]+),         - Capture group for city, matches one or more word characters or spaces,                                    *
+   *                           followed by a comma.                                                                                      *
+   *   \s+([A-Z]{2})\s+      - Capture group for state, matches two uppercase letters surrounded by spaces.                              *
+   *   (\d{5}(?:-\d{4})?)    - Capture group for zip code, matches five digits, optionally followed by a                                 *
+   *                           hyphen and four more digits.                                                                              *
+   ***************************************************************************************************************************************/
+
+  /***************************************************************************************************************************************\
+   * Remove special characters from the address because I'm realizing now some people are putting in weird characters for no real reason *
+   * other than to make my life difficult                                                                                                *
+   ***************************************************************************************************************************************/
+  const fullAddress = item.Full_Address__c.value
+    .replace(/[^a-zA-Z\d\s,.]/g, "")
+    .trim();
+
   const match = fullAddress.match(addressRegex);
 
   return removeTypename({

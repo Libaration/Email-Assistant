@@ -10,7 +10,7 @@ export const columns = [
     header: "Street",
     cell: ({ row }) => (
       <div className={row.original.expired.value && expiredColor}>
-        {row.original.street}
+        {row.original.street.replace(/\.$/, " ")}
       </div>
     ),
   },
