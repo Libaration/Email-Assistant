@@ -24,6 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { EyeOpenIcon } from "@radix-ui/react-icons";
 
 export function DataTable({ columns, data }) {
   const [columnFilters, setColumnFilters] = useState();
@@ -79,7 +80,7 @@ export function DataTable({ columns, data }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns
+              <EyeOpenIcon />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
