@@ -26,6 +26,9 @@ export const useSalesforce = () => {
   const { error } = useQuery(queries.EMPTY_QUERY);
   if (error?.message.includes("401") && accessToken && refreshToken) {
     refreshStoredToken();
+  } else if (error?.message.includes("401") && accessToken && !refreshToken) {
+    handleLogout();
+    localStorage.clear();
   }
 
   useEffect(() => {

@@ -229,6 +229,11 @@ app.whenReady().then(() => {
           if (data && !data.error && data.access_token !== accessToken) {
             win.webContents.send("onTokens", {
               accessToken: data.access_token,
+              ...(data.refresh_token &&
+                !refreshToken !== null &&
+                refreshToken !== data.refresh_token
+                ? { refresh_token: data.refresh_token }
+                : {}),
             });
           }
         })

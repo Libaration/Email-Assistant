@@ -34,6 +34,14 @@ input {
   -webkit-app-region: no-drag;
 }
 
+li, ul, ol, form, select, textarea {
+  -webkit-app-region: no-drag;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag !important;
+}
+
 
 
 @layer base {
