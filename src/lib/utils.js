@@ -51,6 +51,15 @@ const flattenItem = (item) => {
     ...item.Assigned_To__c,
     ...item.auctions_r,
     ..._.omit(item, ["Assigned_To__c", "auctions_r", "__typename"]),
+    previousAuctions: {
+      auctions: item.Auctions__r?.edges?.map(
+        (edge) => edge.node.Auction_TIme__c.value,
+        // Hacky fix for flattening this field. If anything is added to be returned here.
+        // It will not be returned in the normalized data as we're only returning the Auction_TIme__c.value
+        // Example : auctions: ['2024-01-25T16:00:00.000Z', '2024-02-23T16:10:00.000Z']
+      ),
+      totalCount: item.Auctions__r?.totalCount,
+    },
     fullAddress: fullAddress,
     street: match ? match[1].trim() : "",
     city: match ? match[2].trim() : "",

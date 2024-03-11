@@ -4,11 +4,19 @@ export const columns = [
     header: "Street",
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "city",
+    header: "City",
   },
   {
-    accessorKey: "amount",
-    header: "Amount",
+    accessorKey: "state",
+    header: "State",
   },
+  {
+    accessorKey: "zipcode",
+    header: "Zip",
+  },
+  {
+    accessorKey: "previousAuctions.totalCount",
+    header: "Prev Listings",
+  }
 ]
