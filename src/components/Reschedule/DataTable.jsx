@@ -4,8 +4,10 @@ import {
   useReactTable,
   getPaginationRowModel,
   getSortedRowModel,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -24,6 +26,7 @@ import {
 } from "@/components/ui/table";
 
 export function DataTable({ columns, data }) {
+  const [columnFilters, setColumnFilters] = useState();
   const [sorting, setSorting] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const table = useReactTable({
@@ -34,9 +37,12 @@ export function DataTable({ columns, data }) {
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
       columnVisibility,
+      columnFilters,
     },
   });
 
@@ -60,6 +66,16 @@ export function DataTable({ columns, data }) {
   return (
     <div className="no-drag">
       <div className="flex items-center py-4">
+        <div className="flex items-center py-4">
+          <Input
+            placeholder="Filter Street"
+            value={table.getColumn("street")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn("street")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

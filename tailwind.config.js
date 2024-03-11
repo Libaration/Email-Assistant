@@ -73,5 +73,11 @@ module.exports = {
 			},
 		},
 	},
+	variants: {
+		extend: {
+			backgroundColor: ["hover", "focus", "active", "group-hover"],
+			opacity: ["hover", "focus", "group-hover"],
+		},
+	},
 	plugins: [require("tailwindcss-animate")],
 };
