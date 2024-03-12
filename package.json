@@ -98,6 +98,7 @@
     ]
   },
   "devDependencies": {
+    "@biomejs/biome": "1.6.1",
     "@electron-forge/cli": "^6.4.2",
     "@electron-forge/maker-deb": "^6.4.2",
     "@electron-forge/maker-dmg": "^7.3.0",

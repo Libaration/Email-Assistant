@@ -49,8 +49,9 @@ export const Dashboard = () => {
           <>
             <Card>
               <CardHeader>
-                <CardTitle className="text-sm font-medium flex justify-between">Listings <BarChartIcon className="text-secondary-accent/50"/></CardTitle>
-
+                <CardTitle className="text-sm font-medium flex justify-between">
+                  Listings <BarChartIcon className="text-secondary-accent/50" />
+                </CardTitle>
               </CardHeader>
               <CardContent className="text-2xl font-bold">
                 {normalizedData().length}
