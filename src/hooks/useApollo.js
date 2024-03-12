@@ -8,13 +8,10 @@ import {
 } from "@apollo/client";
 import { useUserStore } from "../components/store/userStore";
 
-const uri =
-  "https://ashlandauction.my.salesforce.com/services/data/v57.0/graphql?";
-
 const createApolloClient = (accessToken) => {
   return new ApolloClient({
     link: new HttpLink({
-      uri,
+      uri: process.env.REACT_APP_SALESFORCE_API_BASE,
       headers: {
         Origin: "null",
         Authorization: `Bearer ${accessToken}`,
@@ -33,7 +30,7 @@ const createApolloClient = (accessToken) => {
 export const spectrumClient = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: "https://ashlandauction.com/api",
+    uri: process.env.REACT_APP_SPECTRUM_API_BASE,
     headers: {
       "x-api-key": "aag",
     },
@@ -53,7 +50,7 @@ export const ApolloProviderWithClient = ({ children }) => {
   useEffect(() => {
     client.setLink(
       new HttpLink({
-        uri,
+        uri: process.env.REACT_APP_SALESFORCE_API_BASE,
         headers: {
           Origin: "null",
           Authorization: `Bearer ${accessToken}`,
