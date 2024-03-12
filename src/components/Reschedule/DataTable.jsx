@@ -5,26 +5,19 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from '@tanstack/react-table';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+} from '@/components/ui/dropdown-menu';
+import { useState } from 'react';
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { EyeOpenIcon } from "@radix-ui/react-icons";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { EyeOpenIcon } from '@radix-ui/react-icons';
 
 export function DataTable({ columns, data }) {
   const [columnFilters, setColumnFilters] = useState();
@@ -51,11 +44,11 @@ export function DataTable({ columns, data }) {
     const { value, columnDef } = cell.column;
 
     // Check if the value is an object
-    if (typeof value === "object" && value !== null) {
+    if (typeof value === 'object' && value !== null) {
       // Dynamically render properties of the value object
-      const renderedProperties = Object.entries(value).map(
-        ([key, propertyValue]) => <div key={key}>{propertyValue}</div>,
-      );
+      const renderedProperties = Object.entries(value).map(([key, propertyValue]) => (
+        <div key={key}>{propertyValue}</div>
+      ));
 
       return <>{renderedProperties}</>;
     }
@@ -65,25 +58,23 @@ export function DataTable({ columns, data }) {
   };
 
   return (
-    <div className="no-drag dark">
-      <div className="flex items-center py-4">
-        <div className="flex items-center py-4">
+    <div className='no-drag dark'>
+      <div className='flex items-center py-4'>
+        <div className='flex items-center py-4'>
           <Input
-            placeholder="Filter Street"
-            value={table.getColumn("street")?.getFilterValue() ?? ""}
-            onChange={(event) =>
-              table.getColumn("street")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
+            placeholder='Filter Street'
+            value={table.getColumn('street')?.getFilterValue() ?? ''}
+            onChange={(event) => table.getColumn('street')?.setFilterValue(event.target.value)}
+            className='max-w-sm'
           />
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant='outline' className='ml-auto'>
               <EyeOpenIcon />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align='end'>
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -91,13 +82,11 @@ export function DataTable({ columns, data }) {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className='capitalize'
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
-                    {typeof column.columnDef.header === "function"
+                    {typeof column.columnDef.header === 'function'
                       ? column.columnDef.accessorKey
                       : column.columnDef.header}
                   </DropdownMenuCheckboxItem>
@@ -106,19 +95,14 @@ export function DataTable({ columns, data }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className='rounded-md border'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -127,10 +111,7 @@ export function DataTable({ columns, data }) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{renderCellValue(cell)}</TableCell>
                   ))}
@@ -138,10 +119,7 @@ export function DataTable({ columns, data }) {
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className='h-24 text-center'>
                   No results.
                 </TableCell>
               </TableRow>
@@ -149,21 +127,11 @@ export function DataTable({ columns, data }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
+      <div className='flex items-center justify-end space-x-2 py-4'>
+        <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
           Previous
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
+        <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
           Next
         </Button>
       </div>

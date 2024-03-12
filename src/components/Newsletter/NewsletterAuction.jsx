@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 const NewsletterAuction = (auction) => {
   const html = `<table cellpadding="0" cellspacing="0" border="0" data-fusion-class="" style="width: 100%; margin: 0px auto">
 <tbody>
@@ -101,11 +101,9 @@ const NewsletterAuction = (auction) => {
                                         <a href="https://www.ashlandauction.com/auctions/${
                                           auction.auction_id
                                         }" style=""><img src="${auction.highlights[0].cached_assets[0].url.replace(
-    "thumb",
-    "medium"
-  )}" class="fusionResponsiveImage" alt="${
-    auction.title
-  }" width="255" height="auto" style="
+                                          'thumb',
+                                          'medium',
+                                        )}" class="fusionResponsiveImage" alt="${auction.title}" width="255" height="auto" style="
                                               display: block;
                                               width: 255px;
                                               height: auto;
@@ -213,7 +211,7 @@ const NewsletterAuction = (auction) => {
                                   <strong style="
                                       background-color: transparent;
                                     ">Online- Ends</strong>
-                                 @ ${moment(auction.end_time).format("hh:mm A")}
+                                 @ ${moment(auction.end_time).format('hh:mm A')}
                                 </h2>
                               </div>
                             </td>
@@ -244,21 +242,19 @@ const NewsletterAuction = (auction) => {
                                     margin-bottom: 0px;
                                   ">
                                   ${
-                                    auction.lots["lots"][0].winning_bid_amount
+                                    auction.lots['lots'][0].winning_bid_amount
                                       ? `Current Bid: $${new Intl.NumberFormat().format(
-                                          auction.lots["lots"][0]
-                                            .winning_bid_amount
+                                          auction.lots['lots'][0].winning_bid_amount,
                                         )}`
                                       : `Starting Bid: $${new Intl.NumberFormat().format(
-                                          auction.lots["lots"][0].starting_bid
+                                          auction.lots['lots'][0].starting_bid,
                                         )}`
                                   }
                                 - Deposit: 
                                   $${new Intl.NumberFormat().format(
-                                    auction.lots["lots"][0].dynamic_fields.find(
-                                      (field) =>
-                                        field.label === "Initial Deposit"
-                                    ).data.value
+                                    auction.lots['lots'][0].dynamic_fields.find(
+                                      (field) => field.label === 'Initial Deposit',
+                                    ).data.value,
                                   )}
                                 </p>
                               </div>
@@ -294,9 +290,7 @@ const NewsletterAuction = (auction) => {
                                           border-width: 2px;
                                           padding: 10px 20px;
                                         ">
-                                        <a href="https://www.ashlandauction.com/auctions/${
-                                          auction.auction_id
-                                        }" style="
+                                        <a href="https://www.ashlandauction.com/auctions/${auction.auction_id}" style="
                                             text-decoration: none;
                                             color: rgb(
                                               32,
@@ -404,10 +398,7 @@ transition: all 0.2s ease 0s;
                   border-style: none;
                   border-width: 0px;
                 ">
-                <img src="${auction.highlights[0].cached_assets[0].url.replace(
-                  "thumb",
-                  "medium"
-                )}" class="fusionResponsiveImage" alt="" width="255" height="auto" style="
+                <img src="${auction.highlights[0].cached_assets[0].url.replace('thumb', 'medium')}" class="fusionResponsiveImage" alt="" width="255" height="auto" style="
                     display: block;
                     width: 255px;
                     height: auto;
@@ -515,7 +506,7 @@ transition: all 0.2s ease 0s;
           <strong style="
               background-color: transparent;
             ">Online- Ends</strong>
-           @ ${moment(auction.end_time).format("hh:mm A")}
+           @ ${moment(auction.end_time).format('hh:mm A')}
         </h2>
       </div>
     </td>
@@ -546,18 +537,12 @@ transition: all 0.2s ease 0s;
             margin-bottom: 0px;
           ">
           ${
-            auction.lots["lots"][0].winning_bid_amount
-              ? `Current Bid: $${new Intl.NumberFormat().format(
-                  auction.lots["lots"][0].winning_bid_amount
-                )}`
-              : `Starting Bid: $${new Intl.NumberFormat().format(
-                  auction.lots["lots"][0].starting_bid
-                )}`
+            auction.lots['lots'][0].winning_bid_amount
+              ? `Current Bid: $${new Intl.NumberFormat().format(auction.lots['lots'][0].winning_bid_amount)}`
+              : `Starting Bid: $${new Intl.NumberFormat().format(auction.lots['lots'][0].starting_bid)}`
           } - Deposit:
           $${new Intl.NumberFormat().format(
-            auction.lots["lots"][0].dynamic_fields.find(
-              (field) => field.label === "Initial Deposit"
-            ).data.value
+            auction.lots['lots'][0].dynamic_fields.find((field) => field.label === 'Initial Deposit').data.value,
           )}
         </p>
       </div>
@@ -593,9 +578,7 @@ transition: all 0.2s ease 0s;
                   border-width: 2px;
                   padding: 10px 20px;
                 ">
-                <a href="https://www.ashlandauction.com/auctions/${
-                  auction.auction_id
-                }" style="
+                <a href="https://www.ashlandauction.com/auctions/${auction.auction_id}" style="
                     text-decoration: none;
                     color: rgb(
                       32,

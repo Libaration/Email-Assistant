@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from "react";
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-  useApolloClient,
-} from "@apollo/client";
-import { useUserStore } from "../components/store/userStore";
+import React, { useEffect, useState } from 'react';
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, useApolloClient } from '@apollo/client';
+import { useUserStore } from '../components/store/userStore';
 
 const createApolloClient = (accessToken) => {
   return new ApolloClient({
     link: new HttpLink({
       uri: process.env.REACT_APP_SALESFORCE_API_BASE,
       headers: {
-        Origin: "null",
+        Origin: 'null',
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     }),
     cache: new InMemoryCache(),
@@ -32,7 +26,7 @@ export const spectrumClient = new ApolloClient({
   link: new HttpLink({
     uri: process.env.REACT_APP_SPECTRUM_API_BASE,
     headers: {
-      "x-api-key": "aag",
+      'x-api-key': 'aag',
     },
   }),
 });
@@ -52,9 +46,9 @@ export const ApolloProviderWithClient = ({ children }) => {
       new HttpLink({
         uri: process.env.REACT_APP_SALESFORCE_API_BASE,
         headers: {
-          Origin: "null",
+          Origin: 'null',
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }),
     );
@@ -63,7 +57,7 @@ export const ApolloProviderWithClient = ({ children }) => {
   // Watch for changes in the access token
   useEffect(() => {
     const unsubscribe = useUserStore.subscribe((state) => {
-      console.log("Access Token Changed", state.accessToken);
+      console.log('Access Token Changed', state.accessToken);
       setAccessToken(state.accessToken);
     });
 

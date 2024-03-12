@@ -63,7 +63,7 @@ export const homeToHTML = ({
 <div style="margin: 5px 0px 0px; padding: 0px; background-color: transparent; display: block; color: #333333; font-family: Roboto, sans-serif; font-size: 14px; text-align: left; border: 0px none transparent;" data-fusion-class="Subheadline">
 <p class="paragraph-spacing-none" style="margin-top: 0px; margin-bottom: 0px;"><strong style="color: #333333; background-color: transparent;">Online -</strong> <strong style="font-family: sans-serif;">Ends </strong>${date.format(
     convertedTime,
-    'hh:mm A'
+    'hh:mm A',
   )}</p>
 <p class="paragraph-spacing-none" style="margin-top: 0px; margin-bottom: 0px; color:grey">${title}</p>
 </div>
@@ -231,7 +231,7 @@ export const beginningHTML = `<p>&nbsp;</p>
 <div style="margin: 0px; padding: 0px; background-color: transparent; display: block; color: #333333; font-family: Roboto, sans-serif; font-size: 14px; text-align: left; border: 0px none transparent;" data-fusion-class="">
 <p class="paragraph-spacing-none" style="text-align: center; margin-top: 0px; margin-bottom: 0px;"><strong style="color: #203d85; font-family: Roboto, sans-serif;">${date.format(
   now,
-  'dddd, MMM DD'
+  'dddd, MMM DD',
 )}</strong></p>
 </div>
 </td>

@@ -10,9 +10,7 @@ export const useDownloadProgress = () => {
     };
 
     if (window.electronAPI) {
-      const removeListener = window.electronAPI.downloadProgress(
-        handleDownloadProgress
-      );
+      const removeListener = window.electronAPI.downloadProgress(handleDownloadProgress);
       return () => {
         removeListener();
       };

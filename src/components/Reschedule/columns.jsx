@@ -1,117 +1,85 @@
-import moment from "moment";
-import { CaretSortIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
+import moment from 'moment';
+import { CaretSortIcon } from '@radix-ui/react-icons';
+import { Button } from '@/components/ui/button';
 
-const expiredColor = "text-yellow-100";
+const expiredColor = 'text-yellow-100';
 
 export const columns = [
   {
-    accessorKey: "street",
-    header: "Street",
+    accessorKey: 'street',
+    header: 'Street',
     cell: ({ row }) => (
-      <div className={row.original.expired.value && expiredColor}>
-        {row.original.street.replace(/\.$/, " ")}
-      </div>
+      <div className={row.original.expired.value && expiredColor}>{row.original.street.replace(/\.$/, ' ')}</div>
     ),
   },
   {
-    accessorKey: "city",
-    header: "City",
+    accessorKey: 'city',
+    header: 'City',
+    cell: ({ row }) => <div className={row.original.expired.value && expiredColor}>{row.original.city}</div>,
+  },
+  {
+    accessorKey: 'state',
+    header: 'State',
+    cell: ({ row }) => <div className={row.original.expired.value && expiredColor}>{row.original.state}</div>,
+  },
+  {
+    accessorKey: 'zipcode',
+    header: 'Zip',
+    cell: ({ row }) => <div className={row.original.expired.value && expiredColor}>{row.original.zipcode}</div>,
+  },
+  {
+    accessorKey: 'expired.value',
+    header: 'Expired',
     cell: ({ row }) => (
-      <div className={row.original.expired.value && expiredColor}>
-        {row.original.city}
-      </div>
+      <div className={row.original.expired.value ? expiredColor : ''}>{row.original.expired.value ? 'Yes' : 'No'}</div>
     ),
   },
   {
-    accessorKey: "state",
-    header: "State",
+    accessorKey: 'previousAuctions.totalCount',
+    header: 'Prev Listings',
     cell: ({ row }) => (
-      <div className={row.original.expired.value && expiredColor}>
-        {row.original.state}
-      </div>
+      <div className={row.original.expired.value && expiredColor}>{row.original.previousAuctions.totalCount}</div>
     ),
   },
   {
-    accessorKey: "zipcode",
-    header: "Zip",
-    cell: ({ row }) => (
-      <div className={row.original.expired.value && expiredColor}>
-        {row.original.zipcode}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "expired.value",
-    header: "Expired",
-    cell: ({ row }) => (
-      <div className={row.original.expired.value ? expiredColor : ""}>
-        {row.original.expired.value ? "Yes" : "No"}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "previousAuctions.totalCount",
-    header: "Prev Listings",
-    cell: ({ row }) => (
-      <div className={row.original.expired.value && expiredColor}>
-        {row.original.previousAuctions.totalCount}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "expirationDate",
+    accessorKey: 'expirationDate',
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           <span>Expires In</span>
-          <CaretSortIcon className="w-4 h-4 ml-1" />
+          <CaretSortIcon className='w-4 h-4 ml-1' />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const expirationDate = moment(
-        row.original.expirationDate.value,
-        "YYYY-MM-DD",
-      ).endOf("day");
-      const yesterday = moment().subtract(1, "days").startOf("day");
-      const daysRemaining = expirationDate.diff(yesterday, "days");
+      const expirationDate = moment(row.original.expirationDate.value, 'YYYY-MM-DD').endOf('day');
+      const yesterday = moment().subtract(1, 'days').startOf('day');
+      const daysRemaining = expirationDate.diff(yesterday, 'days');
 
       // Calculate color intensity based on remaining days, starting dynamic coloring after 60 days
       const colorIntensity =
-        daysRemaining > 30
-          ? 0
-          : Math.max(
-            0,
-            Math.min(100, Math.floor(((30 - daysRemaining) / 30) * 100)),
-          );
+        daysRemaining > 30 ? 0 : Math.max(0, Math.min(100, Math.floor(((30 - daysRemaining) / 30) * 100)));
 
-      const textColor =
-        daysRemaining > 30
-          ? ""
-          : `rgb(255, ${255 - colorIntensity + 150}, ${255 - colorIntensity})`; // Dynamic color for days, no color for anything past 60 days, and maintain red for "Expired"
+      const textColor = daysRemaining > 30 ? '' : `rgb(255, ${255 - colorIntensity + 150}, ${255 - colorIntensity})`; // Dynamic color for days, no color for anything past 60 days, and maintain red for "Expired"
 
       return (
         <div
           style={{
-            color: daysRemaining > 0 ? textColor : "rgb(252, 165, 165)",
+            color: daysRemaining > 0 ? textColor : 'rgb(252, 165, 165)',
           }}
         >
-          {daysRemaining > 0 ? `${daysRemaining} days` : "Expired"}
+          {daysRemaining > 0 ? `${daysRemaining} days` : 'Expired'}
         </div>
       );
     },
   },
 
   {
-    accessorKey: "status.value",
-    header: "Status",
+    accessorKey: 'status.value',
+    header: 'Status',
     cell: ({ row }) => {
       const expired = row.original.expired.value;
-      const status = expired ? "Waiting" : row.original.status.value;
+      const status = expired ? 'Waiting' : row.original.status.value;
       return <div className={expired && expiredColor}>{status}</div>;
     },
   },

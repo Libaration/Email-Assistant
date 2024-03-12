@@ -1,21 +1,21 @@
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
-import _ from "lodash";
+import _ from 'lodash';
 
 const pipe =
   (...funcs) =>
-    (arg) =>
-      funcs.reduce((acc, func) => func(acc), arg);
+  (arg) =>
+    funcs.reduce((acc, func) => func(acc), arg);
 
 const removeTypename = (obj) => {
-  if (obj !== null && typeof obj === "object") {
+  if (obj !== null && typeof obj === 'object') {
     if (Array.isArray(obj)) {
       return obj.map((item) => removeTypename(item));
     } else {
       const newObj = {};
       for (const [key, value] of Object.entries(obj)) {
-        if (key !== "__typename") {
+        if (key !== '__typename') {
           newObj[key] = removeTypename(value);
         }
       }
@@ -34,8 +34,7 @@ const normalizeKeys = (keymap) => (flattenedItem) => {
 };
 
 const flattenItem = (item) => {
-  const addressRegex =
-    /([\w\s]+(?:\.\s*)?)\s+([\w\s]+),\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)/;
+  const addressRegex = /([\w\s]+(?:\.\s*)?)\s+([\w\s]+),\s+([A-Z]{2})\s+(\d{5}(?:-\d{4})?)/;
 
   /***************************************************************************************************************************************\
    * Obligatory comment because I found this regex online                                                                                *
@@ -53,16 +52,14 @@ const flattenItem = (item) => {
    * Remove special characters from the address because I'm realizing now some people are putting in weird characters for no real reason *
    * other than to make my life difficult                                                                                                *
    ***************************************************************************************************************************************/
-  const fullAddress = item.Full_Address__c.value
-    .replace(/[^a-zA-Z\d\s,.]/g, "")
-    .trim();
+  const fullAddress = item.Full_Address__c.value.replace(/[^a-zA-Z\d\s,.]/g, '').trim();
 
   const match = fullAddress.match(addressRegex);
 
   return removeTypename({
     ...item.Assigned_To__c,
     ...item.auctions_r,
-    ..._.omit(item, ["Assigned_To__c", "auctions_r", "__typename"]),
+    ..._.omit(item, ['Assigned_To__c', 'auctions_r', '__typename']),
     previousAuctions: {
       auctions: item.Auctions__r?.edges?.map(
         (edge) => edge.node.Auction_TIme__c.value,
@@ -73,10 +70,10 @@ const flattenItem = (item) => {
       totalCount: item.Auctions__r?.totalCount,
     },
     fullAddress: fullAddress,
-    street: match ? match[1].trim() : "",
-    city: match ? match[2].trim() : "",
-    state: match ? match[3].trim() : "",
-    zipcode: match ? match[4].trim() : "",
+    street: match ? match[1].trim() : '',
+    city: match ? match[2].trim() : '',
+    state: match ? match[3].trim() : '',
+    zipcode: match ? match[4].trim() : '',
   });
 };
 
@@ -86,10 +83,9 @@ const logAndPass = (message) => (data) => {
 };
 
 export const normalizeGraphqlResponse = ({ data, keymap }) => {
-  const queryKey = "query";
+  const queryKey = 'query';
 
-  const extractListingData = (data) =>
-    data?.uiapi?.[queryKey]?.pba__Listing__c?.edges || [];
+  const extractListingData = (data) => data?.uiapi?.[queryKey]?.pba__Listing__c?.edges || [];
 
   const normalizedData = pipe(
     extractListingData,

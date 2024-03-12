@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import { fragments } from "./fragments";
+import { gql } from '@apollo/client';
+import { fragments } from './fragments';
 
 const {
   AdditionalDetails,

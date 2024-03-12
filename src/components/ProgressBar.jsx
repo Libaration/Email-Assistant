@@ -7,8 +7,8 @@ export const ProgressBar = () => {
 
   return (
     <>
-      <div className="relative top-0 w-full h-1 z-50 bg-yellow-300 mb-18"></div>
-      <div className="flex flex-col items-center justify-center pt-5 pb-5">
+      <div className='relative top-0 w-full h-1 z-50 bg-yellow-300 mb-18'></div>
+      <div className='flex flex-col items-center justify-center pt-5 pb-5'>
         <motion.div
           style={{
             display: 'flex',
@@ -32,19 +32,17 @@ export const ProgressBar = () => {
               transformOrigin: 'center center',
             }}
           >
-            <img src={logo} alt="logo" className="w-16 h-auto" />
+            <img src={logo} alt='logo' className='w-16 h-auto' />
           </motion.div>
         </motion.div>
       </div>
-      <div className="flex justify-center text-center">
-        <span className="text-6xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+      <div className='flex justify-center text-center'>
+        <span className='text-6xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white'>
           {progress}%
         </span>
       </div>
-      <div className="flex flex-col items-center justify-center">
-        <p className="text-lg font-bold text-gray-900 dark:text-white">
-          {isDownloading && 'Downloading...'}
-        </p>
+      <div className='flex flex-col items-center justify-center'>
+        <p className='text-lg font-bold text-gray-900 dark:text-white'>{isDownloading && 'Downloading...'}</p>
       </div>
     </>
   );

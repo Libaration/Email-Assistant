@@ -1,9 +1,6 @@
 import moment from 'moment';
 
-const WEEKEND = [
-  moment().day('Saturday').weekday(),
-  moment().day('Sunday').weekday(),
-];
+const WEEKEND = [moment().day('Saturday').weekday(), moment().day('Sunday').weekday()];
 
 const businessAdd = (momentDate, businessDays) => {
   let daysAdded = 0;
@@ -91,14 +88,10 @@ export const fetchNewsletter = async () => {
   const auctions = await responseJSON.data.auctions.auctions;
 
   const maxDays = parseInt(localStorage.getItem('maxDays')) + 1 || 4;
-  const daysNeeded = Array.from({ length: maxDays }, (_, i) =>
-    businessAdd(moment(), i).format('ddd, MMMM DD')
-  );
+  const daysNeeded = Array.from({ length: maxDays }, (_, i) => businessAdd(moment(), i).format('ddd, MMMM DD'));
 
   const groupedAuctions = auctions.reduce((acc, auction) => {
-    const auctionDateFormatted = moment(auction.end_time).format(
-      'ddd, MMMM DD'
-    );
+    const auctionDateFormatted = moment(auction.end_time).format('ddd, MMMM DD');
 
     if (!daysNeeded.includes(auctionDateFormatted)) {
       return acc;

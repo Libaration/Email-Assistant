@@ -13,8 +13,8 @@ const styles = {
       MozOsxFontSmoothing: 'grayscale',
       WebkitAppRegion: 'drag',
     },
-    '.chakra-button' : {
-    WebkitAppRegion: 'no-drag',
+    '.chakra-button': {
+      WebkitAppRegion: 'no-drag',
     },
     '*': {
       cursor: 'default',

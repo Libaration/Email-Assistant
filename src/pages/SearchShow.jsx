@@ -39,19 +39,19 @@ export default function Search(props) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -100 }}
       transition={{ duration: 0.3 }}
-      w="100%"
+      w='100%'
     >
-      <div className="flex text-center justify-center mt-6">
+      <div className='flex text-center justify-center mt-6'>
         <Heading>
           {props.query}
           {props.isSearching}
         </Heading>
       </div>
 
-      <Flex wrap="wrap" justify="center">
+      <Flex wrap='wrap' justify='center'>
         {props.isSearching ? (
-          <Flex justifyContent="center" alignItems="center" w="100%">
-            <Spinner color="yellow.500" size="xl" />
+          <Flex justifyContent='center' alignItems='center' w='100%'>
+            <Spinner color='yellow.500' size='xl' />
           </Flex>
         ) : (
           renderResults()

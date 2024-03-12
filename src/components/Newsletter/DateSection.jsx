@@ -1,4 +1,4 @@
-import moment from 'moment'; 
+import moment from 'moment';
 const DateSection = (date) => {
   const html = `<table cellpadding="0" cellspacing="0" border="0" data-fusion-class="" style="width: 100%; margin: 0px auto">
     <tbody>
@@ -130,7 +130,7 @@ const DateSection = (date) => {
   return html.replace(
     '{{DATE}}',
 
-    moment(date).year(moment().year()).format('ddd, MMMM DD')
+    moment(date).year(moment().year()).format('ddd, MMMM DD'),
   );
 };
 
