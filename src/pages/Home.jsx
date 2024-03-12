@@ -3,19 +3,9 @@ import React from "react";
 import sidebanner from "../assets/sidebanner.png";
 import { useQuery } from "@apollo/client";
 import { queries } from "../queries";
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import { spectrumClient } from "../hooks/useApollo";
 
 import "./Home.style.css";
-// probably a better way to handle this since we have 2 clients now but just testing atm
-const localApolloClient = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: new HttpLink({
-    uri: "https://ashlandauction.com/api",
-    headers: {
-      "x-api-key": "aag",
-    },
-  }),
-});
 
 export default function Home() {
   const MotionBox = motion.div;
@@ -32,7 +22,7 @@ export default function Home() {
       auction_lot_id: "12224",
       is_view: true,
     },
-    client: localApolloClient,
+    client: spectrumClient,
   });
   console.log(data, loading, error);
 

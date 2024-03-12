@@ -12,7 +12,6 @@ const uri =
   "https://ashlandauction.my.salesforce.com/services/data/v57.0/graphql?";
 
 const createApolloClient = (accessToken) => {
-  console.log("Creating Apollo Client");
   return new ApolloClient({
     link: new HttpLink({
       uri,
@@ -25,6 +24,21 @@ const createApolloClient = (accessToken) => {
     cache: new InMemoryCache(),
   });
 };
+
+/***********************************************************************************\
+ * could implement handling both hooks sharing a cache and both using context but   *
+ * I don't think we need all of that for such simple requests at the moment         *
+\***********************************************************************************/
+
+export const spectrumClient = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: "https://ashlandauction.com/api",
+    headers: {
+      "x-api-key": "aag",
+    },
+  }),
+});
 
 const useApollo = () => {
   return useApolloClient();
