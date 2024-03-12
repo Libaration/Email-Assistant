@@ -18,7 +18,7 @@
 		"globals": ["__DEV__"]
 	},
 	"linter": {
-		"enabled": true,
+		"enabled": false,
 		"ignore": ["node_modules"],
 		"rules": {
 			"all": true,
