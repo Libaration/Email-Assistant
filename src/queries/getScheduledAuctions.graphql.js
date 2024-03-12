@@ -2,6 +2,10 @@ import { gql } from "@apollo/client";
 
 const LISTING_FIELDS = gql`
   fragment ListingFields on pba__Listing__c {
+    Id
+    Lot_Number__c {
+      value
+    }
     Assigned_To__c {
       value
     }
@@ -102,4 +106,6 @@ export const GET_SCHEDULED_AUCTIONS_KEYMAP = {
   Reserve_Price__c: "reservePrice",
   Inputting_Statis__c: "inputtingStatus",
   Auctions__r: "previousAuctions",
+  Lot_Number__c: "lotNumber",
+  id: "id",
 };

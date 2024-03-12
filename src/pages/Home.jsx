@@ -1,8 +1,21 @@
 import { motion } from "framer-motion";
 import React from "react";
 import sidebanner from "../assets/sidebanner.png";
+import { useQuery } from "@apollo/client";
+import { queries } from "../queries";
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
 import "./Home.style.css";
+// probably a better way to handle this since we have 2 clients now but just testing atm
+const localApolloClient = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: "https://ashlandauction.com/api",
+    headers: {
+      "x-api-key": "aag",
+    },
+  }),
+});
 
 export default function Home() {
   const MotionBox = motion.div;
@@ -12,6 +25,16 @@ export default function Home() {
   const unDraggable = {
     WebkitAppRegion: "no-drag",
   };
+
+  // delete this when done testing
+  const { data, loading, error } = useQuery(queries.GET_AUCTION_LOT, {
+    variables: {
+      auction_lot_id: "12224",
+      is_view: true,
+    },
+    client: localApolloClient,
+  });
+  console.log(data, loading, error);
 
   return (
     <MotionBox
