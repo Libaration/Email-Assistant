@@ -65,7 +65,7 @@ export function DataTable({ columns, data }) {
   };
 
   return (
-    <div className="no-drag">
+    <div className="no-drag dark">
       <div className="flex items-center py-4">
         <div className="flex items-center py-4">
           <Input

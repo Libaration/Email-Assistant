@@ -25,7 +25,7 @@ function Search(props) {
   };
 
   return (
-    <div className="flex items-center mt-6 ml-20 mr-5">
+    <div className="flex items-center mt-6 ml-20 mr-5 dark">
       <div className="relative">
         <Input
           type="text"
