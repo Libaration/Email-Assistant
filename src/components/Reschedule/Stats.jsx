@@ -1,7 +1,6 @@
 import React, { useMemo, Suspense } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChartIcon, RocketIcon, PersonIcon } from '@radix-ui/react-icons';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useSuspenseQuery } from '@apollo/client';
 import { queries, keymaps } from '../../queries';
 import { normalizeGraphqlResponse } from '@/lib/utils';
@@ -76,46 +75,58 @@ const Stats = ({ data }) => {
   );
 
   return (
-    <div className='dash-widgets pt-6 pl-4 pr-4 pb-6 flex [text-align-last:justify] bg-primary'>
-      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 tracking-tight w-full'>
-        <Card>
-          <CardHeader>
-            <CardTitle className='text-sm font-medium flex justify-between'>
-              Listings <BarChartIcon className='text-secondary-accent/50' />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className='text-2xl font-bold'>
-            <Suspense fallback={<Skeleton className='rounded-xl shadow w-[300px] h-[150px]' />}>{data.length}</Suspense>
-          </CardContent>
-          <CardFooter className='text-xs text-muted-foreground'>{totalExpired} expired</CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className='text-sm font-medium flex justify-between'>
-              Profit Potential <RocketIcon className='text-secondary-accent/50' />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className='text-2xl font-bold'>{totalProfitPotential}</CardContent>
-          <CardFooter className='text-xs text-muted-foreground'>10% per Reserve</CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className='text-lg font-medium flex justify-between'>
-              Recently Sold
-              <PersonIcon className='text-secondary-accent/50' />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {Object.entries(listingCountPerAssignedToId || {}).map(([key, value]) => (
-              <div className='text-xs' key={key}>
-                {key}: {value}
-              </div>
-            ))}
-          </CardContent>
-          <CardFooter className='text-xs text-muted-foreground'>Last {recentlySoldNormalizedData?.length}</CardFooter>
-        </Card>
-      </div>
-    </div>
+    <>
+      {!isLoading && (
+        <div className='dash-widgets pt-6 pl-4 pr-4 pb-6 flex [text-align-last:justify] bg-primary'>
+          <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 tracking-tight w-full'>
+            <Card>
+              <CardHeader>
+                <CardTitle className='text-sm font-medium flex justify-between'>
+                  Listings <BarChartIcon className='text-secondary-accent/50' />
+                </CardTitle>
+              </CardHeader>
+              <CardContent className='text-2xl font-bold'>
+                <Suspense fallback='Loading...'>{data.length}</Suspense>
+              </CardContent>
+              <CardFooter className='text-xs text-muted-foreground'>
+                <Suspense fallback='Loading...'>{totalExpired} expired</Suspense>
+              </CardFooter>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className='text-sm font-medium flex justify-between'>
+                  Profit Potential <RocketIcon className='text-secondary-accent/50' />
+                </CardTitle>
+              </CardHeader>
+              <CardContent className='text-2xl font-bold'>
+                <Suspense fallback='Loading...'>{totalProfitPotential}</Suspense>
+              </CardContent>
+              <CardFooter className='text-xs text-muted-foreground'>10% per Reserve</CardFooter>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className='text-lg font-medium flex justify-between'>
+                  Recently Sold
+                  <PersonIcon className='text-secondary-accent/50' />
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Suspense fallback='Grabbing users...'>
+                  {Object.entries(listingCountPerAssignedToId || {}).map(([key, value]) => (
+                    <div className='text-xs' key={key}>
+                      {key}: {value}
+                    </div>
+                  ))}
+                </Suspense>
+              </CardContent>
+              <CardFooter className='text-xs text-muted-foreground'>
+                <Suspense fallback='Loading...'>Last {recentlySoldNormalizedData?.length}</Suspense>
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
