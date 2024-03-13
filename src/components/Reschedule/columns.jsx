@@ -1,5 +1,3 @@
-import moment from 'moment';
-import { CaretSortIcon, TriangleDownIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -7,8 +5,11 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { CaretSortIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
+import moment from 'moment';
+import { Alert } from './Alert';
 
 const expiredColor = 'text-yellow-100';
 
@@ -106,7 +107,7 @@ export const columns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end' className='dark bg-primary'>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>Reschedule</DropdownMenuItem>
+            <DropdownMenuItem>{Alert()}</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View Seller Details</DropdownMenuItem>
           </DropdownMenuContent>

@@ -1,12 +1,13 @@
-import { useQuery } from '@apollo/client';
-import React, { useCallback, useMemo } from 'react';
-import { queries, keymaps } from '../../queries';
-import { DataTable } from '../Reschedule/DataTable';
-import { columns } from './columns';
-import { useSalesforce } from '../../hooks/useSalesforce';
 import { Button } from '@/components/ui/button';
 import { normalizeGraphqlResponse } from '@/lib/utils';
+import { useQuery } from '@apollo/client';
+import { useMemo, Suspense } from 'react';
+import { useSalesforce } from '../../hooks/useSalesforce';
+import { keymaps, queries } from '../../queries';
+import { DataTable } from '../Reschedule/DataTable';
+import { columns } from './columns';
 import { Stats } from './Stats';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const Dashboard = () => {
   useSalesforce();
@@ -24,7 +25,21 @@ export const Dashboard = () => {
 
   return (
     <div className='mt-6'>
-      {loading || error ? '' : <Stats data={normalizedData} />}
+      {!error && (
+        <Suspense
+          fallback={
+            <div className='bg-primary/40'>
+              <div className='pl-6 pt-6 pr-6 pb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3 tracking-tight'>
+                <Skeleton className='rounded-xl shadow w-full h-[150px]' />
+                <Skeleton className='rounded-xl shadow w-full h-[150px]' />
+                <Skeleton className='rounded-xl shadow w-full h-[150px]' />
+              </div>
+            </div>
+          }
+        >
+            <Stats data={normalizedData} />
+        </Suspense>
+      )}
       <div className='ml-6 mt-6 flex flex-col no-drag'>
         <div className='container mx-auto py-10'>
           <h1 className='text-3xl font-bold mb-8'>Reschedule Auctions</h1>
