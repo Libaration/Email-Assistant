@@ -130,4 +130,4 @@ const Stats = ({ data }) => {
   );
 };
 
-export { Stats };
+export default Stats;
