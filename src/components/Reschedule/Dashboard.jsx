@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { Suspense, useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { queries, keymaps } from '../../queries';
 import { DataTable } from '../Reschedule/DataTable';
 import { columns } from './columns';
@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const Dashboard = () => {
-  const { refreshToken } = useSalesforce();
+  useSalesforce();
   const { data, loading, error } = useQuery(queries.GET_SCHEDULED_AUCTIONS);
   const normalizedData = useCallback(() => {
     if (data) {
@@ -19,11 +19,13 @@ export const Dashboard = () => {
         data,
         keymap: keymaps.GET_SCHEDULED_AUCTIONS,
       });
+    } else {
+      return [];
     }
-    return null;
   }, [data]);
   const totalExpired = useMemo(() => {
     if (normalizedData()) {
+      console.log(normalizedData());
       return normalizedData().filter((item) => item.expired.value).length;
     }
     return 0;
@@ -32,7 +34,7 @@ export const Dashboard = () => {
   return (
     <div className='ml-6 mt-6 flex flex-col'>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4 tracking-tight'>
-        {loading ? (
+        {(loading && !error) || normalizedData.length > 0 ? (
           <>
             <Skeleton className='rounded-xl shadow w-[300px] h-[150px]' />
             <Skeleton className='rounded-xl shadow w-[300px] h-[150px]' />

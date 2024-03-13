@@ -9,9 +9,13 @@ export const useSalesforce = () => {
   let accessToken = useUserStore((state) => state.accessToken);
   let refreshToken = useUserStore((state) => state.refreshToken);
   const storedAccessToken = localStorage.getItem('accessToken');
+  const storedRefreshToken = localStorage.getItem('refreshToken');
+  if (storedAccessToken === 'undefined' || storedRefreshToken === 'undefined') {
+    localStorage.clear();
+  }
   if (!accessToken && storedAccessToken) {
     accessToken = storedAccessToken;
-    refreshToken = localStorage.getItem('refreshToken');
+    refreshToken = storedRefreshToken;
     useUserStore.setState({ accessToken, refreshToken });
   }
   useUserStore.subscribe((state) => {
