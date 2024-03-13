@@ -1,6 +1,14 @@
 import moment from 'moment';
-import { CaretSortIcon } from '@radix-ui/react-icons';
+import { CaretSortIcon, TriangleDownIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const expiredColor = 'text-yellow-100';
 
@@ -81,6 +89,29 @@ export const columns = [
       const expired = row.original.expired.value;
       const status = expired ? 'Waiting' : row.original.status.value;
       return <div className={expired && expiredColor}>{status}</div>;
+    },
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const payment = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='ghost' className='h-8 w-8 p-0 dark'>
+              <span className='sr-only'>Open menu</span>
+              <TriangleDownIcon className='h-4 w-4' />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='dark'>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>Reschedule</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>View Seller Details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
   },
 ];
