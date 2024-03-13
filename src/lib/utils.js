@@ -5,8 +5,8 @@ import _ from 'lodash';
 
 const pipe =
   (...funcs) =>
-  (arg) =>
-    funcs.reduce((acc, func) => func(acc), arg);
+    (arg) =>
+      funcs.reduce((acc, func) => func(acc), arg);
 
 const removeTypename = (obj) => {
   if (obj !== null && typeof obj === 'object') {
@@ -52,14 +52,14 @@ const flattenItem = (item) => {
    * Remove special characters from the address because I'm realizing now some people are putting in weird characters for no real reason *
    * other than to make my life difficult                                                                                                *
    ***************************************************************************************************************************************/
-  const fullAddress = item.Full_Address__c.value.replace(/[^a-zA-Z\d\s,.]/g, '').trim();
+  const fullAddress = item?.Full_Address__c?.value.replace(/[^a-zA-Z\d\s,.]/g, '').trim();
 
-  const match = fullAddress.match(addressRegex);
+  const match = fullAddress?.match(addressRegex);
 
   return removeTypename({
     ...item.Assigned_To__c,
     ...item.auctions_r,
-    ..._.omit(item, ['Assigned_To__c', 'auctions_r', '__typename']),
+    ..._.omit(item, ['auctions_r', '__typename']),
     previousAuctions: {
       auctions: item.Auctions__r?.edges?.map(
         (edge) => edge.node.Auction_TIme__c.value,

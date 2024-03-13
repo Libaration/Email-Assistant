@@ -7,6 +7,7 @@ import { useSalesforce } from '../../hooks/useSalesforce';
 import { Button } from '@/components/ui/button';
 import { normalizeGraphqlResponse } from '@/lib/utils';
 import { Stats } from './Stats';
+
 export const Dashboard = () => {
   useSalesforce();
   const { data, loading, error } = useQuery(queries.GET_SCHEDULED_AUCTIONS);
@@ -22,10 +23,9 @@ export const Dashboard = () => {
   }, [data]);
 
   return (
-    <>
+    <div className='mt-6'>
       {loading || error ? '' : <Stats data={normalizedData} />}
-      <div className='ml-6 mt-6 flex flex-col'>
-        <h1>Dashboard</h1> <p> Dashboard; content</p>
+      <div className='ml-6 mt-6 flex flex-col no-drag'>
         <div className='container mx-auto py-10'>
           <h1 className='text-3xl font-bold mb-8'>Reschedule Auctions</h1>
           {loading && <div>Loading...</div>}
@@ -35,7 +35,7 @@ export const Dashboard = () => {
           )}
         </div>
         {error && (
-          <div className='text-center'>
+          <div className='text-center no-drag'>
             <h1>Seeing this error often? Try hard resetting by clicking the button below.</h1>
             <Button
               onClick={() => {
@@ -48,6 +48,6 @@ export const Dashboard = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
