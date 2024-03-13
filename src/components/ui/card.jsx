@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 const Card = React.forwardRef(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('rounded-xl border dark bg-card text-card-foreground shadow p-6 flex flex-col', className)}
+    className={cn('rounded-xl border dark bg-card text-card-foreground shadow p-6 flex flex-col no-drag', className)}
     style={{ verticalAlign: 'middle', justifyContent: 'space-around' }}
     {...props}
   />

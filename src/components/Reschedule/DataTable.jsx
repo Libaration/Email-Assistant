@@ -74,7 +74,7 @@ export function DataTable({ columns, data }) {
               <EyeOpenIcon />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
+          <DropdownMenuContent align='end' className="dark">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { CaretSortIcon, TriangleDownIcon } from '@radix-ui/react-icons';
+import { CaretSortIcon, TriangleDownIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -101,10 +101,10 @@ export const columns = [
           <DropdownMenuTrigger asChild>
             <Button variant='ghost' className='h-8 w-8 p-0 dark'>
               <span className='sr-only'>Open menu</span>
-              <TriangleDownIcon className='h-4 w-4' />
+              <DotsVerticalIcon className='h-4 w-4 text-secondary-accent' />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='dark'>
+          <DropdownMenuContent align='end' className='dark bg-primary'>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>Reschedule</DropdownMenuItem>
             <DropdownMenuSeparator />
