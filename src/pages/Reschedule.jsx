@@ -2,13 +2,12 @@ import { motion } from 'framer-motion';
 import { useCallback } from 'react';
 import salesforce from '../assets/icons/salesforce.svg';
 import { Dashboard } from '../components/Reschedule/Dashboard';
-import { useSalesforce } from '../hooks/useSalesforce';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '../providers/AuthProvider';
 
 export default function Reschedule() {
+  const { accessToken, clientId } = useAuth();
   const MotionBox = motion.div;
-  const { accessToken, clientId } = useSalesforce();
-
   const handleClick = useCallback(() => {
     // if (process.env.NODE_ENV === "development") {
     //   localStorage.setItem("accessToken", process.env.REACT_APP_MOCK_TOKEN);
@@ -17,6 +16,7 @@ export default function Reschedule() {
 
     window.electronAPI.oauthRedirect(clientId);
   }, [clientId]);
+  console.log('accessToken in reschedule is ', accessToken);
 
   const loginToSalesforce = () => {
     return (

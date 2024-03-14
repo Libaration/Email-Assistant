@@ -22,4 +22,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   refreshToken: ({ clientId, refreshToken, accessToken }) =>
     ipcRenderer.send('refreshToken', { clientId, refreshToken, accessToken }),
   restartApp: () => ipcRenderer.send('restartApp'),
+  onLogout: (callback) => {
+    ipcRenderer.on('onLogout', callback);
+    return () => {
+      ipcRenderer.removeListener('onLogout', callback);
+    };
+  },
 });

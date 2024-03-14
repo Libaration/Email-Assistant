@@ -2,15 +2,21 @@ import { Button } from '@/components/ui/button';
 import { normalizeGraphqlResponse } from '@/lib/utils';
 import { useQuery } from '@apollo/client';
 import { useMemo, Suspense, lazy, useCallback } from 'react';
-import { useSalesforce } from '../../hooks/useSalesforce';
 import { keymaps, queries } from '../../queries';
 import { DataTable } from '../Reschedule/DataTable';
 import { columns } from './columns';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAuth } from '../../providers/AuthProvider';
 
 export const Dashboard = () => {
-  useSalesforce();
+  const { accessToken } = useAuth();
   const { data, loading, error } = useQuery(queries.GET_SCHEDULED_AUCTIONS);
+  if (error) {
+    console.error(error.message);
+    if (error.message.includes('401')) {
+      console.log('401 error');
+    }
+  }
   const normalizedData = useMemo(() => {
     if (data && !error && !loading) {
       return normalizeGraphqlResponse({
@@ -44,11 +50,10 @@ export const Dashboard = () => {
   return (
     <div className='mt-6'>
       {!error && (
-        <Suspense
-          fallback={<StatsFallback />}
-        >
-          <Stats data={normalizedData} />
-        </Suspense>
+        <div>errors</div>
+        // <Suspense fallback={<StatsFallback />}>
+        //   <Stats data={normalizedData} />
+        // </Suspense>
       )}
       <div className='ml-6 mt-6 flex flex-col no-drag'>
         <div className='container mx-auto py-10'>

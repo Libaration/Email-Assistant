@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, useApolloClient } from '@apollo/client';
-import { useUserStore } from '../components/store/userStore';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useAuth } from '../providers/AuthProvider';
 
 const createApolloClient = (accessToken) => {
   return new ApolloClient({
@@ -36,8 +37,7 @@ const useApollo = () => {
 };
 
 export const ApolloProviderWithClient = ({ children }) => {
-  const initialAccessToken = useUserStore.getState().accessToken;
-  const [accessToken, setAccessToken] = useState(initialAccessToken);
+  const { accessToken } = useAuth();
   const client = createApolloClient(accessToken);
 
   // Update the Apollo Client when the access token changes
@@ -54,19 +54,11 @@ export const ApolloProviderWithClient = ({ children }) => {
     );
   }, [accessToken, client]);
 
-  // Watch for changes in the access token
-  useEffect(() => {
-    const unsubscribe = useUserStore.subscribe((state) => {
-      console.log('Access Token Changed', state.accessToken);
-      setAccessToken(state.accessToken);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+  return (
+    <ApolloProvider client={client}>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>{children}</ErrorBoundary>
+    </ApolloProvider>
+  );
 };
 
 export { useApollo };

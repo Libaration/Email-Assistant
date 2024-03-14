@@ -74,9 +74,13 @@ const Stats = ({ data }) => {
     [recentlySoldNormalizedData],
   );
 
+  if (recentlySoldError) {
+    return <div>Error! {recentlySoldError.message}</div>;
+  }
+
   return (
     <>
-      {!isLoading && (
+      {!isLoading && data && !recentlySoldError && (
         <div className='dash-widgets pt-6 pl-4 pr-4 pb-6 flex [text-align-last:justify] bg-primary'>
           <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 tracking-tight w-full'>
             <Card>

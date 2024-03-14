@@ -17,14 +17,14 @@ export default function Home() {
   };
 
   // delete this when done testing
-  const { data, loading, error } = useQuery(queries.GET_AUCTION_LOT, {
-    variables: {
-      auction_lot_id: '12224',
-      is_view: true,
-    },
-    client: spectrumClient,
-  });
-  console.log(data, loading, error);
+  // const { data, loading, error } = useQuery(queries.GET_AUCTION_LOT, {
+  //   variables: {
+  //     auction_lot_id: '12224',
+  //     is_view: true,
+  //   },
+  //   client: spectrumClient,
+  // });
+  // console.log(data, loading, error);
 
   return (
     <MotionBox

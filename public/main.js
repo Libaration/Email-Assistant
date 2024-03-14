@@ -107,7 +107,7 @@ const createWindow = async () => {
     resizable: false,
     closable: false,
 
-    title: 'Email Assistant - Ashland Auction',
+    title: app.name,
   });
 
   // progressWindow = new BrowserWindow({
@@ -257,7 +257,7 @@ app.whenReady().then(() => {
     })
       .then((response) => {
         if (!response.ok) {
-          win.webContents.send('accessToken', null);
+          win.webContents.send('onLogout');
           throw new Error('Error refreshing token');
         }
         return response.json();
@@ -267,9 +267,7 @@ app.whenReady().then(() => {
         if (data && !data.error && data.access_token !== accessToken) {
           win.webContents.send('onTokens', {
             accessToken: data.access_token,
-            ...(data.refresh_token && refreshToken !== null && refreshToken !== data.refresh_token
-              ? { refresh_token: data.refresh_token }
-              : {}),
+            refreshToken: data.refresh_token,
           });
         }
       })

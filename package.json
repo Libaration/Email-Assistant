@@ -39,6 +39,7 @@
     "node-sass": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.13",
     "react-icons": "^5.0.1",
     "react-router-dom": "^5.3.4",
     "react-scripts": "^5.0.1",
@@ -99,6 +100,9 @@
       "last 1 safari version"
     ]
   },
+  "config": {
+    "forge": "./forge.config.js"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.6.1",
     "@electron-forge/cli": "^7.3.0",
@@ -113,39 +117,5 @@
     "postcss": "^8.4.35",
     "react-app-rewired": "^2.2.1",
     "tailwindcss": "^3.4.1"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "icon": "./src/assets/icons/logo.icns",
-        "name": "Ashland Assistant"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "Ashland Assistant",
-            "icon": "./src/assets/icons/logo.icns"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-dmg",
-          "config": {
-            "format": "ULFO",
-            "name": "Ashland Assistant",
-            "icon": "./src/assets/icons/logo.icns",
-            "mimeType": [
-              "x-scheme-handler/assistant"
-            ]
-          }
-        }
-      ]
-    }
   }
 }
