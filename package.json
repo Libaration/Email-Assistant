@@ -27,6 +27,7 @@
     "cross-env": "^7.0.3",
     "date-and-time": "^3.1.1",
     "dayjs-business-days": "^1.0.4",
+    "electron-deeplink": "github:glawson/electron-deeplink",
     "electron-dl": "^3.5.2",
     "electron-is-dev": "^3.0.1",
     "electron-squirrel-startup": "^1.0.0",
