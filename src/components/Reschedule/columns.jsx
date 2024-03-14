@@ -5,11 +5,22 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { CaretSortIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
 import moment from 'moment';
-import { Alert } from './Alert';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Redirect, Link } from 'react-router-dom';
 
 const expiredColor = 'text-yellow-100';
 
@@ -95,23 +106,42 @@ export const columns = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const payment = row.original;
+      const listing = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0 dark'>
-              <span className='sr-only'>Open menu</span>
-              <DotsVerticalIcon className='h-4 w-4 text-secondary-accent' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='dark bg-primary'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>{Alert()}</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View Seller Details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button variant='ghost' className='h-8 w-8 p-0 dark'>
+                <span className='sr-only'>Open menu</span>
+                <DotsVerticalIcon className='h-4 w-4 text-secondary-accent' />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end' className='dark bg-primary'>
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <AlertDialogTrigger>
+                <DropdownMenuItem>Reschedule</DropdownMenuItem>
+              </AlertDialogTrigger>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>View Seller Details</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Warning! This feature is in beta.</AlertDialogTitle>
+              <AlertDialogDescription>
+                Rescheduling an auction will remove it from the schedule and create a new auction with the same details.
+                This feature is in beta. Use with caution and verify the new auction details before rescheduling.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>
+                <Link to={`/preview/${listing.Id}`}>Continue</Link>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       );
     },
   },

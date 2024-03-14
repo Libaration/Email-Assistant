@@ -7,6 +7,7 @@ import Settings from './pages/Settings.jsx';
 import Search from './components/Search.jsx';
 import SearchShow from './pages/SearchShow';
 import Reschedule from './pages/Reschedule';
+import Preview from './pages/Preview';
 import { AnimatePresence } from 'framer-motion';
 import useKeySequence from './hooks/useKeySequence';
 import './index.css';
@@ -25,7 +26,7 @@ function App() {
         <Search setSearch={setSearch} setSearching={setSearching} />
       </div>
 
-      <div className='flex min-h-screen'>
+      <div className='flex min-h-full'>
         <SideBar setPage={setPage} className='w-64 bg-brand fixed overflow-y-auto pt-4' />
         <div className='flex-grow ml-16 pt-4'>
           <AnimatePresence exitBeforeEnter initial={false}>
@@ -41,6 +42,9 @@ function App() {
               </Route>
               <Route path='/settings'>
                 <Settings />
+              </Route>
+              <Route path='/preview/:id'>
+                <Preview />
               </Route>
               <Route exact path='/'>
                 <Home />
