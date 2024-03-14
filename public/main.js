@@ -1,3 +1,4 @@
+const { updateElectronApp } = require('update-electron-app');
 const { app, BrowserWindow, ipcMain, dialog, session, shell, Menu } = require('electron');
 const path = require('path');
 const { download } = require('electron-dl');
@@ -5,6 +6,8 @@ const isDev = () => {
   return app.isPackaged ? false : true;
 };
 const url = require('url');
+
+!isDev && updateElectronApp();
 let win;
 let auth;
 let progressWindow;
@@ -107,29 +110,29 @@ const createWindow = async () => {
     title: 'Email Assistant - Ashland Auction',
   });
 
-  progressWindow = new BrowserWindow({
-    frame: false,
-    width: 300,
-    height: 200,
-    alwaysOnTop: true,
-    visualEffectState: 'followWindow',
-    titlebarStyle: 'hidden',
-    show: false,
-    fullscreenable: false,
-    isMovable: false,
-    closable: false,
-    resizable: false,
-    customButtonsOnHover: true,
-    vibrancy: 'hud',
-    transparent: true,
-    opacity: 0.8,
-    webPreferences: {
-      nodeIntegration: true,
-      contextBridge: true,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
+  // progressWindow = new BrowserWindow({
+  //   frame: false,
+  //   width: 300,
+  //   height: 200,
+  //   alwaysOnTop: true,
+  //   visualEffectState: 'followWindow',
+  //   titlebarStyle: 'hidden',
+  //   show: false,
+  //   fullscreenable: false,
+  //   isMovable: false,
+  //   closable: false,
+  //   resizable: false,
+  //   customButtonsOnHover: true,
+  //   vibrancy: 'hud',
+  //   transparent: true,
+  //   opacity: 0.8,
+  //   webPreferences: {
+  //     nodeIntegration: true,
+  //     contextBridge: true,
+  //     contextIsolation: true,
+  //     preload: path.join(__dirname, 'preload.js'),
+  //   },
+  // });
 
   if (isDev) {
     win.loadURL('http://localhost:3000');
