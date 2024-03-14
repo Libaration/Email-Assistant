@@ -6,6 +6,7 @@ import { ProgressBar } from './components/ProgressBar';
 import { ApolloProviderWithClient } from './hooks/useApollo.js';
 import './index.css';
 import { checkForUpdates } from './lib/checkForUpdates';
+import { createRoot } from 'react-dom/client';
 
 const performCheckForUpdates = () => {
   checkForUpdates().then((data) => {
@@ -17,7 +18,10 @@ const performCheckForUpdates = () => {
 };
 
 performCheckForUpdates();
-ReactDOM.render(
+
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <ApolloProviderWithClient>
     <HashRouter basename='/'>
       <Switch>
@@ -26,5 +30,4 @@ ReactDOM.render(
       </Switch>
     </HashRouter>
   </ApolloProviderWithClient>,
-  document.getElementById('root'),
 );

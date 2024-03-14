@@ -29,7 +29,7 @@ function App() {
       <div className='flex min-h-full'>
         <SideBar setPage={setPage} className='w-64 bg-brand fixed overflow-y-auto pt-4' />
         <div className='flex-grow ml-16 pt-4'>
-          <AnimatePresence exitBeforeEnter initial={false}>
+          <AnimatePresence mode='wait' initial={false}>
             <Switch location={location} key={location.pathname}>
               <Route path='/email'>
                 <Email />

@@ -1,17 +1,14 @@
 import React from 'react';
-import { Flex, Box, Heading, Image, Link } from '@chakra-ui/react';
 
 export default function Auction(props) {
   return (
-    <Flex p={1} flexDirection='column' justifyContent='center' alignItems='center'>
-      {/* <Link
+    <div className='flex p-1 flex-col justify-center items-center no-drag'>
+      {/* <a
         href={`https://www.ashlandauction.com/auctions/${props.auction_id}`}
       > */}
-      <Heading size='s' p={2}>
-        {props.title}
-      </Heading>
-      <Image src={props.image} w='370px' height='380px' objectFit='cover' />
-      {/* </Link> */}
-    </Flex>
+      <h2 className='text-sm p-2'>{props.title}</h2>
+      <img src={props.image} className='w-[370px] h-[380px] object-cover' />
+      {/* </a> */}
+    </div>
   );
 }

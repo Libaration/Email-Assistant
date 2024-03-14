@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Store } from 'react-notifications-component';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 

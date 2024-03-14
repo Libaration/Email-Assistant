@@ -1,7 +1,9 @@
-const { app, BrowserWindow, ipcMain, dialog, session, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, session, shell, Menu } = require('electron');
 const path = require('path');
 const { download } = require('electron-dl');
-const isDev = require('electron-is-dev');
+const isDev = () => {
+  return app.isPackaged ? false : true;
+};
 const url = require('url');
 let win;
 let auth;
@@ -10,6 +12,59 @@ const useTest = false;
 const apiBase = useTest
   ? 'https://ashlandauction--test.sandbox.my.salesforce.com'
   : 'https://ashlandauction.my.salesforce.com';
+
+const template = [
+  {
+    label: app.name,
+    submenu: [
+      { role: 'about' },
+      { type: 'separator' },
+      { label: 'Preferences' },
+      { type: 'separator' },
+      { role: 'services' },
+      { type: 'separator' },
+      { role: 'hide' },
+      { role: 'hideOthers' },
+      { role: 'unhide' },
+      { type: 'separator' },
+      { role: 'quit' },
+    ],
+  },
+  {
+    label: 'Debug',
+    submenu: [
+      {
+        label: 'Open DevTools',
+        click: async () => {
+          win.webContents.openDevTools();
+        },
+      },
+      {
+        label: 'Reload',
+        click: async () => {
+          win.reload();
+        },
+      },
+    ],
+  },
+  {
+    role: 'editMenu',
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'Learn More',
+        click: async () => {
+          const { shell } = require('electron');
+          await shell.openExternal('https://electronjs.org');
+        },
+      },
+    ],
+  },
+];
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
 
 const createWindow = async () => {
   win = new BrowserWindow({
@@ -26,7 +81,7 @@ const createWindow = async () => {
     show: false,
     titleBarStyle: 'hiddenInset',
     minWidth: 1200,
-    title: 'Email Assistant - Ashland Auction',
+    title: app.name,
   });
   auth = new BrowserWindow({
     backgroundThrottling: true,
@@ -96,6 +151,18 @@ app.on('activate', () => {
 });
 
 app.whenReady().then(() => {
+  if (process.defaultApp) {
+    if (process.argv.length >= 2) {
+      app.setAsDefaultProtocolClient('assistant', process.execPath, [path.resolve(process.argv[1])]);
+    }
+  } else {
+    app.setAsDefaultProtocolClient('assistant');
+  }
+
+  app.on('open-url', (event, url) => {
+    dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`);
+  });
+
   //* This is because CORS is enabled on the Salesforce API and we need to bypass it in development.
   //* Cors is mad annoying and I hate it. `Access-Control-Allow-Origin` is the bane of my existence.
   //* It's just a pain and FOR WHAT?! FOR WHY?!

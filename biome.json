@@ -15,11 +15,15 @@
 			"quoteStyle": "single",
 			"jsxQuoteStyle": "single"
 		},
-		"globals": ["__DEV__"]
+		"globals": [
+			"__DEV__"
+		]
 	},
 	"linter": {
 		"enabled": false,
-		"ignore": ["node_modules"],
+		"ignore": [
+			"node_modules"
+		],
 		"rules": {
 			"all": true,
 			"complexity": {
