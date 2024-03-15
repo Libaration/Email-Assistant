@@ -74,8 +74,8 @@ const Stats = ({ data }) => {
     [recentlySoldNormalizedData],
   );
 
-  if (recentlySoldError) {
-    return <div>Error! {recentlySoldError.message}</div>;
+  if (recentlySoldError && recentlySoldError.message.includes('401')) {
+    return <div>Unauthorized: Please login to access this data.</div>;
   }
 
   return (

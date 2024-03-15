@@ -9,12 +9,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '../../providers/AuthProvider';
 
 export const Dashboard = () => {
-  const { accessToken } = useAuth();
   const { data, loading, error } = useQuery(queries.GET_SCHEDULED_AUCTIONS);
   if (error) {
     console.error(error.message);
     if (error.message.includes('401')) {
-      console.log('401 error');
+
     }
   }
   const normalizedData = useMemo(() => {
@@ -50,10 +49,9 @@ export const Dashboard = () => {
   return (
     <div className='mt-6'>
       {!error && (
-        <div>errors</div>
-        // <Suspense fallback={<StatsFallback />}>
-        //   <Stats data={normalizedData} />
-        // </Suspense>
+        <Suspense fallback={<StatsFallback />}>
+          <Stats data={normalizedData} />
+        </Suspense>
       )}
       <div className='ml-6 mt-6 flex flex-col no-drag'>
         <div className='container mx-auto py-10'>

@@ -4,6 +4,15 @@ import App from './App';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import './index.css';
 import { AuthProvider } from './providers/AuthProvider';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
+import Email from './pages/Email';
+import ErrorPage from './pages/ErrorPage';
+import SearchShow from './pages/SearchShow';
+import Settings from './pages/Settings';
+import Reschedule from './pages/Reschedule';
+import Home from './pages/Home';
+import Preview from './pages/Preview';
+
 // const performCheckForUpdates = () => {
 //   checkForUpdates().then((data) => {
 //     const currentVersion = process.env.REACT_APP_VERSION;
@@ -13,6 +22,46 @@ import { AuthProvider } from './providers/AuthProvider';
 //   });
 // };
 //
+//
+
+const router = createHashRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: 'email',
+        element: <Email />,
+      },
+      {
+        path: 'reschedule',
+        element: <Reschedule />,
+      },
+      {
+        path: 'search',
+        element: <SearchShow />,
+        children: [
+          {
+            path: ':name',
+          },
+        ],
+      },
+      {
+        path: 'preview/:id',
+        element: <Preview />,
+      },
+      {
+        path: 'settings',
+        element: <Settings />,
+      },
+    ],
+  },
+]);
+
 loadErrorMessages();
 loadDevMessages();
 
@@ -21,10 +70,6 @@ const root = createRoot(container);
 
 root.render(
   <AuthProvider>
-    <HashRouter basename='/'>
-      <Switch>
-        <Route path='/' component={App} />
-      </Switch>
-    </HashRouter>
+    <RouterProvider router={router} />
   </AuthProvider>,
 );

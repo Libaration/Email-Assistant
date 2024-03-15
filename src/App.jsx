@@ -9,6 +9,7 @@ import SearchShow from './pages/SearchShow';
 import Reschedule from './pages/Reschedule';
 import Preview from './pages/Preview';
 import { AnimatePresence } from 'framer-motion';
+import { Outlet } from 'react-router-dom';
 import useKeySequence from './hooks/useKeySequence';
 import './index.css';
 
@@ -23,33 +24,14 @@ function App() {
     <>
       <div className='flex h-[35px]'>
         <div className='bg-brand fixed pb-36 min-w-[72px]' />
-        <Search setSearch={setSearch} setSearching={setSearching} />
+        <Search setSearch={setSearch} setSearching={setSearching} location={location} />
       </div>
 
       <div className='flex min-h-full'>
         <SideBar setPage={setPage} className='w-64 bg-brand fixed overflow-y-auto pt-4' />
         <div className='flex-grow ml-16 pt-4'>
           <AnimatePresence mode='wait' initial={false}>
-            <Switch location={location} key={location.pathname}>
-              <Route path='/email'>
-                <Email />
-              </Route>
-              <Route path='/reschedule'>
-                <Reschedule />
-              </Route>
-              <Route path='/search'>
-                <SearchShow query={search} isSearching={isSearching} setSearching={setSearching} />
-              </Route>
-              <Route path='/settings'>
-                <Settings />
-              </Route>
-              <Route path='/preview/:id'>
-                <Preview />
-              </Route>
-              <Route exact path='/'>
-                <Home />
-              </Route>
-            </Switch>
+            <Outlet />
           </AnimatePresence>
         </div>
       </div>

@@ -2,17 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { searchAddress } from '../apiCalls.js';
 import { v4 as uuidv4 } from 'uuid';
+import { useSearchParams } from 'react-router-dom';
 import Auction from '../components/Auction';
 
-export default function Search(props) {
+export default function Search() {
+  const [searchParams] = useSearchParams();
   const [results, setResults] = useState([]);
+  const query = searchParams.get('query') || '';
+  console.log('query is ', query);
 
-  const fetchResults = async () => {
-    setResults([]);
-    const response = await searchAddress(props.query);
-    setResults(await response);
-    props.setSearching(false);
-  };
+ const fetchResults = async () => {
+  setResults([]);
+  const response = await searchAddress(query);
+  console.log('response is ', response);
+  const uniqueLine1Values = Array.from(new Set(response.map(item => item?.auction_location?.line_1)));
+  const uniqueObjects = uniqueLine1Values.map(line1Value => {
+    const matchedObject = response.find(item => item?.auction_location?.line_1 === line1Value);
+    return matchedObject;
+  });
+
+  setResults(uniqueObjects);
+};
 
   const renderResults = () => {
     return results.map((home) => {
@@ -29,10 +39,10 @@ export default function Search(props) {
   };
 
   useEffect(() => {
-    if (props.query) {
+    if (query) {
       fetchResults();
     }
-  }, [props.query]);
+  }, [query]);
 
   const MotionBox = motion.div;
 
@@ -45,21 +55,10 @@ export default function Search(props) {
       transition={{ duration: 0.3 }}
     >
       <div className='flex justify-center mt-6'>
-        <h2 className='text-lg'>
-          {props.query}
-          {props.isSearching}
-        </h2>
+        <h2 className='text-lg'>{query}</h2>
       </div>
 
-      <div className='flex justify-center flex-wrap'>
-        {props.isSearching ? (
-          <div className='flex justify-center items-center w-full'>
-            ...Loading
-          </div>
-        ) : (
-          renderResults()
-        )}
-      </div>
+      <div className='flex justify-center flex-wrap'>{renderResults()}</div>
     </MotionBox>
   );
 }

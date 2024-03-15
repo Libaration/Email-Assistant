@@ -1,27 +1,13 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { createSearchParams, Navigate, Link } from 'react-router-dom';
 
-function Search(props) {
+function Search() {
   const [query, setQuery] = useState('');
 
   const handleChange = (e) => {
     setQuery(e.target.value);
-  };
-
-  const submitSearch = () => {
-    if (query === '' || !query.trim()) {
-      setQuery('');
-      window.electronAPI.showDialog('Please enter a valid address');
-    } else {
-      props.setSearching(true);
-      props.setSearch(query);
-      setQuery('');
-      if (props.history.location.pathname !== '/search') {
-        props.history.push('/search');
-      }
-    }
   };
 
   return (
@@ -29,11 +15,11 @@ function Search(props) {
       <div className='relative'>
         <Input type='text' placeholder='Search by address' value={query} onChange={handleChange} />
       </div>
-      <Button className='ml-4' onClick={submitSearch}>
-        Search
+      <Button className='ml-4'>
+        <Link to={`/search?query=${query}`}>Search</Link>
       </Button>
     </div>
   );
 }
 
-export default withRouter(Search);
+export default Search;

@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Auction(props) {
+  const titleRef = useRef(null);
+  const handleTitleClick = () => {
+    if (titleRef.current) {
+      const range = document.createRange();
+      range.selectNodeContents(titleRef.current);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  };
   return (
-    <div className='flex p-1 flex-col justify-center items-center no-drag'>
-      {/* <a
-        href={`https://www.ashlandauction.com/auctions/${props.auction_id}`}
-      > */}
-      <h2 className='text-sm p-2'>{props.title}</h2>
-      <img src={props.image} className='w-[370px] h-[380px] object-cover' />
-      {/* </a> */}
-    </div>
+    <Card className='dark flex p-1 flex-col justify-center items-center no-drag ml-2 mr-2'>
+      <CardTitle ref={titleRef} className='text-sm font-medium flex justify-between' onClick={handleTitleClick}>
+        {props.title}
+      </CardTitle>
+      <CardContent className='text-2xl font-bold p-1'>
+       <img src={props.image} className='w-[370px] h-[380px] object-cover rounded-lg' />
+      </CardContent>
+    </Card>
   );
 }
