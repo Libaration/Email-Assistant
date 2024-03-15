@@ -32,7 +32,7 @@ export default function Search() {
           title={home.title}
           auction_id={home.auction_id}
           image={home.highlights[0].cached_assets[0].url}
-          preview={home.preview}
+          preview={home.preview_plain}
         />
       );
     });
