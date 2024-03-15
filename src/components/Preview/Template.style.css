@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lotView {
+	@apply gap-x-[25px] grid-cols-[60%_40%] grid-rows-[-webkit-min-content_-webkit-min-content_-webkit-min-content_1fr_-webkit-min-content_2fr] grid-rows-[min-content_min-content_min-content_1fr_min-content_2fr];
+	-webkit-column-gap: 25px;
+	-moz-column-gap: 25px;
+	grid-template-areas: "lot-title lot-title" "fields details" "photos details" "photos location-details" "more   location-details" ".      location-details";
+}
+
+.lotView .lot-title {
+	@apply flex flex-wrap justify-center mb-5 pb-5 border-b-[#ebebeb] border-b border-solid;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	-ms-flex-wrap: wrap;
+	grid-area: lot-title;
+}
+
+lotView .lot-title>* {
+	@apply w-full;
+}
+
+lotView .lot-title h2 {
+	@apply text-[#203d85] text-3xl font-bold overflow-hidden text-center text-ellipsis whitespace-nowrap m-0;
+}
