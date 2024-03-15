@@ -16,7 +16,6 @@ export default function Reschedule() {
 
     window.electronAPI.oauthRedirect(clientId);
   }, [clientId]);
-  console.log('accessToken in reschedule is ', accessToken);
 
   const loginToSalesforce = () => {
     return (

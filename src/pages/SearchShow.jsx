@@ -1,28 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { searchAddress } from '../apiCalls.js';
-import { v4 as uuidv4 } from 'uuid';
 import { useSearchParams } from 'react-router-dom';
 import Auction from '../components/Auction';
+import { searchAddress } from '../apiCalls.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Search() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [results, setResults] = useState([]);
   const query = searchParams.get('query') || '';
-  console.log('query is ', query);
+  useEffect(() => {
+    if (query) {
+      fetchResults();
+    } else {
+      setResults([]);
+    }
+  }, [query]);
 
- const fetchResults = async () => {
-  setResults([]);
-  const response = await searchAddress(query);
-  console.log('response is ', response);
-  const uniqueLine1Values = Array.from(new Set(response.map(item => item?.auction_location?.line_1)));
-  const uniqueObjects = uniqueLine1Values.map(line1Value => {
-    const matchedObject = response.find(item => item?.auction_location?.line_1 === line1Value);
-    return matchedObject;
-  });
+  const fetchResults = async () => {
+    setResults([]);
+    const response = await searchAddress(query);
+    const uniqueLine1Values = Array.from(new Set(response.map((item) => item?.auction_location?.line_1)));
+    const uniqueObjects = uniqueLine1Values.map((line1Value) => {
+      const matchedObject = response.find((item) => item?.auction_location?.line_1 === line1Value);
+      return matchedObject;
+    });
 
-  setResults(uniqueObjects);
-};
+    setResults(uniqueObjects);
+  };
 
   const renderResults = () => {
     return results.map((home) => {
@@ -38,12 +43,6 @@ export default function Search() {
     });
   };
 
-  useEffect(() => {
-    if (query) {
-      fetchResults();
-    }
-  }, [query]);
-
   const MotionBox = motion.div;
 
   return (
@@ -55,10 +54,12 @@ export default function Search() {
       transition={{ duration: 0.3 }}
     >
       <div className='flex justify-center mt-6'>
-        <h2 className='text-lg'>{query}</h2>
+        <h2 className='text-2xl font-bold'>{query && `"${query}"`}</h2>
       </div>
 
-      <div className='flex justify-center flex-wrap'>{renderResults()}</div>
+      <div className='flex justify-center flex-wrap mt-4'>
+        <Suspense fallback='Loading...'>{results.length > 0 ? renderResults() : <div>No results found.</div>}</Suspense>
+      </div>
     </MotionBox>
   );
 }
