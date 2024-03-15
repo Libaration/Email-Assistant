@@ -29,23 +29,29 @@ export const columns = [
     accessorKey: 'street',
     header: 'Street',
     cell: ({ row }) => (
-      <div className={row.original.expired.value && expiredColor}>{row.original.street.replace(/\.$/, ' ')}</div>
+      <div className={row.original.expired.value ? expiredColor : undefined}>
+        {row.original.street.replace(/\.$/, ' ')}
+      </div>
     ),
   },
   {
     accessorKey: 'city',
     header: 'City',
-    cell: ({ row }) => <div className={row.original.expired.value && expiredColor}>{row.original.city}</div>,
+    cell: ({ row }) => <div className={row.original.expired.value ? expiredColor : undefined}>{row.original.city}</div>,
   },
   {
     accessorKey: 'state',
     header: 'State',
-    cell: ({ row }) => <div className={row.original.expired.value && expiredColor}>{row.original.state}</div>,
+    cell: ({ row }) => (
+      <div className={row.original.expired.value ? expiredColor : undefined}>{row.original.state}</div>
+    ),
   },
   {
     accessorKey: 'zipcode',
     header: 'Zip',
-    cell: ({ row }) => <div className={row.original.expired.value && expiredColor}>{row.original.zipcode}</div>,
+    cell: ({ row }) => (
+      <div className={row.original.expired.value ? expiredColor : undefined}>{row.original.zipcode}</div>
+    ),
   },
   {
     accessorKey: 'expired.value',
@@ -58,7 +64,9 @@ export const columns = [
     accessorKey: 'previousAuctions.totalCount',
     header: 'Prev Listings',
     cell: ({ row }) => (
-      <div className={row.original.expired.value && expiredColor}>{row.original.previousAuctions.totalCount}</div>
+      <div className={row.original.expired.value ? expiredColor : undefined}>
+        {row.original.previousAuctions.totalCount}
+      </div>
     ),
   },
   {
@@ -80,7 +88,8 @@ export const columns = [
       const colorIntensity =
         daysRemaining > 30 ? 0 : Math.max(0, Math.min(100, Math.floor(((30 - daysRemaining) / 30) * 100)));
 
-      const textColor = daysRemaining > 30 ? '' : `rgb(255, ${255 - colorIntensity + 150}, ${255 - colorIntensity})`; // Dynamic color for days, no color for anything past 60 days, and maintain red for "Expired"
+      const textColor =
+        daysRemaining > 30 ? undefined : `rgb(255, ${255 - colorIntensity + 150}, ${255 - colorIntensity})`; // Dynamic color for days, no color for anything past 60 days, and maintain red for "Expired"
 
       return (
         <div
@@ -100,7 +109,7 @@ export const columns = [
     cell: ({ row }) => {
       const expired = row.original.expired.value;
       const status = expired ? 'Waiting' : row.original.status.value;
-      return <div className={expired && expiredColor}>{status}</div>;
+      return <div className={expired ? expiredColor : undefined}>{status}</div>;
     },
   },
   {
@@ -112,10 +121,8 @@ export const columns = [
         <AlertDialog>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button variant='ghost' className='h-8 w-8 p-0 dark'>
-                <span className='sr-only'>Open menu</span>
-                <DotsVerticalIcon className='h-4 w-4 text-secondary-accent' />
-              </Button>
+              <span className='sr-only'>Open menu</span>
+              <DotsVerticalIcon className='h-4 w-4 text-secondary-accent' />
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className='dark bg-primary'>
               <DropdownMenuLabel>Actions</DropdownMenuLabel>

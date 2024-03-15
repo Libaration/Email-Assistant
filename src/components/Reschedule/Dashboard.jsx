@@ -12,9 +12,6 @@ export const Dashboard = () => {
   const { data, loading, error } = useQuery(queries.GET_SCHEDULED_AUCTIONS);
   if (error) {
     console.error(error.message);
-    if (error.message.includes('401')) {
-
-    }
   }
   const normalizedData = useMemo(() => {
     if (data && !error && !loading) {

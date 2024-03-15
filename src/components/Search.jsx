@@ -16,7 +16,9 @@ function Search() {
         <Input type='text' placeholder='Search by address' value={query} onChange={handleChange} />
       </div>
       <Button className='ml-4'>
-        <Link to={`/search?query=${query}`}>Search</Link>
+        <Link to={`/search?query=${query}`} onClick={() => setQuery('')}>
+          Search
+        </Link>
       </Button>
     </div>
   );

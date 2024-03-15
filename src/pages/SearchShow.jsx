@@ -6,7 +6,7 @@ import { searchAddress } from '../apiCalls.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Search() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [results, setResults] = useState([]);
   const query = searchParams.get('query') || '';
   useEffect(() => {
