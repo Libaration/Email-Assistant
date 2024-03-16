@@ -144,7 +144,7 @@ export const columns = [
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction>
-                <Link to={`/preview/${listing.Id}`}>Continue</Link>
+                <Link to={`/preview/${listing.lotNumber.value}`}>Continue</Link>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

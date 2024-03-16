@@ -1,10 +1,43 @@
-import "./Template.style.css"
-const Template = () => {
+import './Template.style.css';
+import React from 'react';
+const Template = ({ lot }) => {
+  console.log(lot);
+  const renderDynamicFields = (index, fields, innerTag) => {
+    if (typeof fields[index]?.data?.value === 'string') {
+      return (
+        <div className='dynamic-field'>
+          {innerTag ? (
+            React.createElement(innerTag, {}, fields[index]?.data?.value)
+          ) : (
+            <p>{fields[index]?.data?.value}</p>
+          )}
+        </div>
+      );
+    } else if (fields[index]?.data?.value) {
+      return fields[index]?.data?.value.map((item, idx) => (
+        <div className='dynamic-field' key={idx}>
+          {innerTag ? React.createElement(innerTag, {}, item) : <p>{item}</p>}
+        </div>
+      ));
+    }
+  };
+
   return (
-    <div className='container text-black no-drag'>
+    <div className='container text-black no-drag flex' id='app'>
       <div className='lotView online grid'>
-        <div className='lot-title font-bold text-center text-primary text-[30px] whitespace-nowrap text-ellipsis border-b border-[#ebebeb] pt-[20px] mb-[20px]'>
-          <h1>529 N Brice St. Baltimore, MD 21223</h1>
+        <div className='lot-title'>
+          <h2>{lot.title}</h2>
+        </div>
+        <div className='fields'>
+          <div className='highlights'>
+            <div className='dynamic-fields'>{renderDynamicFields(24, lot.fields, 'h4')}</div>
+          </div>
+          <div className='property-fields'>
+            <div className='dynamic-fields'>
+              {renderDynamicFields(11, lot.fields, 'h3')}
+              {renderDynamicFields(12, lot.fields, 'h3')}
+            </div>
+          </div>
         </div>
         lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo

@@ -26,6 +26,16 @@ const createApolloClient = (accessToken) => {
   });
 };
 
+export const spectrumClient = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: process.env.REACT_APP_SPECTRUM_API_BASE,
+    headers: {
+      'x-api-key': 'aag',
+    },
+  }),
+});
+
 export const AuthProvider = ({ children }) => {
   const clientId = process.env.REACT_APP_SALESFORCE_CLIENT_ID;
   const [accessToken, setAccessToken] = useState('');

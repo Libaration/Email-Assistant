@@ -54,11 +54,7 @@ export const ApolloProviderWithClient = ({ children }) => {
     );
   }, [accessToken, client]);
 
-  return (
-    <ApolloProvider client={client}>
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>{children}</ErrorBoundary>
-    </ApolloProvider>
-  );
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };
 
 export { useApollo };

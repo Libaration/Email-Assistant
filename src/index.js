@@ -11,7 +11,6 @@ import SearchShow from './pages/SearchShow';
 import Settings from './pages/Settings';
 import Reschedule from './pages/Reschedule';
 import Home from './pages/Home';
-import Preview from './pages/Preview';
 
 // const performCheckForUpdates = () => {
 //   checkForUpdates().then((data) => {
@@ -52,7 +51,7 @@ const router = createHashRouter([
       },
       {
         path: 'preview/:id',
-        element: <Preview />,
+        lazy: () => import('./pages/loaders/preview-loader'),
       },
       {
         path: 'settings',

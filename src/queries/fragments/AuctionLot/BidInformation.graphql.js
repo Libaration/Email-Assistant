@@ -7,7 +7,8 @@ export const BidInformation = gql`
     starting_bid
     required_bid
     bid_count
-    reserve_bid
     reserve_met
   }
 `;
+
+// reserve_bid -- needs auth to be in fragment

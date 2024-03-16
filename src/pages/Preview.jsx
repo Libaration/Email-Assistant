@@ -1,18 +1,14 @@
 import React, { useEffect } from 'react';
-import { Await, useParams } from 'react-router-dom';
 import Template from '@/components/Preview/Template';
 import logo from '../assets/icons/logo.png';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { useLoaderData } from 'react-router-dom';
 
-const Preview = ({ data }) => {
-  const { id } = useParams();
-  console.log(id);
+const Preview = () => {
+  const { lot } = useLoaderData();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  if (data) {
-    console.log(data);
-  }
   return (
     <>
       <div className='mt-6 pt-6 pl-4 pr-4 pb-6 flex bg-primary items-center w-full align-middle'>
@@ -29,7 +25,7 @@ const Preview = ({ data }) => {
         </div>
       </div>
       <div className='bg-white'>
-        <Template data={data} />;
+        <Template lot={lot} />;
       </div>
     </>
   );

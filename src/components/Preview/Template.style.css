@@ -1,16 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.lotView {
+#app .lotView {
 	@apply gap-x-[25px] grid-cols-[60%_40%] grid-rows-[-webkit-min-content_-webkit-min-content_-webkit-min-content_1fr_-webkit-min-content_2fr] grid-rows-[min-content_min-content_min-content_1fr_min-content_2fr];
 	-webkit-column-gap: 25px;
 	-moz-column-gap: 25px;
 	grid-template-areas: "lot-title lot-title" "fields details" "photos details" "photos location-details" "more   location-details" ".      location-details";
 }
 
-.lotView .lot-title {
-	@apply flex flex-wrap justify-center mb-5 pb-5 border-b-[#ebebeb] border-b border-solid;
+#app .lotView .lot-title {
+	@apply flex flex-wrap justify-center mt-5 mb-5 pb-5 border-b-[#ebebeb] border-b border-solid;
 	-webkit-box-pack: center;
 	-ms-flex-pack: center;
 	display: -webkit-box;
@@ -19,10 +15,73 @@
 	grid-area: lot-title;
 }
 
-lotView .lot-title>* {
+#app .lotView .lot-title h2 {
+	@apply text-[#203d85] text-[30px] font-bold overflow-hidden text-center text-ellipsis whitespace-nowrap m-0 text-center;
+}
+
+
+#app lotView .lot-title>* {
 	@apply w-full;
 }
 
-lotView .lot-title h2 {
-	@apply text-[#203d85] text-3xl font-bold overflow-hidden text-center text-ellipsis whitespace-nowrap m-0;
+
+
+#app .lotView .fields {
+	@apply bg-[#203d85];
+	grid-area: fields;
+}
+
+/* .lotView .fields .dynamic-fields { */
+/* 	@apply flex flex-wrap justify-evenly text-center px-0 py-[5px]; */
+/* 	-webkit-box-pack: space-evenly; */
+/* 	-ms-flex-pack: space-evenly; */
+/* 	display: -webkit-box; */
+/* 	display: -ms-flexbox; */
+/* 	-ms-flex-wrap: wrap; */
+/**/
+/* } */
+/**/
+/* .lotView .fields .highlights .dynamic-fields h4 { */
+/* 	@apply border text-[#e7c646] text-[18px] font-bold min-w-[150px] capitalize mx-0 my-2.5 px-[15px] py-[5px] border-solid border-[#e7c646] leading-[1.2]; */
+/* } */
+/**/
+/* .lotView .fields .property-fields .dynamic-field { */
+/* 	@apply items-center flex; */
+/* 	-webkit-box-align: center; */
+/* 	-ms-flex-align: center; */
+/* 	display: -webkit-box; */
+/* 	display: -ms-flexbox; */
+/* } */
+/**/
+/* .lotView .fields .property-fields .dynamic-fields .dynamic-field h3 { */
+/* 	@apply text-[#a58b2a] text-lg font-bold m-0; */
+/* } */
+
+#app .lotView .fields .dynamic-fields {
+	@apply flex flex-wrap justify-evenly text-center px-0 py-[5px];
+	-webkit-box-pack: space-evenly;
+	-ms-flex-pack: space-evenly;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	-ms-flex-wrap: wrap;
+}
+
+#app .lotView .fields .dynamic-fields .dynamic-field h4 {
+	@apply border text-[#e7c646] text-lg font-bold min-w-[150px] capitalize mx-0 my-2.5 px-[15px] py-[5px] border-solid border-[#e7c646];
+}
+
+#app .lotView .fields .dynamic-fields .dynamic-field h3 {
+	@apply text-[#a58b2a] text-lg font-bold m-0;
+}
+
+#app .lotView .fields .dynamic-fields .dynamic-field:nth-of-type(1n + 5) {
+	@apply hidden;
+}
+
+#app .lotView .fields .property-fields .dynamic-field {
+	@apply items-center flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
 }
