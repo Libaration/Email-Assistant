@@ -1,27 +1,26 @@
 module.exports = {
+  plugins: [
+    {
+      name: '@electron-forge/plugin-auto-unpack-natives',
+      config: {},
+    },
+  ],
   packagerConfig: {
     icon: './src/assets/icons/logo.icns',
     name: 'Ashland Assistant',
-    // osxSign: {},
-    // osxNotarize: {
-    //   tool: 'notarytool',
-    //   keychain: "/Library/Keychains/System.keychain",
-    //   keychainProfile: "Developer",
-    //
-    // },
+    asar: true,
+    osxNotarize: {
+      tool: 'notarytool',
+      appleId: process.env.APPLE_ID,
+      appleIdPassword: process.env.APPLE_PASSWORD,
+      teamId: process.env.APPLE_TEAM_ID,
+    },
+    osxSign: {},
   },
   makers: [
     {
-      name: '@electron-forge/maker-squirrel',
-      config: {
-        name: 'Ashland Assistant',
-        iconUrl: './src/assets/icons/logo.ico',
-      },
-    },
-    {
       name: '@electron-forge/maker-dmg',
       config: {
-        debug: true,
         name: 'Ashland Assistant',
         icon: './src/assets/icons/logo.icns',
         background: './src/assets/scatter.png',
@@ -31,7 +30,7 @@ module.exports = {
             height: 380,
           },
         },
-        mimeType: ['x-scheme-handler/assistant'],
+        /*  mimeType: ['x-scheme-handler/assistant'], */
       },
     },
   ],
@@ -41,9 +40,11 @@ module.exports = {
       config: {
         repository: {
           owner: 'Libaration',
-          name: 'Ashland Assistant',
+          name: 'Email-Assistant',
         },
         prerelease: true,
+        force: true,
+        generateReleaseNotes: true,
       },
     },
   ],

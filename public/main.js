@@ -2,9 +2,7 @@ const { updateElectronApp } = require('update-electron-app');
 const { app, BrowserWindow, ipcMain, dialog, session, shell, Menu } = require('electron');
 const path = require('path');
 const { download } = require('electron-dl');
-const isDev = () => {
-  return app.isPackaged ? false : true;
-};
+const isDev = app.isPackaged ? false : true;
 const url = require('url');
 
 !isDev && updateElectronApp();
