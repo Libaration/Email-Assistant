@@ -72,7 +72,7 @@ Menu.setApplicationMenu(menu);
 const createWindow = async () => {
   win = new BrowserWindow({
     kiosk: false,
-    width: 1350,
+    width: 1400,
     height: 800,
     webPreferences: {
       nodeIntegration: true,

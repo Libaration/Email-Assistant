@@ -58,7 +58,7 @@
 /* } */
 
 #app .lotView .fields .dynamic-fields {
-	@apply flex flex-wrap justify-evenly text-center px-0 py-[5px];
+	@apply flex flex-wrap justify-evenly text-center px-0 py-[2px];
 	-webkit-box-pack: space-evenly;
 	-ms-flex-pack: space-evenly;
 	display: -webkit-box;
@@ -67,11 +67,11 @@
 }
 
 #app .lotView .fields .dynamic-fields .dynamic-field h4 {
-	@apply border text-[#e7c646] text-lg font-bold min-w-[150px] capitalize mx-0 my-2.5 px-[15px] py-[5px] border-solid border-[#e7c646];
+	@apply border text-[#e7c646] text-lg font-bold min-w-[150px] capitalize mx-0 my-2.5 px-[15px] py-[5px] border-solid border-[#e7c646] leading-[1.2];
 }
 
 #app .lotView .fields .dynamic-fields .dynamic-field h3 {
-	@apply text-[#a58b2a] text-lg font-bold m-0;
+	@apply text-[#a58b2a] text-lg font-bold m-0 leading-[1.2] text-[18px];
 }
 
 #app .lotView .fields .dynamic-fields .dynamic-field:nth-of-type(1n + 5) {
@@ -84,4 +84,39 @@
 	-ms-flex-align: center;
 	display: -webkit-box;
 	display: -ms-flexbox;
+}
+
+#app .lotView .fields .property-fields .dynamic-field .label {
+	@apply text-[#e7c646];
+}
+
+#app .lotView .fields .property-fields .dynamic-field img {
+	@apply h-auto w-[25px] mr-[15px];
+}
+
+#app .lotView .fields .property-fields .dynamic-field img[src$=".svg"] {
+	@apply invert-[87%] sepia-[84%] saturate-[1472%] hue-rotate-[323deg] brightness-[98%] contrast-[86%];
+	-webkit-filter: invert(87%) sepia(84%) saturate(1472%) hue-rotate(323deg) brightness(98%) contrast(86%);
+}
+
+#app .lotView .photos {
+	grid-area: photos;
+}
+
+.embla {
+	overflow: hidden;
+}
+
+.embla__container {
+	display: flex;
+}
+
+.embla__slide {
+	flex: 0 0 100%;
+	min-width: 0;
+}
+
+#app .lotView .photos .image-gallery-slide-wrapper,
+#app .lotView .photos .image-gallery-thumbnails-wrapper {
+	@apply border mt-2.5 mb-0 mx-0 px-[50px] py-0 border-solid border-[#dee2e6];
 }
